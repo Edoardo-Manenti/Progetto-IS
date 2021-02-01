@@ -1,0 +1,92 @@
+Petri Nets: 
+(https://en.wikipedia.org/wiki/Petri_net#:~:text=A%20Petri%20net%20is%20a,contain%20at%20least%20one%20token..)
+
+Due tipi di elementi:
+
+- Places (circles)
+- Transitions (Rectangles)
+
+I Places possono contenere un indeterminato numero di tokenso
+
+PN con priorità: le transizioni di una classe k non possono partire a 
+meno che tutte le transizioni di classe k-1 non siano già partite.
+
+
+-------------------------------------------------------------------------------
+VERSIONE 1:
+
+solo configuratore
+reti (Network), non di petri
+almeno un posto e almeno una transizione
+Per ogni N:
+-> tutti i posti e tutte le transizioni devono essere connessi, ogni flusso 
+   deve essere una coppia (place, transition) o (transition, place) DISTINTA.
+
+-> SCELTA PROGETTUALE .= 
+
+1) L'acquisizione interattiva impedisce di avere delle reti sintatticamente 
+errate
+
+2) Verificare la correttezza alla fine dell'acquisizione
+
+-> dopo l'acquisizione ciascuna rete CORRETTA piò essere salvata in forma 
+persistente. PROBLEMA.= Come le salviamo (Oggetto Java, .xml, formato custom)?
+
+-> Tutte le reti salvate devono essere diverse tra loro
+   PROBLEMA.= Come verifichiamo l'uguaglianza tra due reti?
+   DEF (data).= due reti sono da considerarsi uguali se condividono la stessa 
+   tipologia e gli indicatori per places e transitions, altrimenti sono da 
+   considerarsi diverse.
+
+-> Le reti salvate devono poter essere accessibili al configuratore in qualunque 
+sessione, che può richiedere di visualizzarle
+
+
+-------------------------------------------------------------------------------
+
+-> NOTE IMPLEMENTATIVE:
+
+ Due tipologie di utente:
+ .= Configuratore
+ .= Fruitore
+
+-------------------------------------------------------------------------------
+
+-> PROBLEMA VISUALIZZAZIONE NETs:
+
+OPZIONE 1): JGraph - https://github.com/jgraph/jgraphx
+OPZIONE 2): Implementarlo noi (probabilmente molto difficile)
+OPZIONE 3): visualizzarli come testi(molto difficile)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
