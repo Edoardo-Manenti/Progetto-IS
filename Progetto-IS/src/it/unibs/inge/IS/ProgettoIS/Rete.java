@@ -7,9 +7,11 @@ public class Rete {
 	 * Classe di modellazione della Rete, contiene tutte le informazioni riguardanti i nodi e le transizioni
 	 */
 	private HashMap<String, Nodo> nodi;
+	private IORete managerIO;
 	
 	public Rete() {
 		this.nodi = new HashMap<String, Nodo>();
+		this.managerIO = new IORete();
 	}
 	
 	public boolean containsNodo(Nodo n) {
@@ -40,4 +42,21 @@ public class Rete {
 	public Nodo getNodo(String nomeNodo) {
 		return nodi.get(nomeNodo);
 	}
+
+	// TO-DO list :
+	/*
+	 * Metodo per creare una rete
+	 */
+	
+	/*
+	 * Metodo per creare un nuovo Posto
+	 */
+	
+	/*
+	 * Metodo per creare una nuova Transizione
+	 */
+	
+	/*
+	 * Metodo per testare se due reti sono uguali
+	 */
 }
