@@ -1,0 +1,37 @@
+{
+	"type": "Rete",
+	"rete":[
+	{	
+	"type": "Nodo",
+	"id": "N1",
+	"prec": ["T2"], 
+	"succ": ["T1"],
+	},
+	{
+	"type": "Nodo",
+	"id": "N2",
+	"prec": ["T2"],
+	"succ": ["T1"],
+	},
+	{
+	"type": "Transizione",
+	"id": "T1",
+	"prec": ["N1", "N2"],
+	"succ": ["N3"],
+	},
+	{
+	"type": "Nodo",
+	"id": "N3",
+	"prec": ["T1"],
+	"succ": ["T2"],
+	},
+	{
+	"type": "Transizione",
+	"id": "T2",
+	"prec": ["N3"],
+	"succ": ["N1", "N2"],
+	}
+	]
+}
+
+
