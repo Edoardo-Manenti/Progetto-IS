@@ -1,0 +1,35 @@
+{
+	"type": "RETE",
+	"rete": [
+	{
+		"type": "P->T",	
+		"prec": "N1",
+		"succ": "T1"
+	},
+	{
+		"type": "P->T",
+		"prec": "N2",
+		"succ": "T1"
+	},
+	{
+		"type": "T->P",
+		"prec": "T1",
+		"succ": "N3"
+	},
+	{
+		"type": "P->T",
+		"prec": "N3",
+		"succ": "T2"
+	},
+	{
+		"type": "T->P",
+		"prec": "T2",
+		"succ": "N1"
+	},
+	{
+		"type": "T->P",
+		"prec": "T2",
+		"succ": "N2"
+	}
+	]
+}
