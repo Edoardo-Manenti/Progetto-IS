@@ -87,7 +87,7 @@ public class JsonUtils {
 				}
 			}
 		}
-		throw new IOException("Formato JSON errato.");
+		throw new IOException("Formato JSON incorretto");
 	}
 	private void parsaArchi(JSONArray array, Rete rete, Nodo n, boolean precedenti) {
 		for(Object nodo : array) {
