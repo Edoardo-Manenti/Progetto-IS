@@ -10,6 +10,8 @@ public class Rete {
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
 	private IORete managerIO;
+	private static int idPosto = 0;
+	private static int idTransizione = 1;
 	
 	public Rete() {
 		this.nodi = new HashMap<String, Nodo>();
@@ -75,15 +77,41 @@ public class Rete {
 	// TO-DO list :
 	/*
 	 * Metodo per creare una rete
+	 * Non basta il costruttore?
+	 *  Alla fine creiamo le strutture dati e poi guidiamo nella creazione ...
+	 *  Se l'utente vuole salvare una rete con meno di una transizione e un posto -> messaggio di errore
 	 */
 	
 	/*
 	 * Metodo per creare un nuovo Posto
 	 */
 	
+	public void crea_nuovo_Posto(Transizione t) {
+		
+		Posto newP = new Posto(""+idPosto);
+		idPosto = idPosto + 2;
+		aggiungiArco(new Arco(t, newP));
+	}
+	
 	/*
 	 * Metodo per creare una nuova Transizione
 	 */
+	public void crea_nuova_Transizione() {
+		
+		Transizione newT = new Transizione("" + idTransizione);
+		idTransizione = idTransizione+2;
+		Posto po = scelto_da_utente;
+		aggiungiArco(new Arco(po, newT));
+		
+		if (utente_sceglie_di_creare_un_nuovo_posto) {
+			crea_nuovo_Posto(newT);
+			
+		} else {
+			Posto pd = scelto_da_utente;
+			aggiungiArco(new Arco(newT, pd));
+			
+		}
+	}
 	
 	/*
 	 * Metodo per testare se due reti sono uguali
