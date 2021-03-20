@@ -3,10 +3,13 @@ package it.unibs.inge.IS.ProgettoIS;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author edoardo
+ *
+ */
 public class Rete {
-	/*
-	 * Classe di modellazione della Rete, contiene tutte le informazioni riguardanti i nodi e le transizioni
-	 */
+
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
 	private IORete managerIO;
@@ -54,7 +57,10 @@ public class Rete {
 			p.aggiungiPrec(t);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param p
+	 */
 	public void aggiungiPosto(Posto p) {
 		this.nodi.put(p.getId(), p);
 	}
@@ -64,7 +70,7 @@ public class Rete {
 	}
 	
 	/*
-	 * @param nomeNodo nome del nodo da cercare
+	 * @param nomeNodo nomeNodo nome del nodo da cercare
 	 */
 	public Nodo getNodo(String nomeNodo) {
 		return nodi.get(nomeNodo);
@@ -72,6 +78,21 @@ public class Rete {
 	
 	public HashMap<String, Nodo> getNodi(){
 		return this.nodi;
+	}
+	
+	public ArrayList<Arco> getArchi(){
+		return this.archi;
+	}
+	
+	public boolean equals(Rete rete2) {
+		if(this.archi.size() != rete2.getArchi().size()) {
+			return false;
+		}
+		ArrayList<Arco> archi2 = rete2.getArchi();
+		for(Arco a : archi) {
+			if(!archi2.contains(a)) continue;
+		}
+		return true;
 	}
 
 	// TO-DO list :
@@ -96,22 +117,22 @@ public class Rete {
 	/*
 	 * Metodo per creare una nuova Transizione
 	 */
-	public void crea_nuova_Transizione() {
-		
-		Transizione newT = new Transizione("" + idTransizione);
-		idTransizione = idTransizione+2;
-		Posto po = scelto_da_utente;
-		aggiungiArco(new Arco(po, newT));
-		
-		if (utente_sceglie_di_creare_un_nuovo_posto) {
-			crea_nuovo_Posto(newT);
-			
-		} else {
-			Posto pd = scelto_da_utente;
-			aggiungiArco(new Arco(newT, pd));
-			
-		}
-	}
+//	public void crea_nuova_Transizione() {
+//		
+//		Transizione newT = new Transizione("" + idTransizione);
+//		idTransizione = idTransizione+2;
+//		Posto po = scelto_da_utente;
+//		aggiungiArco(new Arco(po, newT));
+//		
+//		if (utente_sceglie_di_creare_un_nuovo_posto) {
+//			crea_nuovo_Posto(newT);
+//			
+//		} else {
+//			Posto pd = scelto_da_utente;
+//			aggiungiArco(new Arco(newT, pd));
+//			
+//		}
+//	}
 	
 	/*
 	 * Metodo per testare se due reti sono uguali
