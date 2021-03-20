@@ -1,5 +1,6 @@
 package it.unibs.inge.IS.ProgettoIS;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,11 +25,11 @@ public abstract class Nodo {
 	}
 	
 	protected List<Nodo> getPrec() {
-		return (List<Nodo>)this.prec.values();
+		return new ArrayList<Nodo>(this.prec.values());
 	}
 
 	protected List<Nodo> getSucc() {
-		return (List<Nodo>)this.succ.values();
+		return new ArrayList<Nodo>(this.succ.values());
 	}
 
 	protected void setPosto(boolean p) {
@@ -49,5 +50,10 @@ public abstract class Nodo {
 
 	public String getId() {
 		return this.id;
+	}
+	
+	@Override
+	public String toString() {
+		return (isPosto ? "Posto" : "Transizione")+ ":" + this.id;
 	}
 }
