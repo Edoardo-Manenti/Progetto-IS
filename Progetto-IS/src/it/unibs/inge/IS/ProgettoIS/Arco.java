@@ -16,4 +16,8 @@ public class Arco {
 	public Nodo getDestination() {
 		return this.destination;
 	}
+	@Override
+	public String toString() {
+		return origin.toString() + "->" + destination.toString();
+	}
 }
