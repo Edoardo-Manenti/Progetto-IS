@@ -15,6 +15,10 @@ public class JsonUtils {
 	public String compilaJson(Rete rete) {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE");
+		String idRete = rete.getID();
+		if(idRete != "") {
+			jsonObj.put("idrete", rete.getID());
+		}
 		JSONArray array = new JSONArray();
 		for(Nodo n : rete.getNodi().values()) {
 			JSONObject elem = new JSONObject();
@@ -28,16 +32,16 @@ public class JsonUtils {
 			elem.put("succ",  succ);
 			array.put(elem);
 			}
-		jsonObj.put("rete", array);	
+		jsonObj.put("nodi", array);	
 		return jsonObj.toString();
 	}
 	
 	public Rete parsaJson(String jsonString) throws IOException {
 		JSONObject jsonObj = new JSONObject(jsonString);
 		//controllo che sia un formato RETE
-		if(jsonObj.get("object").equals("RETE")){
-			Rete rete = new Rete();
-			JSONArray array = jsonObj.getJSONArray("rete");
+		if(jsonObj.getString("object").equals("RETE")){
+			Rete rete = jsonObj.has("idrete") ? new Rete(jsonObj.getString("idrete")) : new Rete();
+			JSONArray array = jsonObj.getJSONArray("nodi");
 			for(Object elem : array) {
 				JSONObject obj = (JSONObject)elem;
 				Nodo n;
