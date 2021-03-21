@@ -18,15 +18,18 @@ public class IORete {
 	private String wdPath = "Reti";
 	private File wd;
 	private String separatore; 
-	private HashMap<String,File> retiSalvate;
+	private HashMap<String,File> fileSalvati;
+	private HashMap<String,Rete> retiSalvate;
 	
 	public IORete() {
 		this.jsonUtil = new JsonUtils();
-		this.retiSalvate = caricaRetiSalvate();
 		this.separatore = File.separator;
 		this.wd = new File(wdPath);
 		if(!wd.exists()) {
 			wd.mkdir();
+		}
+		else {
+			caricaFileSalvati();
 		}
 	}
 
@@ -34,58 +37,59 @@ public class IORete {
 		this.wdPath = path;
 	}
 	
-	private HashMap<String, File> caricaRetiSalvate() {
-		HashMap<String, File> retiSalvate = new HashMap<String, File>();
+	private void caricaFileSalvati() {
+		fileSalvati = new HashMap<String, File>();
+		retiSalvate = new HashMap<String, Rete>();
 		for(File f : wd.listFiles()) {
-			retiSalvate.put(f.getName(), f);
+			String name = f.getName();
+			fileSalvati.put(name, f);
+			retiSalvate.put(name, caricaRete(name));
 		}
-		return retiSalvate;
 	}
 	
 	public List<String> getNomiRetiSalvate() {
-		return new ArrayList<String>(retiSalvate.keySet());
+		return new ArrayList<String>(fileSalvati.keySet());
 	}
 	
 	public int numeroRetiSalvate() {
-		return retiSalvate.size();
+		return fileSalvati.size();
 	}
 	
 	public void salvaRete(Rete rete, String nomeRete) {
 		String json = jsonUtil.compilaJson(rete);
+		if(!isNuovaRete(rete)) {
+			return;
+		}
 		File file = new File(wdPath+separatore+nomeRete);
-		try {
-			if(!file.exists()) {
-				file.createNewFile();
-			}
-			else {
-				file = retiSalvate.get(nomeRete);
-			}
-		}
-		catch(IOException ex) {
-			ex.printStackTrace();
-		}
-		
 		try ( FileWriter writer = new FileWriter(file))
 		{
 			writer.write(json);
-			retiSalvate.put(nomeRete, file);
+			fileSalvati.put(nomeRete, file);
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
 
+	private boolean isNuovaRete(Rete nuovaRete) {
+		for(Rete r : retiSalvate.values()) {
+			if(r.equals(nuovaRete)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	
 	public Rete caricaRete(String reteRichiesta) {
 		Rete rete = new Rete();
-		try ( Scanner scanner = new Scanner(retiSalvate.get(reteRichiesta)) 
+		try ( Scanner scanner = new Scanner(fileSalvati.get(reteRichiesta)) 
 				)
 		{
 			String json = "";
 			while(scanner.hasNextLine()) {
 				json += scanner.nextLine();
 			}
-			System.out.println(json);
 			rete = this.jsonUtil.parsaJson(json);
 		}
 		catch (Exception ex) {
@@ -95,11 +99,11 @@ public class IORete {
 	}
 	
 	public boolean rinominaRete(String nomeRete, String nuovoNome) {
-		if(!retiSalvate.containsKey(nomeRete)) {
+		if(!fileSalvati.containsKey(nomeRete)) {
 			return false;
 		}
 		else {
-			File rete = retiSalvate.get(nomeRete);
+			File rete = fileSalvati.get(nomeRete);
 			return rete.renameTo(new File(nuovoNome));
 		}
 	}
