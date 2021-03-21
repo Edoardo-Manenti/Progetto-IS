@@ -53,8 +53,8 @@ public class ManagerRete {
      * 
      * MODELLO 2:
      * 
-     * A ogni passo chiedo se si vuole aggiungere/eliminare un nuovo posto, 
-     *        aggiungere/eliminare una transizione, aggiungere/eliminare un arco, terminare le modifiche
+     * A ogni passo chiedo se si vuole aggiungere un nuovo posto, 
+     *        aggiungere una transizione, aggiungere un arco, eliminare nodo, eliminare arco, terminare le modifiche
      * se nuovo posto:
      * - chiedo id
      * - controllo che non esista
@@ -70,7 +70,7 @@ public class ManagerRete {
      * - controllo che l'arco non sia già presente
      * - aggiungo arco
      * 
-     * se elimina arco/transizione -> chiedo id ed elimino
+     * se elimina arco/nodo -> chiedo id ed elimino
      * 
      * se termina modifiche:
      * - controllo che ogni transizione abbia almeno un precedente E almeno un successivo
