@@ -12,14 +12,12 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
-	private IORete managerIO;
 	private static int idPosto = 0;
 	private static int idTransizione = 1;
 	
 	public Rete() {
 		this.nodi = new HashMap<String, Nodo>();
 		this.archi = new ArrayList<Arco>();
-		this.managerIO = new IORete();
 	}
 	
 	public boolean containsNodo(String n) {
