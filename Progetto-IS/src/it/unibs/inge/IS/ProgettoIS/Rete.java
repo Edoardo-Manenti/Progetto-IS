@@ -12,6 +12,7 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
+ 	//TODO: SUGGERISCO DI AGGIUNGERE QUI anche IL NOME DELLA RETE in modo da averlo disponibile
 	private static int idPosto = 0;
 	private static int idTransizione = 1;
 	
@@ -82,6 +83,11 @@ public class Rete {
 		return this.archi;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return this.equals((Rete) obj);
+	}
+	
 	public boolean equals(Rete rete2) {
 		if(this.archi.size() != rete2.getArchi().size()) {
 			return false;
@@ -91,6 +97,14 @@ public class Rete {
 			if(!archi2.contains(a)) continue;
 		}
 		return true;
+	}
+	
+	public boolean eliminaNodo(String id) {
+		return (nodi.remove(id) != null); 
+	}
+	
+	public boolean eliminaArco(Arco arco) {
+		return this.archi.remove(arco);
 	}
 
 	// TO-DO list :
@@ -135,4 +149,15 @@ public class Rete {
 	/*
 	 * Metodo per testare se due reti sono uguali
 	 */
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		String nomeRete = "NOME DA INSERIRE NELLA CLASSE";
+		sb.append(nomeRete).append("\n");
+		for (Arco a:archi)
+			sb.append(a.toString()).append("\n");
+
+		return sb.toString();
+	}
 }
