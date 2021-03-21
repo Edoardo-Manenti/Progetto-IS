@@ -1,5 +1,6 @@
 {
 	"object": "Rete",
+	"idrete": "Mia Rete",
 	"nodi":[
 	{	
 	"type": "POSTO",
