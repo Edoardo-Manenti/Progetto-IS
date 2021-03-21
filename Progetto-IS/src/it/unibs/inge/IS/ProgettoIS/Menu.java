@@ -43,10 +43,10 @@ public class Menu
   //Si può fare meglio usando le interfacce e robe belle ma non ne ho il tempo ora, per adesso va bene
   public void loop(){
       int scelta;
+      ManagerRete managerRete = new ManagerRete(new IORete());
       do{
           scelta = scegli();
-          GestoreRete gestoreRete = new GestoreRete();
-          gestoreRete.elabora(scelta);
+          managerRete.elabora(scelta);
       }while (scelta != 0);
 
   }

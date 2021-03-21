@@ -12,14 +12,13 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
-	private IORete managerIO;
+ 	//TODO: SUGGERISCO DI AGGIUNGERE QUI anche IL NOME DELLA RETE in modo da averlo disponibile
 	private static int idPosto = 0;
 	private static int idTransizione = 1;
 	
 	public Rete() {
 		this.nodi = new HashMap<String, Nodo>();
 		this.archi = new ArrayList<Arco>();
-		this.managerIO = new IORete();
 	}
 	
 	public boolean containsNodo(String n) {
@@ -137,4 +136,15 @@ public class Rete {
 	/*
 	 * Metodo per testare se due reti sono uguali
 	 */
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		String nomeRete = "NOME DA INSERIRE NELLA CLASSE";
+		sb.append(nomeRete).append("\n");
+		for (Arco a:archi)
+			sb.append(a.toString()).append("\n");
+
+		return sb.toString();
+	}
 }

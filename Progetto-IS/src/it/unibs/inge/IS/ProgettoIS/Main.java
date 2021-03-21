@@ -7,6 +7,5 @@ public class Main {
         Menu menu = new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, visualizzare e modificare delle reti di Petri. " +
                 "\n Cosa desidera fare?", new String[]{"Crea nuova rete", "Visualizza reti salvate"});
         menu.loop();
-        System.out.println("PROGRAMMA TERMINATO");
     }
 }
