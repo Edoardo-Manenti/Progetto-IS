@@ -1,5 +1,6 @@
 package it.unibs.inge.IS.ProgettoIS;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ManagerRete {
@@ -30,8 +31,8 @@ public class ManagerRete {
         String nuovoArco = InputDati.leggiStringaNonVuota(MESSAGGIO_CREAZIONE_ARCO);
     }
     public void visualizzaRete(){
-        int retiSalvate = ioRete.numeroRetiSalvate();
-        if(retiSalvate == 0){
+        int nrretiSalvate = ioRete.numeroRetiSalvate();
+        if(nrretiSalvate == 0){
             System.out.println("Non ci sono reti salvate al momento");
         }
         else {
@@ -41,7 +42,9 @@ public class ManagerRete {
                 System.out.println( (i) + "\t" + listaReti.get(i));
             }
            int scelta = InputDati.leggiIntero("Digitare il numero della rete da visualizzare >",
-                   0, retiSalvate);
+                   0, nrretiSalvate);
+            String reteDaVisualizzare = listaReti.get(scelta);
+            System.out.println(ioRete.caricaRete(reteDaVisualizzare).toString());
         }
 
 
