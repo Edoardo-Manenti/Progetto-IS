@@ -1,35 +1,35 @@
 {
 	"object": "Rete",
-	"rete":[
+	"nodi":[
 	{	
-	"type": "Nodo",
-	"id": "N1",
+	"type": "POSTO",
+	"id": "P1",
 	"prec": ["T2"], 
 	"succ": ["T1"]
 	},
 	{
-	"type": "Nodo",
-	"id": "N2",
+	"type": "POSTO",
+	"id": "P2",
 	"prec": ["T2"],
 	"succ": ["T1"]
 	},
 	{
-	"type": "Transizione",
+	"type": "TRANSIZIONE",
 	"id": "T1",
-	"prec": ["N1", "N2"],
-	"succ": ["N3"]
+	"prec": ["P1", "P2"],
+	"succ": ["P3"]
 	},
 	{
-	"type": "Nodo",
-	"id": "N3",
+	"type": "POSTO",
+	"id": "P3",
 	"prec": ["T1"],
 	"succ": ["T2"]
 	},
 	{
-	"type": "Transizione",
+	"type": "TRANSIZIONE",
 	"id": "T2",
-	"prec": ["N3"],
-	"succ": ["N1", "N2"]
+	"prec": ["P3"],
+	"succ": ["P1", "P2"]
 	}
 	]
 }
