@@ -12,11 +12,16 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
- 	//TODO: SUGGERISCO DI AGGIUNGERE QUI anche IL NOME DELLA RETE in modo da averlo disponibile
+	private String id;
 	private static int idPosto = 0;
 	private static int idTransizione = 1;
 	
 	public Rete() {
+		this("");
+	}
+	
+	public Rete(String id) {
+		this.id = id;
 		this.nodi = new HashMap<String, Nodo>();
 		this.archi = new ArrayList<Arco>();
 	}
@@ -105,6 +110,10 @@ public class Rete {
 	
 	public boolean eliminaArco(Arco arco) {
 		return this.archi.remove(arco);
+	}
+	
+	public String getID() {
+		return this.id;
 	}
 
 	// TO-DO list :
