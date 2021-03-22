@@ -3,6 +3,7 @@ package it.unibs.inge.IS.ProgettoIS;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Nodo {
 	private String id;	
@@ -55,5 +56,21 @@ public abstract class Nodo {
 	@Override
 	public String toString() {
 		return (isPosto ? "Posto" : "Transizione")+ ":" + this.id;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Nodo nodo = (Nodo) o;
+		return isPosto == nodo.isPosto &&
+				isTransizione == nodo.isTransizione &&
+				Objects.equals(id, nodo.id) && Objects.equals(prec, nodo.prec) &&
+				Objects.equals(succ, nodo.succ);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, isPosto, isTransizione, prec, succ);
 	}
 }

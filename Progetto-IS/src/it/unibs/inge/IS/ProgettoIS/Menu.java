@@ -40,15 +40,5 @@ public class Menu
 	System.out.println(VOCE_USCITA);
     System.out.println();
   }
-  //Si può fare meglio usando le interfacce e robe belle ma non ne ho il tempo ora, per adesso va bene
-  public void loop(){
-      int scelta;
-      ManagerRete managerRete = new ManagerRete(new IORete());
-      do{
-          scelta = scegli();
-          managerRete.elabora(scelta);
-      }while (scelta != 0);
-
-  }
 }
 

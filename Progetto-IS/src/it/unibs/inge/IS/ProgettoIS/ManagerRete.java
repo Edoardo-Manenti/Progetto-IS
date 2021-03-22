@@ -1,56 +1,39 @@
 package it.unibs.inge.IS.ProgettoIS;
 
-import java.util.List;
+import java.util.*;
+import java.util.HashMap;
 
 public class ManagerRete {
     private IORete ioRete;
+    private Menu mainMenu;
+    private Menu creazioneRete;
 
-    private String MESSAGGIO_CREAZIONE_ARCO = "Inserire una coppia POSTO-TRANSIZIONE o TRANSIZIONE-POSTO:";
+    private Rete nuovaRete;
+
+
     public ManagerRete(IORete ioRete){
         this.ioRete = ioRete;
     }
 
-
-    public void elabora(int scelta){
-        switch (scelta) {
-            case 1:
-                creaRete();
-                break;
-            case 2:
-                visualizzaRete();
-                break;
-            default:
-                ;
-                break;
-        }
+    public void setMainMenu(Menu mainMenu) {
+        this.mainMenu = mainMenu;
     }
+
+    public void setCreazioneRete(Menu creazioneRete) {
+        this.creazioneRete = creazioneRete;
+    }
+
     //TODO: Problema come so cosa l'utente sta inserendo? se un posto-transizione o una transizione-posto?
     public void creaRete(){
-        Rete nuovaRete = new Rete();
-        String nuovoArco = InputDati.leggiStringaNonVuota(MESSAGGIO_CREAZIONE_ARCO);
+        //Attenzione ricordati di gestire i nomi uguali
+        String nomeRete = InputDati.leggiStringaNonVuota("Inserire il nome della rete: ");
+        nuovaRete = new Rete(nomeRete);
+        this.loopCreaRete();
+
     }
     
     /*
-     * MODELLO 1:
-     * 
-     * 1) Scelta tra nuova rete o visualizza rete
-     * 2.1) se nuova rete:
-     * 2.1.1) Crea posto iniziale o transizione iniziale
-     * 2.1.2) Scelta tra arco T->P o arco P->T o termina modifiche
-     * 2.1.3.1.1) se T->P:
-     * 2.1.3.1.2) Indica nomeT e nomeP
-     * 2.1.3.1.3) Controllo che almeno uno dei due esista
-     * 2.1.3.1.4) se esiste -> creo nodo mancante e aggiungo arco
-     * 2.1.3.1.5) se esistono già entrambi e l'arco non esiste, lo aggiungo, altrimenti informo che l'arco già esiste
-     * 2.1.3.1.6) Torno a 2.1.2
-     * 2.1.3.2.1) se P->T: analogo a T->P
-     * 2.1.3.3.1) se termina modifiche:
-     * 2.1.3.3.2) scelta tra salvare la rete o scartare le modifiche
-     * 2.1.3.3.3) se salva rete : scelgi nome con cui salvare la rete
-     * 2.2.1) se visualizza rete: presenta i nomi e chiede di scegliere la rete o torna menu principale
-     * 2.2.2) visualizza rete scelta 
-     * 
-     * 
+       *
      * MODELLO 2:
      * 
      * A ogni passo chiedo se si vuole aggiungere un nuovo posto, 
@@ -94,11 +77,79 @@ public class ManagerRete {
                 System.out.println( (i) + "\t" + listaReti.get(i));
             }
            int scelta = InputDati.leggiIntero("Digitare il numero della rete da visualizzare >",
-                   0, nrretiSalvate);
+                   0, nrretiSalvate-1);
             String reteDaVisualizzare = listaReti.get(scelta);
-            System.out.println(ioRete.caricaRete(reteDaVisualizzare).toString());
+            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
 
+
+    }
+    //Gestione MainLoop
+    public void mainLoop() {
+        int scelta;
+        do{
+            scelta = mainMenu.scegli();
+            this.elabora(scelta);
+        }while (scelta != 0);
+    }
+
+    public void elabora(int scelta){
+        switch (scelta) {
+            case 1:
+                creaRete();
+                break;
+            case 2:
+                visualizzaRete();
+                break;
+            default:
+                ;
+                break;
+        }
+    }
+
+    //Gestione Loop di creazione
+    public void loopCreaRete(){
+        int scelta;
+        do{
+            scelta = creazioneRete.scegli();
+            this.creazioneReteScelte(scelta);
+        }while (scelta != 0 & scelta != 5) ;
+    }
+
+    private void creazioneReteScelte(int scelta) {
+        switch (scelta){
+            case 0:
+                aggiungiPosto();
+                break;
+            case 1:
+                aggiungiTransizione();
+                break;
+            case 2:
+                aggiungiArco();
+                break;
+            case 3:
+                eliminaNodo();
+                break;
+            case 4:
+                eliminaArco();
+                break;
+            case 5:
+                terminaModifiche();
+                break;
+        }
+    }
+
+    private void terminaModifiche() {
+        //Check correttezza rete
+
+        boolean salvata;
+        do{
+            String nomeSalvataggio = InputDati.leggiStringaNonVuota("Inserire il nome del file con cui salvare la rete: ");
+            salvata = (ioRete.salvaRete(nuovaRete, nomeSalvataggio));
+            if (!(salvata)) System.out.println("Nome non corretto, già in uso");
+        }while(!salvata);
+
+        System.out.println("Rete salvata.");
 
     }
 }

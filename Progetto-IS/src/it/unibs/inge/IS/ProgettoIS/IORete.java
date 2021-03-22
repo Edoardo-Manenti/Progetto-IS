@@ -25,12 +25,15 @@ public class IORete {
 		this.jsonUtil = new JsonUtils();
 		this.separatore = File.separator;
 		this.wd = new File(wdPath);
+		this.fileSalvati = new HashMap<>();
+		this.retiSalvate = new HashMap<>();
 		if(!wd.exists()) {
 			wd.mkdir();
 		}
 		else {
 			caricaFileSalvati();
 		}
+
 	}
 
 	public void setPath(String path) {
@@ -38,8 +41,6 @@ public class IORete {
 	}
 	
 	private void caricaFileSalvati() {
-		fileSalvati = new HashMap<String, File>();
-		retiSalvate = new HashMap<String, Rete>();
 		for(File f : wd.listFiles()) {
 			String name = f.getName();
 			fileSalvati.put(name, f);
@@ -55,20 +56,21 @@ public class IORete {
 		return fileSalvati.size();
 	}
 	
-	public void salvaRete(Rete rete, String nomeRete) {
+	public boolean salvaRete(Rete rete, String nomeFile) {
 		String json = jsonUtil.compilaJson(rete);
 		if(!isNuovaRete(rete)) {
-			return;
+			return false;
 		}
-		File file = new File(wdPath+separatore+nomeRete);
+		File file = new File(wdPath+separatore+nomeFile);
 		try ( FileWriter writer = new FileWriter(file))
 		{
 			writer.write(json);
-			fileSalvati.put(nomeRete, file);
+			fileSalvati.put(nomeFile, file);
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
+		return true;
 	}
 
 	private boolean isNuovaRete(Rete nuovaRete) {

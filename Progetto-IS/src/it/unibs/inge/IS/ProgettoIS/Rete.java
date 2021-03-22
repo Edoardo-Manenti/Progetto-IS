@@ -65,14 +65,30 @@ public class Rete {
 	 * 
 	 * @param p
 	 */
-	public void aggiungiPosto(Posto p) {
-		this.nodi.put(p.getId(), p);
+	private boolean aggiungiPosto(Posto p) {
+		if (this.containsNodo(p)) return false;
+		else {
+			this.nodi.put(p.getId(), p);
+			return true;
+		}
 	}
 
-	public void aggiungiTransizione(Transizione t) {
-		this.nodi.put(t.getId(), t);
+	private boolean aggiungiTransizione(Transizione t) {
+		if (this.containsNodo(t)) return false;
+		else {
+			this.nodi.put(t.getId(), t);
+			return true;
+		}
 	}
-	
+
+	//Interfaccia pubblica
+	public boolean creaNodo(String nome, boolean isPosto){
+		boolean result;
+		if(isPosto) result = aggiungiPosto(new Posto(nome));
+		else result = aggiungiTransizione(new Transizione(nome));
+		return result;
+	}
+
 	/*
 	 * @param nomeNodo nomeNodo nome del nodo da cercare
 	 */
@@ -162,11 +178,15 @@ public class Rete {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		String nomeRete = "NOME DA INSERIRE NELLA CLASSE";
-		sb.append(nomeRete).append("\n");
+		sb.append(this.id).append("\n");
 		for (Arco a:archi)
 			sb.append(a.toString()).append("\n");
 
 		return sb.toString();
+	}
+	public boolean controllaCorrettezza(){
+		//TODO
+		return true;
+
 	}
 }
