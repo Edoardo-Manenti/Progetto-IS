@@ -184,9 +184,19 @@ public class Rete {
 
 		return sb.toString();
 	}
-	public boolean controllaCorrettezza(){
-		//TODO
-		return true;
 
+	public boolean controllaCorrettezza(){
+		if(nodi.isEmpty()) return false;
+		for(Nodo n : nodi.values()) {
+			boolean flag;
+			if(n.isPosto()) {
+				flag = (n.numberOfPrec() > 0) || (n.numberOfSucc() > 0);
+			}
+			else {
+				flag = (n.numberOfPrec() > 0 && (n.numberOfSucc() > 0));
+			}
+			if(!flag) return false;
+		}
+		return true;
 	}
 }
