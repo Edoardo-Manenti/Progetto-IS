@@ -3,6 +3,10 @@ package it.unibs.inge.IS.ProgettoIS;
 import java.util.*;
 import java.util.HashMap;
 
+/*
+ * CONSIDERAZIONE : Avrebbe senso separare model, view e control in tre package diversi
+ */
+
 public class ManagerRete {
     private IORete ioRete;
     private Menu mainMenu;
@@ -62,8 +66,6 @@ public class ManagerRete {
      * - salvo rete
      * 
      */
-    
-    
     
     public void visualizzaRete(){
         int nrretiSalvate = ioRete.numeroRetiSalvate();
