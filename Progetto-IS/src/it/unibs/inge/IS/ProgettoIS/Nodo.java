@@ -19,10 +19,19 @@ public abstract class Nodo {
 	
 	protected void aggiungiPrec(Nodo n) {
 		this.prec.put(n.getId(), n);
+
 	}
 
 	protected void aggiungiSucc(Nodo n) {
 		this.succ.put(n.getId(), n);
+	}
+
+	public int numberOfPrec() {
+		return prec.size();
+	}
+	
+	public int numberOfSucc() {
+		return succ.size();
 	}
 	
 	protected List<Nodo> getPrec() {
@@ -60,17 +69,11 @@ public abstract class Nodo {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Nodo nodo = (Nodo) o;
-		return isPosto == nodo.isPosto &&
-				isTransizione == nodo.isTransizione &&
-				Objects.equals(id, nodo.id) && Objects.equals(prec, nodo.prec) &&
-				Objects.equals(succ, nodo.succ);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, isPosto, isTransizione, prec, succ);
+		if (getClass() != o.getClass()) return false;
+		Nodo nodo2 = (Nodo)o;
+		if(this.id != nodo2.getId()) return false;
+		if(!this.prec.keySet().equals(nodo2.prec.keySet())) return false;
+		if(!this.succ.keySet().equals(nodo2.succ.keySet())) return false;
+		return true;
 	}
 }
