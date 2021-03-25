@@ -31,10 +31,16 @@ public class Rete {
 	}
 
 	public boolean containsNodo(Nodo n) {
-		return nodi.containsValue(n);
+		return containsNodo(n.getId());
 	}
 	
-	public void aggiungiArco(Arco arco) {
+	public boolean aggiungiArco(Arco arco) {
+		//Controllo se già esiste
+		if (this.archi.contains(arco)) {
+			return false;
+		}
+		else
+			{
 		Nodo o = arco.getOrigin();
 		Nodo d = arco.getDestination();
 
@@ -59,6 +65,8 @@ public class Rete {
 			Posto p = (Posto)arco.getDestination();
 			t.aggiungiSucc(p); 
 			p.aggiungiPrec(t);
+		}
+		return true; //Aggiunto correttamente
 		}
 	}
 	/**
