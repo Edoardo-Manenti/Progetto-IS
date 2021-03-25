@@ -1,0 +1,1 @@
+{"nodi":[{"prec":["uni"],"succ":["uni"],"id":"casadigerry","type":"POSTO"},{"prec":["casadigerry"],"succ":["casadigerry"],"id":"uni","type":"TRANSIZIONE"}],"idrete":"gerry","object":"RETE"}

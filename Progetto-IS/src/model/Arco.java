@@ -1,4 +1,4 @@
-package it.unibs.inge.IS.ProgettoIS;
+package model;
 
 import java.util.Objects;
 

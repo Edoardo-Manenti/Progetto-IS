@@ -2,6 +2,7 @@ package it.unibs.inge.IS.ProgettoIS;
 
 import java.io.IOException;
 
+import model.*;
 import org.json.*;
 
 

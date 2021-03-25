@@ -1,5 +1,7 @@
 package it.unibs.inge.IS.ProgettoIS;
 
+import model.Rete;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class IORete {
 	private File wd;
 	private String separatore; 
 	private HashMap<String,File> fileSalvati;
-	private HashMap<String,Rete> retiSalvate;
+	private HashMap<String, Rete> retiSalvate;
 	
 	public IORete() {
 		this.jsonUtil = new JsonUtils();
@@ -60,11 +62,11 @@ public class IORete {
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
-		File file = new File(wdPath+separatore+nomeFile);
+		File file = new File(wdPath+separatore+nomeFile + ".json");
 		try ( FileWriter writer = new FileWriter(file))
 		{
 			writer.write(json);
-			fileSalvati.put(nomeFile, file);
+			fileSalvati.put(nomeFile+".json", file);
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());

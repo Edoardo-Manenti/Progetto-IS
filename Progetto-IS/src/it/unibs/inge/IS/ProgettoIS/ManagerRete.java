@@ -1,5 +1,9 @@
 package it.unibs.inge.IS.ProgettoIS;
 
+import model.Arco;
+import model.Nodo;
+import model.Rete;
+
 import java.util.*;
 import java.util.HashMap;
 
@@ -29,7 +33,6 @@ public class ManagerRete {
         this.creazioneRete = creazioneRete;
     }
 
-    //TODO: Problema come so cosa l'utente sta inserendo? se un posto-transizione o una transizione-posto?
     public void creaRete(){
         //Attenzione ricordati di gestire i nomi uguali
         String nomeRete = InputDati.leggiStringaNonVuota("Inserire il nome della rete: ");
@@ -37,37 +40,7 @@ public class ManagerRete {
         this.loopCreaRete();
 
     }
-    
-    /*
-       *
-     * MODELLO 2:
-     * 
-     * A ogni passo chiedo se si vuole aggiungere un nuovo posto, 
-     *        aggiungere una transizione, aggiungere un arco, eliminare nodo, eliminare arco, terminare le modifiche
-     * se nuovo posto:
-     * - chiedo id
-     * - controllo che non esista
-     * 
-     * se nuova transizione:
-     * - chiedo id
-     * - controllo che non esista
-     * 
-     * se nuovo arco:
-     * - chiedo origine e destinazione
-     * - controllo che esistano ENTRAMBI
-     * - controllo che siano di diverso tipo
-     * - controllo che l'arco non sia già presente
-     * - aggiungo arco
-     * 
-     * se elimina arco/nodo -> chiedo id ed elimino
-     * 
-     * se termina modifiche:
-     * - controllo che ogni transizione abbia almeno un precedente E almeno un successivo
-     * - controllo che ogni posto abbia almeno un precedento O un successivo
-     * - altrimenti informo del Nodo che non rispetta tale condizione e ritorno allo stadio di modifica
-     * - salvo rete
-     * 
-     */
+
     
     public void visualizzaRete(){
         int nrretiSalvate = ioRete.numeroRetiSalvate();
@@ -254,7 +227,7 @@ public class ManagerRete {
             do {
                 String nomeSalvataggio = InputDati.leggiStringaNonVuota("Inserire il nome del file con cui salvare la rete: ");
                 salvata = (ioRete.salvaRete(nuovaRete, nomeSalvataggio));
-                if (!(salvata)) System.out.println("Nome non corretto, già in uso. Riprovare");
+                if (!(salvata)) System.out.println("Rete già presente in locale");
             } while (!salvata);
 
             System.out.println("Rete salvata.");
