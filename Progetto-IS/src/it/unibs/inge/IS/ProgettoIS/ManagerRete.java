@@ -7,9 +7,6 @@ import model.Rete;
 import java.util.*;
 import java.util.HashMap;
 
-/*
- * CONSIDERAZIONE : Avrebbe senso separare model, view e control in tre package diversi
- */
 
 public class ManagerRete {
     private IORete ioRete;
@@ -33,11 +30,12 @@ public class ManagerRete {
         this.creazioneRete = creazioneRete;
     }
 
-    public void creaRete(){
+
+    public void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
         String nomeRete = InputDati.leggiStringaNonVuota("Inserire il nome della rete: ");
         nuovaRete = new Rete(nomeRete);
-        this.loopCreaRete();
+        this.loopCreaReteN();
 
     }
 
@@ -73,7 +71,7 @@ public class ManagerRete {
     public void elabora(int scelta){
         switch (scelta) {
             case 1:
-                creaRete();
+                creaReteN();
                 break;
             case 2:
                 visualizzaRete();
@@ -85,7 +83,7 @@ public class ManagerRete {
     }
 
     //Gestione Loop di creazione
-    public void loopCreaRete(){
+    public void loopCreaReteN(){
         int scelta;
         do{
             scelta = creazioneRete.scegli();

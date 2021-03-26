@@ -3,18 +3,15 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * 
- * @author edoardo
- *
- */
 public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
 	private String id;
-	private static int idPosto = 0;
-	private static int idTransizione = 1;
+
+	private boolean isPn;
+	//Edo usando questa variabile scrive il parser ->
+	// isPn == true allora devi scrivere un file .json per PN con i pesi etc etc
 	
 	public Rete() {
 		this("");
@@ -25,54 +22,45 @@ public class Rete {
 		this.nodi = new HashMap<String, Nodo>();
 		this.archi = new ArrayList<Arco>();
 	}
-	
-	public boolean containsNodo(String n) {
-		return nodi.containsKey(n);
+
+	public Rete(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi, boolean isPn){
+		this.id = id;
+		this.archi = archi;
+		this.nodi = nodi;
+		this.isPn = isPn;
 	}
 
-	public boolean containsNodo(Nodo n) {
-		return containsNodo(n.getId());
-	}
-	
-	public boolean aggiungiArco(Arco arco) {
-		//Controllo se già esiste
-		if (this.archi.contains(arco)) {
-			return false;
-		}
-		else
-			{
-		Nodo o = arco.getOrigin();
-		Nodo d = arco.getDestination();
-
-		if(!(nodi.containsValue(o))) 
-		{ 
-			nodi.put(o.getId(), o);
-		}
-
-		if(!(nodi.containsValue(d))) {
-			nodi.put(d.getId(), d);
-		}
-		
-		this.archi.add(arco); 
-		if(o.isPosto()) { 
-			Posto p = (Posto)arco.getOrigin();
-			Transizione t = (Transizione)arco.getDestination();
-			p.aggiungiSucc(t);
-			t.aggiungiPrec(p);
-		}
-		else {
-			Transizione t = (Transizione)arco.getOrigin(); 
-			Posto p = (Posto)arco.getDestination();
-			t.aggiungiSucc(p); 
-			p.aggiungiPrec(t);
-		}
-		return true; //Aggiunto correttamente
-		}
-	}
 	/**
-	 * 
-	 * @param p
+	 * Questo metodo ritorna data una rete N una rete PN corrispondente inizializzata con la marcatura nulla iniziale
+	 * @param reteN
+	 * @return
 	 */
+	public static Rete convertiAPN(Rete reteN){
+		if(!reteN.isPn){
+			Rete retePN = new Rete(reteN.id, reteN.getArchi(), reteN.getNodi(), true);
+			//Imposto la marcatura a zero
+			for (Nodo n: retePN.getNodi().values()){
+				if(n instanceof Posto) ((Posto) n).setToken(0);
+			}
+			//Imposto tutti gli archi a peso 1
+			for(Arco a: retePN.getArchi()){
+				a.setPeso(1);
+			}
+			//Qui c'è da fare il calcolo per le transizioni
+			//TODO: retePN.settaTransizioni();
+
+			return retePN;
+		}
+		return null;
+	}
+	//Interfaccia pubblica
+	public boolean creaNodo(String nome, boolean isPosto){
+		boolean result;
+		if(isPosto) result = aggiungiPosto(new Posto(nome));
+		else result = aggiungiTransizione(new Transizione(nome));
+		return result;
+	}
+
 	private boolean aggiungiPosto(Posto p) {
 		if (this.containsNodo(p)) return false;
 		else {
@@ -89,17 +77,50 @@ public class Rete {
 		}
 	}
 
-	//Interfaccia pubblica
-	public boolean creaNodo(String nome, boolean isPosto){
-		boolean result;
-		if(isPosto) result = aggiungiPosto(new Posto(nome));
-		else result = aggiungiTransizione(new Transizione(nome));
-		return result;
+	public boolean aggiungiArco(Arco arco) {
+		//Controllo se già esiste
+		if (this.archi.contains(arco)) {
+			return false;
+		}
+		else
+		{
+			Nodo o = arco.getOrigin();
+			Nodo d = arco.getDestination();
+
+			if(!(nodi.containsValue(o)))
+			{
+				nodi.put(o.getId(), o);
+			}
+
+			if(!(nodi.containsValue(d))) {
+				nodi.put(d.getId(), d);
+			}
+
+			this.archi.add(arco);
+			if(o.isPosto()) {
+				Posto p = (Posto)arco.getOrigin();
+				Transizione t = (Transizione)arco.getDestination();
+				p.aggiungiSucc(t);
+				t.aggiungiPrec(p);
+			}
+			else {
+				Transizione t = (Transizione)arco.getOrigin();
+				Posto p = (Posto)arco.getDestination();
+				t.aggiungiSucc(p);
+				p.aggiungiPrec(t);
+			}
+			return true; //Aggiunto correttamente
+		}
 	}
 
-	/*
-	 * @param nomeNodo nomeNodo nome del nodo da cercare
-	 */
+	public boolean eliminaNodo(String id) {
+		return (nodi.remove(id) != null);
+	}
+
+	public boolean eliminaArco(Arco arco) {
+		return this.archi.remove(arco);
+	}
+
 	public Nodo getNodo(String nomeNodo) {
 		return nodi.get(nomeNodo);
 	}
@@ -127,62 +148,21 @@ public class Rete {
 		}
 		return true;
 	}
-	
-	public boolean eliminaNodo(String id) {
-		return (nodi.remove(id) != null); 
+
+	public boolean containsNodo(String n) {
+		return nodi.containsKey(n);
 	}
-	
-	public boolean eliminaArco(Arco arco) {
-		return this.archi.remove(arco);
+
+	public boolean containsNodo(Nodo n) {
+		return containsNodo(n.getId());
 	}
-	
+
 	public String getID() {
 		return this.id;
 	}
 
-	// TO-DO list :
-	/*
-	 * Metodo per creare una rete
-	 * Non basta il costruttore?
-	 *  Alla fine creiamo le strutture dati e poi guidiamo nella creazione ...
-	 *  Se l'utente vuole salvare una rete con meno di una transizione e un posto -> messaggio di errore
-	 */
-	
-	/*
-	 * Metodo per creare un nuovo Posto
-	 */
-	
-	public void crea_nuovo_Posto(Transizione t) {
-		
-		Posto newP = new Posto(""+idPosto);
-		idPosto = idPosto + 2;
-		aggiungiArco(new Arco(t, newP));
-	}
-	
-	/*
-	 * Metodo per creare una nuova Transizione
-	 */
-//	public void crea_nuova_Transizione() {
-//		
-//		Transizione newT = new Transizione("" + idTransizione);
-//		idTransizione = idTransizione+2;
-//		Posto po = scelto_da_utente;
-//		aggiungiArco(new Arco(po, newT));
-//		
-//		if (utente_sceglie_di_creare_un_nuovo_posto) {
-//			crea_nuovo_Posto(newT);
-//			
-//		} else {
-//			Posto pd = scelto_da_utente;
-//			aggiungiArco(new Arco(newT, pd));
-//			
-//		}
-//	}
-	
-	/*
-	 * Metodo per testare se due reti sono uguali
-	 */
 
+	//TODO: Questo metodo è da rivedere per gestire RetiPN e RetiPNp
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
