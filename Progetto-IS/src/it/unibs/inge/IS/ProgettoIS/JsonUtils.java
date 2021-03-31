@@ -3,6 +3,8 @@ package it.unibs.inge.IS.ProgettoIS;
 import java.io.IOException;
 
 import model.*;
+import modelPN.RetePN;
+
 import org.json.*;
 
 
@@ -11,9 +13,11 @@ import org.json.*;
  * @author edoardo
  *
  */
-public class JsonUtils {
+public  class JsonUtils {
+	private static IORete io = new IORete();
 	
-	public String compilaJson(Rete rete) {
+	public static String compilaJson(Rete rete) {
+		if(rete.isPN()) compilaJson((RetePN) rete, rete.getID());
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE");
 		String idRete = rete.getID();
@@ -37,11 +41,76 @@ public class JsonUtils {
 		return jsonObj.toString();
 	}
 	
-	public Rete parsaJson(String jsonString) throws IOException {
+	public static String compilaJson(RetePN rete, String retePortante) {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("object", "RETE_PN");
+		jsonObj.put("retePortante", retePortante);
+		JSONArray arrayPesi = new JSONArray();
+		for(Arco arco : rete.getArchi()) {
+			JSONObject elem = new JSONObject();
+			elem.put("arco", arco.getID());
+			elem.put("peso", arco.getPeso());
+			arrayPesi.put(elem);
+		}
+		jsonObj.put("pesi", arrayPesi);
+		JSONArray arrayMarcatura = new JSONArray();
+		for(Nodo n : rete.getNodi().values()) {
+			if(n.isPosto()) {
+				Posto p = (Posto)n;
+				JSONObject obj = new JSONObject();
+				obj.put("nodo", p.getId());
+				obj.put("n_token", p.getToken());
+			}
+		}
+		jsonObj.put("marcatura", arrayMarcatura);
+		return jsonObj.toString();
+	}
+	
+	// per retePN: controllo che pesi e token > 0
+	public static Rete parsaJson(String jsonString) throws IOException {
 		JSONObject jsonObj = new JSONObject(jsonString);
+		String tipoRete = jsonObj.getString("object");
 		//controllo che sia un formato RETE
-		if(jsonObj.getString("object").equals("RETE")){
-			Rete rete = jsonObj.has("idrete") ? new Rete(jsonObj.getString("idrete")) : new Rete();
+		if(tipoRete.equals("RETE")){
+			return parsaReteN(jsonString);
+		}
+		else if(tipoRete.equals("RETE_PN")) {
+			//retePN
+			return parsaRetePN(jsonString);
+		}
+		else throw new IOException("Formato JSON incorretto");
+	}
+	
+	
+	//controllo pesi e token > 0
+	private static RetePN parsaRetePN(String jsonString) throws IOException {
+		JSONObject jsonObj = new JSONObject(jsonString);
+		Rete reteN = io.caricaRete(jsonObj.getString("retePortante"));
+		RetePN retePN = new RetePN(reteN);
+		JSONArray array = jsonObj.getJSONArray("pesi");
+		for(Object elem : array) {
+			JSONObject obj = (JSONObject) elem;
+			Arco arco = retePN.getArco(obj.getString("arco"));
+			int peso = obj.getInt("peso");
+			if(arco != null && peso > 0) {
+				arco.setPeso(peso);
+			}
+			else throw new IOException("JSON incorretto: archi con pesi negativi");
+		}
+		JSONArray marcatura = jsonObj.getJSONArray("marcatura");
+		for(Object elem : marcatura) {
+			JSONObject obj = (JSONObject) elem;
+			Posto p = (Posto)retePN.getNodo(obj.getString("nodo"));
+			int nToken = obj.getInt("n_token");
+			if(p != null && nToken > 0) p.setToken(nToken);
+			else throw new IOException("JSON incorretto: marcatura sintatticamente sbagliata");
+		}
+		return retePN;
+	}
+	
+	private static Rete parsaReteN(String jsonString) {
+		JSONObject jsonObj = new JSONObject(jsonString);
+		Rete rete = jsonObj.has("idrete") ? new Rete(jsonObj.getString("idrete")) : new Rete();
 			JSONArray array = jsonObj.getJSONArray("nodi");
 			for(Object elem : array) {
 				JSONObject obj = (JSONObject)elem;
@@ -62,11 +131,9 @@ public class JsonUtils {
 				parsaArchi(prec, rete, n, true);
 			}
 			return rete;
-		}
-		else throw new IOException("Formato JSON incorretto");
 	}
 
-	private void parsaArchi(JSONArray array, Rete rete, Nodo n, boolean precedenti) {
+	private static void parsaArchi(JSONArray array, Rete rete, Nodo n, boolean precedenti) {
 		for(Object nodo : array) {
 			String p = (String)nodo;
 			if(!rete.containsNodo(p)) {
