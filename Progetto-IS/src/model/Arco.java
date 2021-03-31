@@ -3,6 +3,7 @@ package model;
 import java.util.Objects;
 
 public class Arco {
+	private String id;
 	private Nodo origin;
 	private Nodo destination;
 
@@ -11,6 +12,7 @@ public class Arco {
 	public Arco(Nodo o, Nodo d) {
 		this.origin = o;
 		this.destination = d;
+		id = o.getId() + " -> " + d.getId();
 	}
 	
 	public Nodo getOrigin() {
@@ -19,6 +21,10 @@ public class Arco {
 	
 	public Nodo getDestination() {
 		return this.destination;
+	}
+	
+	public String getID() {
+		return this.id;
 	}
 
 	@Override
@@ -33,9 +39,9 @@ public class Arco {
 		}
 	}
 
+	//TODO: Adattare a rete PN
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Arco arco = (Arco) o;
 		return Objects.equals(origin, arco.origin) && Objects.equals(destination, arco.destination);
