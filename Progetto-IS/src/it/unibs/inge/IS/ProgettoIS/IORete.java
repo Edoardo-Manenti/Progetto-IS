@@ -2,12 +2,10 @@ package it.unibs.inge.IS.ProgettoIS;
 
 import model.Rete;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * 
@@ -15,63 +13,41 @@ import java.util.Scanner;
  *
  */
 public class IORete {
-	private JsonUtils jsonUtil;
-	private String wdPath = "Reti";
-	private File wd;
-	private String separatore; 
-	private HashMap<String,File> fileSalvati;
+	private IOUtils io;
 	private HashMap<String, Rete> retiSalvate;
 	
 	public IORete() {
-		this.jsonUtil = new JsonUtils();
-		this.separatore = File.separator;
-		this.wd = new File(wdPath);
-		this.fileSalvati = new HashMap<>();
-		this.retiSalvate = new HashMap<>();
-		if(!wd.exists()) {
-			wd.mkdir();
-		}
-		else {
-			caricaFileSalvati();
-		}
-
+		io = new IOUtils();
+		caricaRetiSalvate();
 	}
 
-	public void setPath(String path) {
-		this.wdPath = path;
+	private void caricaRetiSalvate() {
+		for (String nome : io.getNomiFileSalvati()) {
+			Rete r = caricaRete(nome);
+			if(r != null) retiSalvate.put(nome, r);
+		}
 	}
 	
-	private void caricaFileSalvati() {
-		for(File f : wd.listFiles()) {
-			String name = f.getName();
-			fileSalvati.put(name, f);
-			retiSalvate.put(name, caricaRete(name));
-		}
+	public void setPath(String path) {
+		io.setPath(path);
 	}
 	
 	public List<String> getNomiRetiSalvate() {
-		return new ArrayList<String>(fileSalvati.keySet());
+		return new ArrayList<String>(retiSalvate.keySet());
 	}
 	
 	public int numeroRetiSalvate() {
-		return fileSalvati.size();
+		return retiSalvate.size();
 	}
 	
 	public boolean salvaRete(Rete rete, String nomeFile) {
-		String json = jsonUtil.compilaJson(rete);
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
-		File file = new File(wdPath+separatore+nomeFile + ".json");
-		try ( FileWriter writer = new FileWriter(file))
-		{
-			writer.write(json);
-			fileSalvati.put(nomeFile+".json", file);
+		else {
+			String json = JsonUtils.compilaJson(rete);
+			return io.salvaFile(nomeFile, json);
 		}
-		catch(Exception ex) {
-			System.out.println(ex.getMessage());
-		}
-		return true;
 	}
 
 	private boolean isNuovaRete(Rete nuovaRete) {
@@ -83,31 +59,20 @@ public class IORete {
 		return true;
 	}
 	
-	
 	public Rete caricaRete(String reteRichiesta) {
 		Rete rete = new Rete();
-		try ( Scanner scanner = new Scanner(fileSalvati.get(reteRichiesta)) 
-				)
-		{
-			String json = "";
-			while(scanner.hasNextLine()) {
-				json += scanner.nextLine();
-			}
-			rete = this.jsonUtil.parsaJson(json);
+		try {
+			String json = io.caricaFile(reteRichiesta);
+			rete = JsonUtils.parsaJson(json);
 		}
-		catch (Exception ex) {
-			System.out.println(ex.getMessage());
+		catch(IOException exc) {
+			exc.printStackTrace();
+			return null;
 		}
 		return rete;
 	}
 	
 	public boolean rinominaRete(String nomeRete, String nuovoNome) {
-		if(!fileSalvati.containsKey(nomeRete)) {
-			return false;
-		}
-		else {
-			File rete = fileSalvati.get(nomeRete);
-			return rete.renameTo(new File(nuovoNome));
-		}
+		return io.rinominaFile(nomeRete, nuovoNome);
 	}
 }
