@@ -7,9 +7,9 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
+	private boolean isPN = false;
 	private String id;
 
-	private boolean isPn;
 	//Edo usando questa variabile scrive il parser ->
 	// isPn == true allora devi scrivere un file .json per PN con i pesi etc etc
 	
@@ -23,11 +23,18 @@ public class Rete {
 		this.archi = new ArrayList<Arco>();
 	}
 
-	public Rete(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi, boolean isPn){
+	public Rete(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi){
 		this.id = id;
 		this.archi = archi;
 		this.nodi = nodi;
-		this.isPn = isPn;
+	}
+	
+	protected void setPN() {
+		this.isPN = true;
+	}
+	
+	public boolean isPN() {
+		return this.isPN;
 	}
 
 	/**
@@ -35,24 +42,7 @@ public class Rete {
 	 * @param reteN
 	 * @return
 	 */
-	public static Rete convertiAPN(Rete reteN){
-		if(!reteN.isPn){
-			Rete retePN = new Rete(reteN.id, reteN.getArchi(), reteN.getNodi(), true);
-			//Imposto la marcatura a zero
-			for (Nodo n: retePN.getNodi().values()){
-				if(n instanceof Posto) ((Posto) n).setToken(0);
-			}
-			//Imposto tutti gli archi a peso 1
-			for(Arco a: retePN.getArchi()){
-				a.setPeso(1);
-			}
-			//Qui c'è da fare il calcolo per le transizioni
-			//TODO: retePN.settaTransizioni();
-
-			return retePN;
-		}
-		return null;
-	}
+	
 	//Interfaccia pubblica
 	public boolean creaNodo(String nome, boolean isPosto){
 		boolean result;
@@ -120,6 +110,14 @@ public class Rete {
 	public boolean eliminaArco(Arco arco) {
 		return this.archi.remove(arco);
 	}
+	
+	public Arco getArco(String id) {
+		for(Arco a : this.archi) {
+			if (a.getID() == id)
+				return a;
+		}
+		return null;
+	}
 
 	public Nodo getNodo(String nomeNodo) {
 		return nodi.get(nomeNodo);
@@ -139,7 +137,7 @@ public class Rete {
 	}
 	
 	public boolean equals(Rete rete2) {
-		if(this.archi.size() != rete2.getArchi().size()) {
+if(this.archi.size() != rete2.getArchi().size()) {
 			return false;
 		}
 		ArrayList<Arco> archi2 = rete2.getArchi();
