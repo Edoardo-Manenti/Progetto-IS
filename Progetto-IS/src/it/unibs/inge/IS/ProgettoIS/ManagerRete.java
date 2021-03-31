@@ -12,8 +12,6 @@ public class ManagerRete {
     private IORete ioRete;
     private Menu mainMenu;
     private Menu creazioneRete;
-
-
     private Rete nuovaRete;
     private boolean isFinita = false;
 
@@ -56,9 +54,8 @@ public class ManagerRete {
             String reteDaVisualizzare = listaReti.get(scelta);
             System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
-
-
     }
+
     //Gestione MainLoop
     public void mainLoop() {
         int scelta;
@@ -116,6 +113,7 @@ public class ManagerRete {
                 break;
         }
     }
+    
     private void aggiungiPosto(){
         boolean aggiunto = false;
         do{
@@ -135,6 +133,7 @@ public class ManagerRete {
         }while (!aggiunto);
         System.out.println("La transizione è stato aggiunta correttamente.");
     }
+    
     private void aggiungiArco(){
         boolean contenuto = false;
 
@@ -162,6 +161,7 @@ public class ManagerRete {
             System.out.println("L'arco "+ arco.toString() + " era già presente o non valido");
         }
     }
+    
     private void eliminaNodo(){
         HashMap<String, Nodo> mappa = nuovaRete.getNodi();
         if(mappa.isEmpty()){
@@ -185,8 +185,8 @@ public class ManagerRete {
         }else{
             System.out.println("Errore di digitazione. Riprovare");
         }
-
     }
+    
     private void eliminaArco(){
         ArrayList<Arco> listaArchi = nuovaRete.getArchi();
         if(listaArchi.isEmpty()){
@@ -214,8 +214,8 @@ public class ManagerRete {
         }else{
             System.out.println("Nessun arco è stato eliminato.");
         }
-
     }
+
     private void terminaModifiche() {
         //Check correttezza rete
         if (nuovaRete.controllaCorrettezza()) {
@@ -236,6 +236,5 @@ public class ManagerRete {
             isFinita = false;
             System.out.println("La rete presenta delle incorrettezze è necessario modificarla");
         }
-
     }
 }
