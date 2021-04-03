@@ -1,6 +1,9 @@
-package it.unibs.inge.IS.ProgettoIS;
+package menu;
+
+import utils.InputDati;
+
 /*
-Questa classe rappresenta un menu testuale generico a piu' voci
+Questa classe modellistica rappresenta un menu testuale generico a piu' voci
 Si suppone che la voce per uscire sia sempre associata alla scelta 0 
 e sia presentata in fondo al menu
 
@@ -24,7 +27,7 @@ public class Menu
   public int scegli ()
   {
 	stampaMenu();
-	return InputDati.leggiIntero(RICHIESTA_INSERIMENTO, 0, voci.length);	 
+	return InputDati.leggiIntero(RICHIESTA_INSERIMENTO, 0, voci.length);
   }
 		
   public void stampaMenu ()

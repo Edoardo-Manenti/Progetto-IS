@@ -1,90 +1,30 @@
-package it.unibs.inge.IS.ProgettoIS;
+package menu;
 
 import model.Arco;
 import model.Nodo;
 import model.Rete;
+import utils.IORete;
+import utils.InputDati;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+public class MenuCreaReteN {
+    private static final IORete ioRete = new IORete();
+    private static final Menu creazioneRete = new Menu("\n Cosa desidera fare?", new String[]{"Aggiungi posto",
+            "Aggiungi transizione", "Aggiungi arco", "Elimina nodo", "Elimina arco", "Termina modifiche"});
 
-public class ManagerRete {
-    private IORete ioRete;
-    private Menu mainMenu;
-    private Menu creazioneRete;
     private Rete nuovaRete;
     private boolean isFinita = false;
-
-
-    public ManagerRete(IORete ioRete){
-        this.ioRete = ioRete;
+    public MenuCreaReteN(Rete nuovaRete){
+        this.nuovaRete = nuovaRete;
     }
-
-    public void setMainMenu(Menu mainMenu) {
-        this.mainMenu = mainMenu;
-    }
-
-    public void setCreazioneRete(Menu creazioneRete) {
-        this.creazioneRete = creazioneRete;
-    }
-
-
-    public void creaReteN(){
-        //Attenzione ricordati di gestire i nomi uguali
-        String nomeRete = InputDati.leggiStringaNonVuota("Inserire il nome della rete: ");
-        nuovaRete = new Rete(nomeRete);
-        this.loopCreaReteN();
-
-    }
-
-    
-    public void visualizzaRete(){
-        int nrretiSalvate = ioRete.numeroRetiSalvate();
-        if(nrretiSalvate == 0){
-            System.out.println("Non ci sono reti salvate al momento");
-        }
-        else {
-            List<String> listaReti = ioRete.getNomiRetiSalvate();
-            for (int i=0; i<listaReti.size(); i++)
-            {
-                System.out.println( (i) + "\t" + listaReti.get(i));
-            }
-           int scelta = InputDati.leggiIntero("Digitare il numero della rete da visualizzare >",
-                   0, nrretiSalvate-1);
-            String reteDaVisualizzare = listaReti.get(scelta);
-            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
-        }
-    }
-
-    //Gestione MainLoop
-    public void mainLoop() {
-        int scelta;
-        do{
-            scelta = mainMenu.scegli();
-            this.elabora(scelta);
-        }while (scelta != 0);
-    }
-
-    public void elabora(int scelta){
-        switch (scelta) {
-            case 1:
-                creaReteN();
-                break;
-            case 2:
-                visualizzaRete();
-                break;
-            default:
-                ;
-                break;
-        }
-    }
-
     //Gestione Loop di creazione
     public void loopCreaReteN(){
         int scelta;
         do{
             scelta = creazioneRete.scegli();
-            this.creazioneReteScelte(scelta);
+            creazioneReteScelte(scelta);
             if(isFinita) break;
         }while (scelta != 0);
         //il loop termina se la variabile isFinita viene messa a true, cioè se l'utente ha selezionato terminaModifiche e il controllo è andato a buon fine
@@ -113,7 +53,7 @@ public class ManagerRete {
                 break;
         }
     }
-    
+
     private void aggiungiPosto(){
         boolean aggiunto = false;
         do{
@@ -133,7 +73,7 @@ public class ManagerRete {
         }while (!aggiunto);
         System.out.println("La transizione è stato aggiunta correttamente.");
     }
-    
+
     private void aggiungiArco(){
         boolean contenuto = false;
 
@@ -161,7 +101,7 @@ public class ManagerRete {
             System.out.println("L'arco "+ arco.toString() + " era già presente o non valido");
         }
     }
-    
+
     private void eliminaNodo(){
         HashMap<String, Nodo> mappa = nuovaRete.getNodi();
         if(mappa.isEmpty()){
@@ -174,9 +114,9 @@ public class ManagerRete {
         }
         String scelta = InputDati.leggiStringaNonVuota("Digitare l'id del nodo da eliminare (inserire nome non valido per non eliminare nulla)>");
         if (mappa.containsKey(scelta)){ //Se hai inserito il valore corretto bella
-        Nodo daEliminare = mappa.get(scelta);
-        boolean elimina = InputDati.yesOrNo("Sicuro di voler eliminare il nodo "+ daEliminare.toString() + "?");
-        if(elimina){
+            Nodo daEliminare = mappa.get(scelta);
+            boolean elimina = InputDati.yesOrNo("Sicuro di voler eliminare il nodo "+ daEliminare.toString() + "?");
+            if(elimina){
                 nuovaRete.eliminaNodo(daEliminare.getId());
                 System.out.println("Nodo eliminato.");
             }else{
@@ -186,7 +126,7 @@ public class ManagerRete {
             System.out.println("Errore di digitazione. Riprovare");
         }
     }
-    
+
     private void eliminaArco(){
         ArrayList<Arco> listaArchi = nuovaRete.getArchi();
         if(listaArchi.isEmpty()){

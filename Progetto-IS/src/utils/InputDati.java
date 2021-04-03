@@ -1,4 +1,4 @@
-package it.unibs.inge.IS.ProgettoIS;
+package utils;
 import java.util.*;
 public class InputDati 
 {

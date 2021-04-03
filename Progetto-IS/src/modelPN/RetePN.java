@@ -65,11 +65,11 @@ public class RetePN extends Rete{
 //	public boolean scattaTransizione(Transizione t) {
 //		// sposta i token
 //	}
-	
-	@Override
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		//controlla nome dei nodi, gli archi, e i pesi degli archi;
+		return false;
 	}
 }

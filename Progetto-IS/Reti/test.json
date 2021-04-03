@@ -1,0 +1,1 @@
+{"nodi":[{"prec":["t1"],"succ":["t1"],"id":"p1","type":"POSTO"},{"prec":["p1"],"succ":["p1"],"id":"t1","type":"TRANSIZIONE"}],"idrete":"prova","object":"RETE"}
