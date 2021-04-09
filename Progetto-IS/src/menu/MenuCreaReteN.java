@@ -20,6 +20,7 @@ public class MenuCreaReteN {
         this.nuovaRete = nuovaRete;
     }
     //Gestione Loop di creazione
+    // TODO: una rete può essere formata da un solo nodo e una sola transizione.
     public void loopCreaReteN(){
         int scelta;
         do{
