@@ -1,4 +1,4 @@
-package it.unibs.inge.IS.ProgettoIS;
+package main;
 
 import menu.MainMenu;
 
