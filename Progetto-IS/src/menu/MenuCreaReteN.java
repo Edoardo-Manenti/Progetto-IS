@@ -164,8 +164,7 @@ public class MenuCreaReteN {
             isFinita = true;
             boolean salvata;
             do {
-                String nomeSalvataggio = InputDati.leggiStringaNonVuota("Inserire il nome del file con cui salvare la rete: ");
-                salvata = (ioRete.salvaRete(nuovaRete, nomeSalvataggio));
+                salvata = (ioRete.salvaRete(nuovaRete));
                 if (!(salvata)) System.out.println("Rete già presente in locale");
             } while (!salvata);
 

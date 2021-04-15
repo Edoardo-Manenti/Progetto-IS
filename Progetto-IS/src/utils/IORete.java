@@ -35,12 +35,19 @@ public class IORete {
 	}
 	
 	public List<String> getNomiRetiN() {
-		return retiSalvate.values().stream().filter(Rete::isPN).map(Rete::toString).collect(Collectors.toList());
+		ArrayList<String> lista = new ArrayList<>();
+		for(String s : retiSalvate.keySet()) {
+			if(!retiSalvate.get(s).isPN()) lista.add(s);
+		}
+		return lista;
 	}
 
 	public List<String> getNomiRetiPN() {
-		return retiSalvate.values().stream().filter(rete ->
-				!rete.isPN()).map(Rete::toString).collect(Collectors.toList());
+		ArrayList<String> lista = new ArrayList<>();
+		for(String s : retiSalvate.keySet()) {
+			if(retiSalvate.get(s).isPN()) lista.add(s);
+		}
+		return lista;
 	}
 
 	public int numeroRetiSalvate() {
@@ -48,23 +55,27 @@ public class IORete {
 		return retiSalvate.size();
 	}
 	
-	public boolean salvaRete(Rete rete, String nomeFile) {
+	public boolean salvaRete(Rete rete) {
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
 		else {
 			String json = JsonUtils.compilaJson(rete);
-			return io.salvaFile(nomeFile, json);
+			boolean flag = io.salvaFile(rete.getID(), json);
+			if (flag) retiSalvate.put(rete.getID(), rete);
+			return true;
 		}
 	}
 
-	public boolean salvaRetePN(RetePN rete, String retePortante, String nomeFile) {
+	public boolean salvaRetePN(RetePN rete, String retePortante) {
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
 		else {
 			String json = JsonUtils.compilaJson(rete, retePortante);
-			return io.salvaFile(nomeFile, json);
+			boolean flag = io.salvaFile(rete.getID(), json);
+			if (flag) retiSalvate.put(rete.getID(), rete);
+			return true;
 		}
 	}
 

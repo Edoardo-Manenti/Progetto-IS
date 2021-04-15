@@ -35,6 +35,7 @@ public class MainMenu {
         int scelta = InputDati.leggiIntero("Digitare il numero della rete da selezionare come Rete N di riferimento >",
                 0, listaReti.size() -1);
         String reteSelezionata = listaReti.get(scelta);
+        System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
         new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata)).loopCreaReteN();
     }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class MenuCreaRetePN {
     private static final IORete ioRete = new IORete();
     private static final Menu creazioneRete =
-            new Menu("\n Cosa desidera fare?", new String[]{"Modifica peso arco",
+            new Menu("Stai creando una nuova rete PN\nCosa desidera fare?", new String[]{"Modifica peso arco",
             "Modifica Token", "Termina modifiche"});
 
     private RetePN nuovaRete;
@@ -105,8 +105,7 @@ public class MenuCreaRetePN {
             isFinita = true;
             boolean salvata;
             do {
-                String nomeSalvataggio = InputDati.leggiStringaNonVuota("Inserire il nome del file con cui salvare la rete: ");
-                salvata = (ioRete.salvaRetePN(nuovaRete, nomeReteN, nomeSalvataggio));
+                salvata = (ioRete.salvaRetePN(nuovaRete, nomeReteN));
                 if (!(salvata)) System.out.println("Rete già presente in locale");
             } while (!salvata);
 
