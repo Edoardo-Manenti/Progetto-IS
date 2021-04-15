@@ -14,8 +14,7 @@ import org.json.*;
  *
  */
 public  class JsonUtils {
-	private static IORete io = new IORete();
-	
+	private static final IORete io = new IORete();
 	public static String compilaJson(Rete rete) {
 		if(rete.isPN()) compilaJson((RetePN) rete, rete.getID());
 		JSONObject jsonObj = new JSONObject();
@@ -55,11 +54,12 @@ public  class JsonUtils {
 		jsonObj.put("pesi", arrayPesi);
 		JSONArray arrayMarcatura = new JSONArray();
 		for(Nodo n : rete.getNodi().values()) {
-			if(n.isPosto()) {
+			if(n instanceof Posto) {
 				Posto p = (Posto)n;
 				JSONObject obj = new JSONObject();
 				obj.put("nodo", p.getId());
 				obj.put("n_token", p.getToken());
+				arrayMarcatura.put(obj);
 			}
 		}
 		jsonObj.put("marcatura", arrayMarcatura);
@@ -75,7 +75,7 @@ public  class JsonUtils {
 			return parsaReteN(jsonString);
 		}
 		else if(tipoRete.equals("RETE_PN")) {
-			//retePN
+			//rete
 			return parsaRetePN(jsonString);
 		}
 		else throw new IOException("Formato JSON incorretto");

@@ -1,5 +1,7 @@
 package model;
 
+import modelPN.RetePN;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +9,6 @@ public class Rete {
 
 	private HashMap<String, Nodo> nodi;
 	private ArrayList<Arco> archi;
-	private boolean isPN = false;
 	private String id;
 
 	//Edo usando questa variabile scrive il parser ->
@@ -29,20 +30,10 @@ public class Rete {
 		this.nodi = nodi;
 	}
 	
-	protected void setPN() {
-		this.isPN = true;
-	}
-	
 	public boolean isPN() {
-		return this.isPN;
+		return this instanceof RetePN;
 	}
 
-	/**
-	 * Questo metodo ritorna data una rete N una rete PN corrispondente inizializzata con la marcatura nulla iniziale
-	 * @param reteN
-	 * @return
-	 */
-	
 	//Interfaccia pubblica
 	public boolean creaNodo(String nome, boolean isPosto){
 		boolean result;

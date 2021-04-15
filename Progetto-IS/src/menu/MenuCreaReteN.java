@@ -166,7 +166,7 @@ public class MenuCreaReteN {
             do {
                 String nomeSalvataggio = InputDati.leggiStringaNonVuota("Inserire il nome del file con cui salvare la rete: ");
                 salvata = (ioRete.salvaRete(nuovaRete, nomeSalvataggio));
-                if (!(salvata)) System.out.println("Rete già presente in locale");
+                if (!(salvata)) System.out.println("Rete gi� presente in locale");
             } while (!salvata);
 
             System.out.println("Rete salvata.");
@@ -175,7 +175,7 @@ public class MenuCreaReteN {
             //La rete non è corretta
             //showErrors()
             isFinita = false;
-            System.out.println("La rete presenta delle incorrettezze è necessario modificarla");
+            System.out.println("La rete presenta delle incorrettezze e' necessario modificarla");
         }
     }
 }

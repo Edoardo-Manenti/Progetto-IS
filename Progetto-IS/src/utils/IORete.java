@@ -1,11 +1,13 @@
 package utils;
 
 import model.Rete;
+import modelPN.RetePN;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -32,10 +34,15 @@ public class IORete {
 		io.setPath(path);
 	}
 	
-	public List<String> getNomiRetiSalvate() {
-		return new ArrayList<String>(retiSalvate.keySet());
+	public List<String> getNomiRetiN() {
+		return retiSalvate.values().stream().filter(Rete::isPN).map(Rete::toString).collect(Collectors.toList());
 	}
-	
+
+	public List<String> getNomiRetiPN() {
+		return retiSalvate.values().stream().filter(rete ->
+				!rete.isPN()).map(Rete::toString).collect(Collectors.toList());
+	}
+
 	public int numeroRetiSalvate() {
 		caricaRetiSalvate();
 		return retiSalvate.size();
@@ -51,6 +58,16 @@ public class IORete {
 		}
 	}
 
+	public boolean salvaRetePN(RetePN rete, String retePortante, String nomeFile) {
+		if(!isNuovaRete(rete)) {
+			return false;
+		}
+		else {
+			String json = JsonUtils.compilaJson(rete, retePortante);
+			return io.salvaFile(nomeFile, json);
+		}
+	}
+
 	private boolean isNuovaRete(Rete nuovaRete) {
 		caricaRetiSalvate();
 		for(Rete r : retiSalvate.values()) {
@@ -62,7 +79,7 @@ public class IORete {
 	}
 	
 	public Rete caricaRete(String reteRichiesta) {
-		Rete rete = new Rete();
+		Rete rete;
 		try {
 			String json = io.caricaFile(reteRichiesta);
 			rete = JsonUtils.parsaJson(json);

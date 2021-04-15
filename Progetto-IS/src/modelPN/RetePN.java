@@ -24,14 +24,12 @@ public class RetePN extends Rete{
 	public RetePN(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi){
 		super(id,archi,nodi);
 		convertiAPN();
-		setPN();
 	}
 	
 	
 	public RetePN(Rete r) {
 		super(r.getID(), r.getArchi(), r.getNodi());
 		convertiAPN();
-		setPN();
 	}
 	
 	
@@ -49,7 +47,18 @@ public class RetePN extends Rete{
 			settaTransizioni();
 	}
 	
-	public void setPesoArco(Arco arco) {};
+	public void setPesoArco(String id, int peso) {
+		for (Arco a :this.getArchi()) {
+			if(a.getID().equals(id)){
+				a.setPeso(peso);
+				break;
+			}
+		}
+	}
+	public void setToken(String id, int token){
+		Nodo n = this.getNodi().get(id);
+		((Posto)n).setToken(token);
+	}
 	
 	
 	private void settaTransizioni() {
