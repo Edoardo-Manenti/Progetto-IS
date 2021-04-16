@@ -88,6 +88,10 @@ public class IORete {
 		}
 		return true;
 	}
+	public boolean isNuovaRete(String rete){
+		caricaRetiSalvate();
+		return !retiSalvate.containsKey(rete); //Se non è contenuta è nuova
+	}
 	
 	public Rete caricaRete(String reteRichiesta) {
 		Rete rete;

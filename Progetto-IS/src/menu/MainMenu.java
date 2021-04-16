@@ -18,8 +18,14 @@ public class MainMenu {
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
-        String nomeRete = InputDati.
-                leggiStringaNonVuota("Inserire il nome della rete: ");
+        String nomeRete;
+        boolean salvata = false;
+        do {
+            nomeRete = InputDati.
+                    leggiStringaNonVuota("Inserire il nome della rete: ");
+            if(ioRete.isNuovaRete(nomeRete)) salvata = true;
+            else System.out.println("Nome già utilizzato. Inserirne un'altro");
+        } while (!salvata);
         new MenuCreaReteN(new Rete(nomeRete)).loopCreaReteN();
 
     }
