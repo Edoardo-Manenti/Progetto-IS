@@ -9,42 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOUtils {
-	private String wdPath = "Reti";
-	private File wd;
-	private String separatore;
-	private HashMap<String, File> fileSalvati;
-	
-	
+    private IOContext ioContext;
+
 	public IOUtils() {
-		this.separatore = File.separator;
-		this.wd = new File(wdPath);
-		this.fileSalvati = new HashMap<String, File> ();
-		if(!wd.exists()) wd.mkdir();
-		else caricaFileSalvati();
+		this.ioContext = new IOContext();
 	}
-	
-	
-	public void setPath(String path) {
-		this.wdPath = path;
-	}
-	
+
 	public List<String> getNomiFileSalvati() {
-		return new ArrayList<String>(fileSalvati.keySet());
+		return new ArrayList<>(ioContext.getFileSalvati().keySet());
 	}
-	
-	private void caricaFileSalvati() {
-		for(File f : wd.listFiles()) {
-			String name = f.getName();
-			fileSalvati.put(name, f);
-		}
-	}
-	
+
 	public boolean salvaFile(String nomeFile, String contenutoFile) {
-		File file = new File(wdPath+separatore+nomeFile + ".json");
+		File file = new File(ioContext.getWdPath()+ioContext.getSeparatore() + nomeFile + ".json");
 		try ( FileWriter writer = new FileWriter(file))
 		{
 			writer.write(contenutoFile);
-			fileSalvati.put(nomeFile+".json", file);
+			this.ioContext.addFile(nomeFile+".json", file);
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
@@ -54,16 +34,16 @@ public class IOUtils {
 	}
 	
 	public String caricaFile(String nomeFile) throws IOException{
-		Scanner scanner = new Scanner(fileSalvati.get(nomeFile));
-		String json = "";
+		Scanner scanner = new Scanner(ioContext.getFileSalvati().get(nomeFile));
+		StringBuilder json = new StringBuilder();
 		while(scanner.hasNextLine()) {
-			json += scanner.nextLine();
+			json.append(scanner.nextLine());
 		}
-			return json;
+		return json.toString();
 	}
-	
-	
+
 	public boolean rinominaFile(String nomeFile, String nuovoNome) {
+	    HashMap<String, File> fileSalvati = ioContext.getFileSalvati();
 		if(!fileSalvati.containsKey(nomeFile)) return false;
 		else {
 			File rete = fileSalvati.get(nomeFile);
