@@ -16,43 +16,31 @@ import java.util.stream.Collectors;
  */
 public class IORete {
 	private IOUtils io;
-	private HashMap<String, Rete> retiSalvate = new HashMap<>();
-	
+
 	public IORete() {
 		io = new IOUtils();
-		caricaRetiSalvate();
 	}
 
-	private void caricaRetiSalvate() {
-		for (String nome : io.getNomiFileSalvati()) {
-			Rete r = caricaRete(nome);
-			if(r != null) retiSalvate.put(nome, r);
-		}
-	}
-	
-	public void setPath(String path) {
-		io.setPath(path);
-	}
-	
 	public List<String> getNomiRetiN() {
 		ArrayList<String> lista = new ArrayList<>();
-		for(String s : retiSalvate.keySet()) {
-			if(!retiSalvate.get(s).isPN()) lista.add(s);
+		for(String s : io.getNomiFileSalvati()) {
+			Rete r = caricaRete(s);
+			if(r!= null && !r.isPN()) lista.add(s);
 		}
 		return lista;
 	}
 
 	public List<String> getNomiRetiPN() {
 		ArrayList<String> lista = new ArrayList<>();
-		for(String s : retiSalvate.keySet()) {
-			if(retiSalvate.get(s).isPN()) lista.add(s);
+		for(String s : io.getNomiFileSalvati()) {
+			Rete r = caricaRete(s);
+			if(r!=null && r.isPN()) lista.add(s);
 		}
 		return lista;
 	}
 
 	public int numeroRetiSalvate() {
-		caricaRetiSalvate();
-		return retiSalvate.size();
+		return io.getNomiFileSalvati().size();
 	}
 	
 	public boolean salvaRete(Rete rete) {
@@ -61,9 +49,7 @@ public class IORete {
 		}
 		else {
 			String json = JsonUtils.compilaJson(rete);
-			boolean flag = io.salvaFile(rete.getID(), json);
-			if (flag) retiSalvate.put(rete.getID(), rete);
-			return true;
+			return io.salvaFile(rete.getID(), json);
 		}
 	}
 
@@ -73,15 +59,19 @@ public class IORete {
 		}
 		else {
 			String json = JsonUtils.compilaJson(rete, retePortante);
-			boolean flag = io.salvaFile(rete.getID(), json);
-			if (flag) retiSalvate.put(rete.getID(), rete);
-			return true;
+			return io.salvaFile(rete.getID() + "_PN", json);
 		}
 	}
 
 	private boolean isNuovaRete(Rete nuovaRete) {
-		caricaRetiSalvate();
-		for(Rete r : retiSalvate.values()) {
+	    ArrayList<Rete> retiSalvate = new ArrayList<>();
+	    for(String s : io.getNomiFileSalvati()){
+	        Rete r = caricaRete(s);
+	        if (r != null) {
+	        	retiSalvate.add(r);
+			}
+		}
+		for(Rete r : retiSalvate) {
 			if(r.equals(nuovaRete)) {
 				return false;
 			}
@@ -89,8 +79,7 @@ public class IORete {
 		return true;
 	}
 	public boolean isNuovaRete(String rete){
-		caricaRetiSalvate();
-		return !retiSalvate.containsKey(rete); //Se non è contenuta è nuova
+	    return !io.getNomiFileSalvati().contains(rete);
 	}
 	
 	public Rete caricaRete(String reteRichiesta) {
