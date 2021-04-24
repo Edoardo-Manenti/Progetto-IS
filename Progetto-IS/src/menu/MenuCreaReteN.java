@@ -19,6 +19,7 @@ public class MenuCreaReteN {
     public MenuCreaReteN(Rete nuovaRete){
         this.nuovaRete = nuovaRete;
     }
+
     //Gestione Loop di creazione
     // TODO: una rete può essere formata da un solo nodo e una sola transizione.
     public void loopCreaReteN(){
@@ -169,6 +170,7 @@ public class MenuCreaReteN {
             } while (!salvata);
 
             System.out.println("Rete salvata.");
+            System.out.println("\n" + nuovaRete.toString());
         }
         else{
             //La rete non Ã¨ corretta

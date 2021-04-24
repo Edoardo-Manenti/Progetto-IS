@@ -14,7 +14,7 @@ public class MainMenu {
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +
                                                   "visualizzare e modificare delle reti di Petri. " +
                                                   "\n Cosa desidera fare?",
-                    new String[]{"Crea nuova rete N", "Visualizza reti salvate", "Crea nuova rete PN"});
+                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Crea nuova rete PN"});
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
@@ -27,6 +27,7 @@ public class MainMenu {
             else System.out.println("Nome già utilizzato. Inserirne un'altro");
         } while (!salvata);
         new MenuCreaReteN(new Rete(nomeRete)).loopCreaReteN();
+
 
     }
 
@@ -48,7 +49,7 @@ public class MainMenu {
 
 
     //TODO: Discriminare fra N, PN e PNP -> Usare metodo intermedio
-    public static void visualizzaRete(){
+    public static void visualizzaReteN(){
         int nrretiSalvate = ioRete.numeroRetiSalvate();
         if(nrretiSalvate == 0){
             System.out.println("Non ci sono reti salvate al momento");
@@ -80,14 +81,35 @@ public class MainMenu {
                 creaReteN();
                 break;
             case 2:
-                visualizzaRete();
+                visualizzaReteN();
                 break;
             case 3:
+                visualizzaRetiPN();
+                break;
+            case 4:
                 creaRetePN();
                 break;
             default:
                 ;
                 break;
+        }
+    }
+
+    private static void visualizzaRetiPN() {
+        int nrretiSalvate = ioRete.numeroRetiSalvate();
+        if(nrretiSalvate == 0){
+            System.out.println("Non ci sono reti salvate al momento");
+        }
+        else {
+            List<String> listaReti = ioRete.getNomiRetiPN();
+            for (int i=0; i<listaReti.size(); i++)
+            {
+                System.out.println( (i) + "\t" + listaReti.get(i));
+            }
+            int scelta = InputDati.leggiIntero("Digitare il numero della rete da visualizzare >",
+                    0, nrretiSalvate-1);
+            String reteDaVisualizzare = listaReti.get(scelta);
+            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
     }
 

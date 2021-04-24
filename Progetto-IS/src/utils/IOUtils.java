@@ -18,7 +18,7 @@ public class IOUtils {
 	public List<String> getNomiFileSalvati() {
 		return new ArrayList<>(ioContext.getFileSalvati().keySet());
 	}
-
+	//TODO: Controllo su nome file da aggiungere-> per file (1)
 	public boolean salvaFile(String nomeFile, String contenutoFile) {
 		File file = new File(ioContext.getWdPath()+ioContext.getSeparatore() + nomeFile + ".json");
 		try ( FileWriter writer = new FileWriter(file))
@@ -34,7 +34,7 @@ public class IOUtils {
 	}
 	
 	public String caricaFile(String nomeFile) throws IOException{
-		Scanner scanner = new Scanner(ioContext.getFileSalvati().get(nomeFile));
+		Scanner scanner = new Scanner(IOContext.fileSalvati.get(nomeFile));
 		StringBuilder json = new StringBuilder();
 		while(scanner.hasNextLine()) {
 			json.append(scanner.nextLine());

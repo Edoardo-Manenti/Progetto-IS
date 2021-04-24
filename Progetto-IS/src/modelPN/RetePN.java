@@ -77,8 +77,6 @@ public class RetePN extends Rete{
 
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		//controlla nome dei nodi, gli archi, e i pesi degli archi;
-		return false;
+		return super.equals((Rete)obj);
 	}
 }

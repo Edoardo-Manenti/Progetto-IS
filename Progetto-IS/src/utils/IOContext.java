@@ -7,7 +7,7 @@ public class IOContext {
     private String wdPath = "Reti";
     private File wd;
     private String separatore;
-    private HashMap<String,File> fileSalvati;
+    public static HashMap<String,File> fileSalvati;
 
     public IOContext() {
         this.separatore = File.separator;

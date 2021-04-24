@@ -104,11 +104,11 @@ public class MenuCreaRetePN {
         //evita che si creino situazioni inconsistenti
             isFinita = true;
             boolean salvata;
-            do {
-                salvata = (ioRete.salvaRetePN(nuovaRete, nomeReteN));
-                if (!(salvata)) System.out.println("Rete già presente in locale");
-            } while (!salvata);
-
-            System.out.println("Rete salvata.");
+            salvata = (ioRete.salvaRetePN(nuovaRete, nomeReteN));
+            if (!(salvata)) {
+                System.out.println("Rete identica strutturalmente a una già presente in locale. Impossibile inserire");
+                isFinita = false;
+            }
+            else System.out.println("Rete salvata.");
     }
 }

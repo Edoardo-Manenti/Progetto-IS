@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Posto extends Nodo {
 	private int token = -1; //valore di default discriminante fra Nodo e Nodo PN
 
@@ -22,5 +24,19 @@ public class Posto extends Nodo {
 
 	public void setToken(int token) {
 		this.token = token;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		Posto posto = (Posto) o;
+		return token == posto.token;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(token);
 	}
 }

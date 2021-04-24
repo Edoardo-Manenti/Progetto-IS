@@ -43,7 +43,7 @@ public  class JsonUtils {
 	public static String compilaJson(RetePN rete, String retePortante) {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE_PN");
-		jsonObj.put("retePortante", retePortante);
+		jsonObj.put("retePortante", retePortante + ".json");
 		JSONArray arrayPesi = new JSONArray();
 		for(Arco arco : rete.getArchi()) {
 			JSONObject elem = new JSONObject();

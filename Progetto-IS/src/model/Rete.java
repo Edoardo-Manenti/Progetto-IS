@@ -104,7 +104,7 @@ public class Rete {
 	
 	public Arco getArco(String id) {
 		for(Arco a : this.archi) {
-			if (a.getID() == id)
+			if (a.getID().equals(id))
 				return a;
 		}
 		return null;
@@ -128,7 +128,8 @@ public class Rete {
 	}
 	
 	public boolean equals(Rete rete2) {
-if(this.archi.size() != rete2.getArchi().size()) {
+
+	if(this.archi.size() != rete2.getArchi().size()) {
 			return false;
 		}
 		ArrayList<Arco> archi2 = rete2.getArchi();

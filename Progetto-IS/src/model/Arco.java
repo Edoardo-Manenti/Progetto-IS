@@ -40,12 +40,14 @@ public class Arco {
 		}
 	}
 
-	//TODO: Adattare a rete PN
 	@Override
 	public boolean equals(Object o) {
+		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Arco arco = (Arco) o;
-		return Objects.equals(origin, arco.origin) && Objects.equals(destination, arco.destination);
+		if (!this.getID().equals(arco.getID())) return false;
+		if(this.getPeso() != arco.getPeso()) return false;
+		return true;
 	}
 
 	@Override
