@@ -36,6 +36,15 @@ public class Posto extends Nodo {
 	}
 
 	@Override
+    //TODO: come risolviamo il problema della marcatura??
+	// quando faccio il toString dell'arco viene richimato il toString dei posti il quale a sua volta riporta la marcatura
+	public String toString() {
+		String toReturn = super.toString();
+		if(token != -1) toReturn += " marcatura: " + token;
+		return toReturn;
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(token);
 	}

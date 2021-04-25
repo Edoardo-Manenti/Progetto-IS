@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class IOContext {
     private String wdPath = "Reti";
     private File wd;
+    private String extension = ".json";
     private String separatore;
     public static HashMap<String,File> fileSalvati;
 
@@ -24,12 +25,24 @@ public class IOContext {
         }
     }
 
+    public boolean containsFile(String name){
+        return fileSalvati.containsKey(name);
+    }
+
     public void addFile(String nomeFile, File file){
         this.fileSalvati.put(nomeFile, file);
     }
 
     public HashMap<String, File> getFileSalvati() {
         return this.fileSalvati;
+    }
+
+    public String getExtension(){
+        return this.extension;
+    }
+
+    public File getWd() {
+        return this.wd;
     }
 
     public String getWdPath() {

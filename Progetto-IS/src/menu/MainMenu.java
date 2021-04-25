@@ -50,7 +50,7 @@ public class MainMenu {
 
     //TODO: Discriminare fra N, PN e PNP -> Usare metodo intermedio
     public static void visualizzaReteN(){
-        int nrretiSalvate = ioRete.numeroRetiSalvate();
+        int nrretiSalvate = ioRete.getNomiRetiN().size();
         if(nrretiSalvate == 0){
             System.out.println("Non ci sono reti salvate al momento");
         }
@@ -96,7 +96,7 @@ public class MainMenu {
     }
 
     private static void visualizzaRetiPN() {
-        int nrretiSalvate = ioRete.numeroRetiSalvate();
+        int nrretiSalvate = ioRete.getNomiRetiPN().size();
         if(nrretiSalvate == 0){
             System.out.println("Non ci sono reti salvate al momento");
         }

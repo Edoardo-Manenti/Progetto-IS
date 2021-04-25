@@ -19,18 +19,37 @@ public class IOUtils {
 		return new ArrayList<>(ioContext.getFileSalvati().keySet());
 	}
 	//TODO: Controllo su nome file da aggiungere-> per file (1)
+
 	public boolean salvaFile(String nomeFile, String contenutoFile) {
-		File file = new File(ioContext.getWdPath()+ioContext.getSeparatore() + nomeFile + ".json");
+		nomeFile = makeUnique(nomeFile);
+		//TODO: rendi riga sottostante un metodo
+		//forse: rendi anche makeUnique un metodo di IOContext
+		String filePath = ioContext.getWdPath()+ioContext.getSeparatore() + nomeFile + ioContext.getExtension();
+		File file = new File(filePath);
 		try ( FileWriter writer = new FileWriter(file))
 		{
 			writer.write(contenutoFile);
-			this.ioContext.addFile(nomeFile+".json", file);
+			this.ioContext.addFile(nomeFile + ioContext.getExtension(), file);
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
 		return true;
+	}
+
+	public String makeUnique(String nomeFile) {
+		String nuovoNome = nomeFile;
+		String filePath = ioContext.getWdPath()+ioContext.getSeparatore() + nuovoNome + ioContext.getExtension();
+		File file = new File(filePath);
+		int i = 1;
+		while(file.exists()){
+			nuovoNome = nomeFile + "(" + i + ")";
+			filePath = ioContext.getWdPath()+ioContext.getSeparatore() + nuovoNome + ioContext.getExtension();
+			file = new File(filePath);
+			i++;
+		}
+		return nuovoNome;
 	}
 	
 	public String caricaFile(String nomeFile) throws IOException{

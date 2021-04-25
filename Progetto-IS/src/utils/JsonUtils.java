@@ -102,7 +102,7 @@ public  class JsonUtils {
 			JSONObject obj = (JSONObject) elem;
 			Posto p = (Posto)retePN.getNodo(obj.getString("nodo"));
 			int nToken = obj.getInt("n_token");
-			if(p != null && nToken > 0) p.setToken(nToken);
+			if(p != null && nToken >= 0) p.setToken(nToken);
 			else throw new IOException("JSON incorretto: marcatura sintatticamente sbagliata");
 		}
 		return retePN;
