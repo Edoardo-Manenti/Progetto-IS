@@ -5,9 +5,11 @@ import model.Arco;
 import model.Nodo;
 import model.Rete;
 import model.Posto;
+import model.Transizione;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class RetePN extends Rete{
@@ -66,18 +68,69 @@ public class RetePN extends Rete{
 	}
 	
 	//VERSIONE 3: da togliere prima di branchare versione 2
-//	public List<Transizione> transizioniAttive(){
-//		//controllare 
-//	}
+	// return null se non ci sono transizioni attive
+	public List<Transizione> transizioniAttive(){
+	// 1) trovare le transizioni
+	// 2) isoliamo gli archi entranti.
+	// token in origin >= peso dell'arco
+	//3) se tutti gli archi sono attivi -> transizione abilitata
+		ArrayList<Transizione> transAbilitate = new ArrayList<>();
+		for (Nodo n : this.getNodi().values()){
+			if(n.isPosto()){
+				return null;
+			}
+			ArrayList<Arco> archiEntranti = new ArrayList<>();
+			for(Arco arco : this.getArchi()) {
+				if(arco.getDestination().equals(n)){
+					archiEntranti.add(arco);
+				}
+			}
+
+			boolean transAbilitata = true;
+			for(Arco arco : archiEntranti) {
+			Posto origin = (Posto)arco.getOrigin();
+			int nToken = origin.getToken();
+			if(nToken < arco.getPeso()) transAbilitata = false;
+			}
+			if(transAbilitata) transAbilitate.add((Transizione) n);
+		}
+		return transAbilitate;
+	}
 	
-//
-//	public boolean scattaTransizione(Transizione t) {
-//		// sposta i token
-//	}
+
+	public void scattaTransizione(Transizione t) {
+		//1)in Origin: nToken = nTokenOld - pesoArco
+		//2)in Destination: nToken  = nTokenOld + pesoArco
+		//3) ripetere per ogni arco entrante e uscente.
+
+		ArrayList<Arco> archiEntranti = new ArrayList<>();
+		for(Arco arco : this.getArchi()) {
+			if(arco.getDestination().equals(t)){
+				archiEntranti.add(arco);
+			}
+		}
+		ArrayList<Arco> archiUscenti = new ArrayList<>();
+		for(Arco arco : this.getArchi()) {
+			if(arco.getOrigin().equals(t)){
+				archiUscenti.add(arco);
+			}
+		}
+
+		for(Arco a : archiEntranti) {
+			Posto p = (Posto)a.getOrigin();
+			int nToken = p.getToken();
+			p.setToken(nToken - a.getPeso());
+		}
+		for(Arco a : archiUscenti) {
+			Posto p = (Posto)a.getOrigin();
+			int nToken = p.getToken();
+			p.setToken(nToken + a.getPeso());
+		}
+	}
 
  	 //TODO: vedere i metodi sopra
 	public boolean hasTransizioniAbilitate() {
-		return false;
+		return transizioniAttive().size() > 0;
 	}
 
 
