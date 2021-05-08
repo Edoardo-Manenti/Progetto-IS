@@ -71,9 +71,9 @@ public class MenuCreaRetePN {
             int nuovoT = InputDati.leggiInteroPositivo("Digitare il nuovo valore del token >");
             daModificare = lista_posti.get(scelta).getId();
             nuovaRete.setToken(daModificare, nuovoT);
-            System.out.println("Token modificato");
+            System.out.println("\nToken modificato");
         }else{
-            System.out.println("Nessun token modificato.");
+            System.out.println("\nNessun token modificato.");
         }
 
     }
@@ -93,9 +93,9 @@ public class MenuCreaRetePN {
             daModificare = listaArchi.get(scelta).getID();
             int nuovoPeso = InputDati.leggiInteroPositivo("Digitare il nuovo peso dell'arco >");
             nuovaRete.setPesoArco(daModificare, nuovoPeso);
-            System.out.println("Arco modificato");
+            System.out.println("\nArco modificato");
         }else{
-            System.out.println("Nessun arco modificato.");
+            System.out.println("\nNessun arco modificato.");
         }
     }
 
@@ -106,9 +106,9 @@ public class MenuCreaRetePN {
             boolean salvata;
             salvata = (ioRete.salvaRetePN(nuovaRete, nomeReteN));
             if (!(salvata)) {
-                System.out.println("Rete identica strutturalmente a una già presente in locale. Impossibile inserire");
+                System.out.println("\nRete identica strutturalmente a una già presente in locale. Impossibile inserire");
                 isFinita = false;
             }
-            else System.out.println("Rete salvata.");
+            else System.out.println("\nRete salvata.");
     }
 }

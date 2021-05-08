@@ -61,9 +61,9 @@ public class MenuCreaReteN {
         do{
             String idNodo = InputDati.leggiStringaNonVuota("Inserire il nome del posto da aggiungere: ");
             aggiunto = nuovaRete.creaNodo(idNodo, true);
-            if (!(aggiunto)) System.out.println("Nome non corretto, già in uso. Riprovare");
+            if (!(aggiunto)) System.out.println("\nNome non corretto, gi� in uso. Riprovare");
         }while (!aggiunto);
-        System.out.println("Il posto è stato aggiunto correttamente.");
+        System.out.println("\nIl posto � stato aggiunto correttamente.");
     }
 
     private void aggiungiTransizione(){
@@ -71,9 +71,9 @@ public class MenuCreaReteN {
         do{
             String idTransizione = InputDati.leggiStringaNonVuota("Inserire il nome della transizione da aggiungere: ");
             aggiunto = nuovaRete.creaNodo(idTransizione, false);
-            if (!(aggiunto)) System.out.println("Nome non corretto, già in uso. Riprovare");
+            if (!(aggiunto)) System.out.println("\nNome non corretto, gi� in uso. Riprovare");
         }while (!aggiunto);
-        System.out.println("La transizione è stato aggiunta correttamente.");
+        System.out.println("\nLa transizione � stata aggiunta correttamente.");
     }
 
     private void aggiungiArco(){
@@ -84,7 +84,7 @@ public class MenuCreaReteN {
             String origine = InputDati.leggiStringaNonVuota("Inserire il nome del nodo origine dell'arco: ");
             contenuto = nuovaRete.containsNodo(origine);
             if (contenuto) o = nuovaRete.getNodo(origine);
-            else System.out.println("Nodo non presente. Riprovare");
+            else System.out.println("\nNodo non presente. Riprovare");
         }while (!contenuto);
 
         contenuto = false;
@@ -94,13 +94,13 @@ public class MenuCreaReteN {
             String destinazione = InputDati.leggiStringaNonVuota("Inserire il nome del nodo destinazione dell'arco: ");
             contenuto = nuovaRete.containsNodo(destinazione);
             if (contenuto) d = nuovaRete.getNodo(destinazione);
-            else System.out.println("Nodo non presente. Riprovare");
+            else System.out.println("\nNodo non presente. Riprovare");
         }while (!contenuto);
         Arco arco = new Arco(o, d);
         if(nuovaRete.aggiungiArco(arco))
-            System.out.println("L'arco "+ arco.toString() + " è stato aggiunto correttamente");
+            System.out.println("\nL'arco "+ arco.toString() + " è stato aggiunto correttamente");
         else{
-            System.out.println("L'arco "+ arco.toString() + " era già presente o non valido");
+            System.out.println("\nL'arco "+ arco.toString() + " era già presente o non valido");
         }
     }
 
@@ -120,19 +120,19 @@ public class MenuCreaReteN {
             boolean elimina = InputDati.yesOrNo("Sicuro di voler eliminare il nodo "+ daEliminare.toString() + "?");
             if(elimina){
                 nuovaRete.eliminaNodo(daEliminare.getId());
-                System.out.println("Nodo eliminato.");
+                System.out.println("\nNodo eliminato.");
             }else{
-                System.out.println("Nodo non eliminato.");
+                System.out.println("\nNodo non eliminato.");
             }
         }else{
-            System.out.println("Errore di digitazione. Riprovare");
+            System.out.println("\nErrore di digitazione. Riprovare");
         }
     }
 
     private void eliminaArco(){
         ArrayList<Arco> listaArchi = nuovaRete.getArchi();
         if(listaArchi.isEmpty()){
-            System.out.println("Non ci sono archi salvati");
+            System.out.println("\nNon ci sono archi salvati");
             return;
         }
         System.out.println("Gli archi attualmente nella rete sono i seguenti: ");
@@ -149,12 +149,12 @@ public class MenuCreaReteN {
             boolean elimina = InputDati.yesOrNo("Sicuro di voler eliminare l'arco "+ daEliminare.toString() + "?");
             if(elimina){
                 nuovaRete.eliminaArco(daEliminare);
-                System.out.println("Arco eliminato.");
+                System.out.println("\nArco eliminato.");
             }else{
-                System.out.println("Arco non eliminato.");
+                System.out.println("\nArco non eliminato.");
             }
         }else{
-            System.out.println("Nessun arco è stato eliminato.");
+            System.out.println("\nNessun arco è stato eliminato.");
         }
     }
 
@@ -169,14 +169,14 @@ public class MenuCreaReteN {
                 if (!(salvata)) System.out.println("Rete gi� presente in locale");
             } while (!salvata);
 
-            System.out.println("Rete salvata.");
+            System.out.println("\nRete salvata.");
             System.out.println("\n" + nuovaRete.toString());
         }
         else{
             //La rete non è corretta
             //showErrors()
             isFinita = false;
-            System.out.println("La rete presenta delle incorrettezze e' necessario modificarla");
+            System.out.println("\nLa rete presenta delle incorrettezze e' necessario modificarla");
         }
     }
 }
