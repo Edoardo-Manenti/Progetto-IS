@@ -75,6 +75,12 @@ public class RetePN extends Rete{
 //		// sposta i token
 //	}
 
+ 	 //TODO: vedere i metodi sopra
+	public boolean hasTransizioniAbilitate() {
+		return false;
+	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals((Rete)obj);

@@ -14,7 +14,7 @@ public class MainMenu {
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +
                                                   "visualizzare e modificare delle reti di Petri. " +
                                                   "\n Cosa desidera fare?",
-                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Crea nuova rete PN"});
+                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN"});
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
@@ -89,9 +89,29 @@ public class MainMenu {
             case 4:
                 creaRetePN();
                 break;
+            case 5:
+                evoluzioneRetePN();
             default:
                 ;
                 break;
+        }
+    }
+
+    private static void evoluzioneRetePN() {
+        int nrretiSalvate = ioRete.getNomiRetiPN().size();
+        if(nrretiSalvate == 0){
+            System.out.println("Non ci sono reti salvate al momento");
+        }
+        else {
+            List<String> listaReti = ioRete.getNomiRetiPN();
+            for (int i=0; i<listaReti.size(); i++)
+            {
+                System.out.println( (i) + "\t" + listaReti.get(i));
+            }
+            int scelta = InputDati.leggiIntero("Digitare il numero della rete per cui mostrare l'evoluzione >",
+                    0, nrretiSalvate-1);
+            String reteDaEvolvere = listaReti.get(scelta);
+            new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
         }
     }
 
