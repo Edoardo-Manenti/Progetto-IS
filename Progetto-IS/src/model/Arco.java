@@ -32,11 +32,11 @@ public class Arco {
 	public String toString() {
 		if(peso == 0) {
 		//Arco non PN
-			return origin.toString() + "->" + destination.toString();
+			return origin.getId() + "->" + destination.getId();
 		}
 		//Arco PN
 		else{
-			return 	origin.toString() + "->" + destination.toString() + " Peso: "+ peso;
+			return 	origin.getId() + "->" + destination.getId() + " Peso: "+ peso;
 		}
 	}
 

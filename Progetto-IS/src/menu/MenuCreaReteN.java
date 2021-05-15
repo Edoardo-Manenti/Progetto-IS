@@ -101,7 +101,7 @@ public class MenuCreaReteN {
         if(nuovaRete.aggiungiArco(arco))
             System.out.println("\nL'arco "+ arco.toString() + " e' stato aggiunto correttamente");
         else{
-            System.out.println("\nL'arco "+ arco.toString() + " era gia' presente o non valido");
+            System.out.println("\nL'arco "+ arco.toString() + " era gia' presente o non valido ");
         }
     }
 

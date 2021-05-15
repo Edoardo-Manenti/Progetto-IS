@@ -63,6 +63,9 @@ public class Rete {
 		if (this.archi.contains(arco)) {
 			return false;
 		}
+		else if(arco.getOrigin().isPosto() == arco.getDestination().isPosto()){
+			return false; //Controllo diversità
+		}
 		else
 		{
 			Nodo o = arco.getOrigin();
