@@ -1,0 +1,1 @@
+{"nodi":[{"prec":[],"succ":["t1","t2"],"id":"p1","type":"POSTO"},{"prec":["t2"],"succ":[],"id":"p2","type":"POSTO"},{"prec":["p1"],"succ":[],"id":"t1","type":"TRANSIZIONE"},{"prec":["p1"],"succ":["p2"],"id":"t2","type":"TRANSIZIONE"}],"idrete":"Terra","object":"RETE"}

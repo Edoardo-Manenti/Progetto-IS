@@ -77,7 +77,7 @@ public class RetePN extends Rete{
 		ArrayList<Transizione> transAbilitate = new ArrayList<>();
 		for (Nodo n : this.getNodi().values()){
 			if(n.isPosto()){
-				return null;
+				continue;
 			}
 			ArrayList<Arco> archiEntranti = new ArrayList<>();
 			for(Arco arco : this.getArchi()) {
@@ -115,6 +115,8 @@ public class RetePN extends Rete{
 				archiUscenti.add(arco);
 			}
 		}
+ 		//TODO: Come gestisco se la transizione non ha archi uscenti?
+		// Cancello solo i token e li faccio sparire come in un pilone della Salerno-Reggio Calabria?
 
 		for(Arco a : archiEntranti) {
 			Posto p = (Posto)a.getOrigin();
@@ -122,7 +124,7 @@ public class RetePN extends Rete{
 			p.setToken(nToken - a.getPeso());
 		}
 		for(Arco a : archiUscenti) {
-			Posto p = (Posto)a.getOrigin();
+			Posto p = (Posto)a.getDestination();
 			int nToken = p.getToken();
 			p.setToken(nToken + a.getPeso());
 		}
