@@ -75,7 +75,7 @@ public class MenuCreaReteN {
         }while (!aggiunto);
         System.out.println("\nLa transizione Ë stata aggiunta correttamente.");
     }
-
+    //TODO: Aggiungere check su o e d che siano entit‡ di tipo diverso
     private void aggiungiArco(){
         boolean contenuto = false;
 
@@ -96,11 +96,12 @@ public class MenuCreaReteN {
             if (contenuto) d = nuovaRete.getNodo(destinazione);
             else System.out.println("\nNodo non presente. Riprovare");
         }while (!contenuto);
+
         Arco arco = new Arco(o, d);
         if(nuovaRete.aggiungiArco(arco))
-            System.out.println("\nL'arco "+ arco.toString() + " √® stato aggiunto correttamente");
+            System.out.println("\nL'arco "+ arco.toString() + " e' stato aggiunto correttamente");
         else{
-            System.out.println("\nL'arco "+ arco.toString() + " era gi√† presente o non valido");
+            System.out.println("\nL'arco "+ arco.toString() + " era gia' presente o non valido ");
         }
     }
 
