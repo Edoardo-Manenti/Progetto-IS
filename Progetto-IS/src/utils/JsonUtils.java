@@ -1,10 +1,12 @@
 package utils;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import model.*;
 import modelPN.RetePN;
 
+import modelPNP.RetePNP;
 import org.json.*;
 
 
@@ -78,6 +80,10 @@ public  class JsonUtils {
 			//rete
 			return parsaRetePN(jsonString);
 		}
+		else if(tipoRete.equals("RETE_PNP")) {
+			//rete PnP
+			return parsaRetePNP(jsonString);
+		}
 		else throw new IOException("Formato JSON incorretto");
 	}
 	
@@ -131,6 +137,23 @@ public  class JsonUtils {
 				parsaArchi(prec, rete, n, true);
 			}
 			return rete;
+	}
+
+	private static RetePNP parsaRetePNP(String jsonString) {
+		JSONObject jsonObj = new JSONObject(jsonString);
+		RetePN retePN = io.caricaRete(jsonObj.getString("retePortante"));
+		if (retePN == null) throw new Exception("Rete portante non presente in forma persistente");
+		RetePNP rete = new RetePNP(retePN);
+		HashMap<Transizione, Integer> mappa_priority = new HashMap<>();
+		JSONArray lista_priorità = jsonObj.getJSONArray("priority_list");
+		for (Object elem : lista_priorità) {
+			JSONObject trans = (JSONObject) elem;
+			Transizione t = rete.getNodo(trans.getString("id"));
+			int priorità = trans.getInt("priority");
+			mappa_priority.put(t, priorità);
+		}
+		rete.setPriorità(mappa_priority);
+		return rete;
 	}
 
 	private static void parsaArchi(JSONArray array, Rete rete, Nodo n, boolean precedenti) {
