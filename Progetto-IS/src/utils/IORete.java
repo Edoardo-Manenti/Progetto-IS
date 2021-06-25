@@ -39,6 +39,8 @@ public class IORete {
 		return lista;
 	}
 
+	//TODO: getNomiRetiPNP()
+
 	public int numeroRetiSalvate() {
 		return io.getNomiFileSalvati().size();
 	}

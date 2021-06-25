@@ -28,7 +28,7 @@ public class MenuCreaRetePN {
         nomeReteN = rete.getID();
     }
 
-    public void loopCreaReteN(){
+    public void loopCreaRetePN(){
         int scelta;
         do{
             scelta = creazioneRete.scegli();

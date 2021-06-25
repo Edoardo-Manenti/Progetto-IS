@@ -141,18 +141,22 @@ public  class JsonUtils {
 
 	private static RetePNP parsaRetePNP(String jsonString) {
 		JSONObject jsonObj = new JSONObject(jsonString);
-		RetePN retePN = io.caricaRete(jsonObj.getString("retePortante"));
-		if (retePN == null) throw new Exception("Rete portante non presente in forma persistente");
+		RetePN retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
+		if (retePN == null) try {
+			throw new Exception("Rete portante non presente in forma persistente");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		RetePNP rete = new RetePNP(retePN);
 		HashMap<Transizione, Integer> mappa_priority = new HashMap<>();
 		JSONArray lista_priorità = jsonObj.getJSONArray("priority_list");
 		for (Object elem : lista_priorità) {
 			JSONObject trans = (JSONObject) elem;
-			Transizione t = rete.getNodo(trans.getString("id"));
+			Transizione t = (Transizione) rete.getNodo(trans.getString("id"));
 			int priorità = trans.getInt("priority");
 			mappa_priority.put(t, priorità);
 		}
-		rete.setPriorità(mappa_priority);
+		rete.setPriority(mappa_priority);
 		return rete;
 	}
 

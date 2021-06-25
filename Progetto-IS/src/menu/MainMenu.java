@@ -1,6 +1,7 @@
 package menu;
 
 import model.Rete;
+import modelPN.RetePN;
 import utils.IORete;
 import utils.InputDati;
 
@@ -14,7 +15,7 @@ public class MainMenu {
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +
                                                   "visualizzare e modificare delle reti di Petri. " +
                                                   "\n Cosa desidera fare?",
-                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN"});
+                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Visualizza reti PNP salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP", "Mostra evoluzione di una reete PNP"});
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
@@ -44,8 +45,22 @@ public class MainMenu {
         String reteSelezionata = listaReti.get(scelta);
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
-        new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata)).loopCreaReteN();
+        new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata)).loopCreaRetePN();
     }
+    private static void creaRetePNP() {
+        List<String> listaReti = ioRete.getNomiRetiPN();
+        for (int i=0; i<listaReti.size(); i++)
+        {
+            System.out.println( (i) + "\t" + listaReti.get(i));
+        }
+        int scelta = InputDati.leggiIntero("Digitare il numero della rete da selezionare come Rete PN di riferimento >",
+                0, listaReti.size() -1);
+        String reteSelezionata = listaReti.get(scelta);
+        System.out.println("Hai selezionato la rete "+ reteSelezionata);
+
+        new MenuCreaRetePNP((RetePN) ioRete.caricaRete(reteSelezionata)).loopCreaRetePNP();
+    }
+
 
 
     //TODO: Discriminare fra N, PN e PNP -> Usare metodo intermedio
@@ -87,13 +102,40 @@ public class MainMenu {
                 visualizzaRetiPN();
                 break;
             case 4:
-                creaRetePN();
+                visualizzaRetiPNP();
                 break;
             case 5:
+                creaRetePN();
+                break;
+            case 6:
                 evoluzioneRetePN();
+                break;
+            case 7:
+                creaRetePNP();
+            case 8:
+                evoluzioneRetePNP();
             default:
                 ;
                 break;
+        }
+    }
+
+    //TODO: Check se funziona anche con reti PNP
+    private static void evoluzioneRetePNP() {
+        int nrretiSalvate = ioRete.getNomiRetiPNP().size();
+        if(nrretiSalvate == 0){
+            System.out.println("Non ci sono reti salvate al momento");
+        }
+        else {
+            List<String> listaReti = ioRete.getNomiRetiPNP();
+            for (int i=0; i<listaReti.size(); i++)
+            {
+                System.out.println( (i) + "\t" + listaReti.get(i));
+            }
+            int scelta = InputDati.leggiIntero("Digitare il numero della rete per cui mostrare l'evoluzione >",
+                    0, nrretiSalvate-1);
+            String reteDaEvolvere = listaReti.get(scelta);
+            new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
         }
     }
 
@@ -122,6 +164,25 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiPN();
+            for (int i=0; i<listaReti.size(); i++)
+            {
+                System.out.println( (i) + "\t" + listaReti.get(i));
+            }
+            int scelta = InputDati.leggiIntero("Digitare il numero della rete da visualizzare >",
+                    0, nrretiSalvate-1);
+            String reteDaVisualizzare = listaReti.get(scelta);
+            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
+        }
+    }
+
+    //TODO: Check con nuovo metodo di Edo
+    private static void visualizzaRetiPNP() {
+        int nrretiSalvate = ioRete.getNomiRetiPNP().size();
+        if(nrretiSalvate == 0){
+            System.out.println("Non ci sono reti salvate al momento");
+        }
+        else {
+            List<String> listaReti = ioRete.getNomiRetiPNP();
             for (int i=0; i<listaReti.size(); i++)
             {
                 System.out.println( (i) + "\t" + listaReti.get(i));

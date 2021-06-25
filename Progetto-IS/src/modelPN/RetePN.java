@@ -22,7 +22,7 @@ public class RetePN extends Rete{
     // - Nel ManagerRete aggiungere importazione reteN
     // - Gestire il salvataggio delle retiPN
 
-	
+
 	public RetePN(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi){
 		super(id,archi,nodi);
 		convertiAPN();
@@ -44,9 +44,6 @@ public class RetePN extends Rete{
 			for(Arco a: this.getArchi()){
 				a.setPeso(1);
 			}
-			//Qui c'è da fare il calcolo per le transizioni
-			//TODO: retePN.settaTransizioni();
-			settaTransizioni();
 	}
 	
 	public void setPesoArco(String id, int peso) {
@@ -61,12 +58,7 @@ public class RetePN extends Rete{
 		Nodo n = this.getNodi().get(id);
 		((Posto)n).setToken(token);
 	}
-	
-	
-	private void settaTransizioni() {
-		
-	}
-	
+
 	//VERSIONE 3: da togliere prima di branchare versione 2
 	// return null se non ci sono transizioni attive
 	public List<Transizione> transizioniAttive(){
