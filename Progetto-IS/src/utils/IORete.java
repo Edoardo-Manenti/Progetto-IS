@@ -40,6 +40,14 @@ public class IORete {
 	}
 
 	//TODO: getNomiRetiPNP()
+	public List<String> getNomiRetiPNP() {
+		ArrayList<String> lista = new ArrayList<>();
+		for(String s : io.getNomiFileSalvati()) {
+			Rete r = caricaRete(s);
+			if(r != null && r.getClass() == "RetePNP") lista.add(s);
+		}
+	}
+
 
 	public int numeroRetiSalvate() {
 		return io.getNomiFileSalvati().size();

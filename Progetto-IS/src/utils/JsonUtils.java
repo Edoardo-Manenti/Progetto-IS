@@ -67,6 +67,24 @@ public  class JsonUtils {
 		jsonObj.put("marcatura", arrayMarcatura);
 		return jsonObj.toString();
 	}
+
+	public static String compilaJson(RetePNP rete, String retePortante) {
+		JsonObject jsonObj = new JSONObject();
+		jsonObj.put("object", "RETE_PNP");
+		jsonObj.put("retePortante", retePortante + ".json");
+		JSONArray arrayPriority = new JSONArray();
+		var mappa_priority = rete.getPriority();
+		for(Transizione t : mappa_priority.keySet()) {
+			JSONObject trans = new JSONObject();
+			trans.put("id", t.getId());
+			trans.put("priority", mappa_priority.get(t));
+			arrayPriority.put(trans);
+		}
+		jsonObj.put("priority_list");
+		return jsonObj.toString();
+	}
+
+
 	
 	// per retePN: controllo che pesi e token > 0
 	public static Rete parsaJson(String jsonString) throws IOException {
@@ -139,14 +157,11 @@ public  class JsonUtils {
 			return rete;
 	}
 
-	private static RetePNP parsaRetePNP(String jsonString) {
+	private static RetePNP parsaRetePNP(String jsonString) throws Exception{
 		JSONObject jsonObj = new JSONObject(jsonString);
 		RetePN retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
-		if (retePN == null) try {
+		if (retePN == null)
 			throw new Exception("Rete portante non presente in forma persistente");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		RetePNP rete = new RetePNP(retePN);
 		HashMap<Transizione, Integer> mappa_priority = new HashMap<>();
 		JSONArray lista_priorità = jsonObj.getJSONArray("priority_list");

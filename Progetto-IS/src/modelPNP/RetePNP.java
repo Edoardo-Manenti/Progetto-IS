@@ -11,7 +11,6 @@ import java.util.List;
 
 public class RetePNP extends RetePN {
 
-
     HashMap<Transizione, Integer> priority;
 
     public RetePNP(String id, ArrayList<Arco> archi, HashMap<String, Nodo> nodi) {
