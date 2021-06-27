@@ -1,18 +1,13 @@
 package menu;
 
-import model.Arco;
-import model.Nodo;
-import model.Rete;
 import model.Transizione;
 import modelPN.RetePN;
 import modelPNP.RetePNP;
 import utils.IORete;
 import utils.InputDati;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MenuCreaRetePNP {
     private static final IORete ioRete = new IORete();
@@ -33,7 +28,7 @@ public class MenuCreaRetePNP {
         do{
             scelta = modificaRete.scegli();
             if(scelta == 1){
-                modificaPriorità();
+                modificaPriorita();
             }
             else if(scelta == 2){
                 terminaModifiche();
@@ -45,14 +40,14 @@ public class MenuCreaRetePNP {
         isFinita = false;
     }
 
-    private void modificaPriorità() {
+    private void modificaPriorita() {
         List<Transizione> listaTransizioni = retePNP.getTransizioni();
-        HashMap<Transizione, Integer> priorità = retePNP.getPriority();
+        HashMap<Transizione, Integer> priorita = retePNP.getPriority();
         System.out.println("Le transizioni attualmente nella rete sono i seguenti: ");
 
         for (int i=0; i<listaTransizioni.size(); i++)
         {
-            System.out.println( (i) + "\t" + listaTransizioni.get(i) + "- priority :" + priorità.get(listaTransizioni.get(i)));
+            System.out.println( (i) + "\t" + listaTransizioni.get(i) + "- priority :" + priorita.get(listaTransizioni.get(i)));
         }
         int scelta = InputDati.leggiIntero("Digitare il numero della transizione per modificarne la priorità (digitare -1 per non modificarne nessuno) >",
                 -1, listaTransizioni.size()-1);
