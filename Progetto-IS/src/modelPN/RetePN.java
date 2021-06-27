@@ -27,7 +27,10 @@ public class RetePN extends Rete{
 		super(id,archi,nodi);
 		convertiAPN();
 	}
-	
+
+	public RetePN( RetePN r) {
+		super(r.getID(), r.getArchi(), r.getNodi());
+	}
 	
 	public RetePN(Rete r) {
 		super(r.getID(), r.getArchi(), r.getNodi());

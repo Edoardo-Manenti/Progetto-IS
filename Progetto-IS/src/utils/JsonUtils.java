@@ -18,7 +18,7 @@ import org.json.*;
 public  class JsonUtils {
 	private static final IORete io = new IORete();
 	public static String compilaJson(Rete rete) {
-		if(rete.isPN()) compilaJson((RetePN) rete, rete.getID());
+		if(rete.getType().equals("RetePN")) compilaJson((RetePN) rete, rete.getID());
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE");
 		String idRete = rete.getID();
@@ -45,7 +45,7 @@ public  class JsonUtils {
 	public static String compilaJson(RetePN rete, String retePortante) {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE_PN");
-		jsonObj.put("retePortante", retePortante + ".json");
+		jsonObj.put("retePortante", retePortante);
 		JSONArray arrayPesi = new JSONArray();
 		for(Arco arco : rete.getArchi()) {
 			JSONObject elem = new JSONObject();
@@ -69,9 +69,9 @@ public  class JsonUtils {
 	}
 
 	public static String compilaJson(RetePNP rete, String retePortante) {
-		JsonObject jsonObj = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE_PNP");
-		jsonObj.put("retePortante", retePortante + ".json");
+		jsonObj.put("retePortante", retePortante);
 		JSONArray arrayPriority = new JSONArray();
 		var mappa_priority = rete.getPriority();
 		for(Transizione t : mappa_priority.keySet()) {
@@ -80,7 +80,7 @@ public  class JsonUtils {
 			trans.put("priority", mappa_priority.get(t));
 			arrayPriority.put(trans);
 		}
-		jsonObj.put("priority_list");
+		jsonObj.put("priority_list", arrayPriority);
 		return jsonObj.toString();
 	}
 
@@ -157,7 +157,7 @@ public  class JsonUtils {
 			return rete;
 	}
 
-	private static RetePNP parsaRetePNP(String jsonString) throws Exception{
+	private static RetePNP parsaRetePNP(String jsonString) throws IOException{
 		JSONObject jsonObj = new JSONObject(jsonString);
 		RetePN retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
 		if (retePN == null)

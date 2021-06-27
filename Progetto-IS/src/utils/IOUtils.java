@@ -18,7 +18,6 @@ public class IOUtils {
 	public List<String> getNomiFileSalvati() {
 		return new ArrayList<>(ioContext.getFileSalvati().keySet());
 	}
-	//TODO: Controllo su nome file da aggiungere-> per file (1)
 
 	public boolean salvaFile(String nomeFile, String contenutoFile) {
 		nomeFile = makeUnique(nomeFile);

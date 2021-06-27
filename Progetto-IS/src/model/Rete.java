@@ -30,9 +30,9 @@ public class Rete {
 		this.archi = archi;
 		this.nodi = nodi;
 	}
-	
-	public boolean isPN() {
-		return this instanceof RetePN;
+
+    public String getType() {
+		return "ReteN";
 	}
 
 	//Interfaccia pubblica

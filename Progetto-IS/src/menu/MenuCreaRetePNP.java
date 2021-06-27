@@ -23,9 +23,9 @@ public class MenuCreaRetePNP {
     private String nomeRetePN;
     private boolean isFinita = false;
 
-    public MenuCreaRetePNP(RetePN rete){
+    public MenuCreaRetePNP(RetePN rete, String nomeRetePN){
         retePNP = new RetePNP(rete);
-        nomeRetePN = rete.getID();
+        this.nomeRetePN = nomeRetePN;
     }
 
     public void loopCreaRetePNP(){

@@ -45,7 +45,7 @@ public class MainMenu {
         String reteSelezionata = listaReti.get(scelta);
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
-        new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata)).loopCreaRetePN();
+        new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata), reteSelezionata).loopCreaRetePN();
     }
     private static void creaRetePNP() {
         List<String> listaReti = ioRete.getNomiRetiPN();
@@ -58,7 +58,7 @@ public class MainMenu {
         String reteSelezionata = listaReti.get(scelta);
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
-        new MenuCreaRetePNP((RetePN) ioRete.caricaRete(reteSelezionata)).loopCreaRetePNP();
+        new MenuCreaRetePNP((RetePN) ioRete.caricaRete(reteSelezionata), reteSelezionata).loopCreaRetePNP();
     }
 
 
@@ -112,8 +112,10 @@ public class MainMenu {
                 break;
             case 7:
                 creaRetePNP();
+                break;
             case 8:
                 evoluzioneRetePNP();
+                break;
             default:
                 ;
                 break;

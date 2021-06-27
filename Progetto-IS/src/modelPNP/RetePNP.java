@@ -49,10 +49,16 @@ public class RetePNP extends RetePN {
             else if(prioritaCorrente > max){
                 listaDaRitornare.clear();
                 listaDaRitornare.add(t);
+                max = prioritaCorrente;
             }
         }
         return listaDaRitornare;
 
+    }
+
+    @Override
+    public String getType(){
+        return "RetePNP";
     }
 
     @Override

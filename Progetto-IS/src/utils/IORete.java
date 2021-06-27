@@ -5,9 +5,7 @@ import modelPN.RetePN;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 
@@ -25,7 +23,7 @@ public class IORete {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
 			Rete r = caricaRete(s);
-			if(r!= null && !r.isPN()) lista.add(s);
+			if(r!= null && (r.getType().equals("ReteN"))) lista.add(s);
 		}
 		return lista;
 	}
@@ -34,7 +32,7 @@ public class IORete {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
 			Rete r = caricaRete(s);
-			if(r!=null && r.isPN()) lista.add(s);
+			if(r!=null && r.getType().equals("RetePN")) lista.add(s);
 		}
 		return lista;
 	}
@@ -44,8 +42,9 @@ public class IORete {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
 			Rete r = caricaRete(s);
-			if(r != null && r.getClass() == "RetePNP") lista.add(s);
+			if(r != null && r.getType().equals("RetePNP")) lista.add(s);
 		}
+		return lista;
 	}
 
 
@@ -82,7 +81,7 @@ public class IORete {
 			}
 		}
 		for(Rete r : retiSalvate) {
-			if(r.equals(nuovaRete)) {
+			if((r.getType().equals(nuovaRete.getType())) && r.equals(nuovaRete)) {
 				return false;
 			}
 		}
