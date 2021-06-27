@@ -15,7 +15,7 @@ public class MainMenu {
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +
                                                   "visualizzare e modificare delle reti di Petri. " +
                                                   "\n Cosa desidera fare?",
-                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Visualizza reti PNP salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP", "Mostra evoluzione di una reete PNP"});
+                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Visualizza reti PNP salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP", "Mostra evoluzione di una rete PNP"});
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali

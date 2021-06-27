@@ -2,6 +2,7 @@ package modelPNP;
 
 import model.Arco;
 import model.Nodo;
+import model.Rete;
 import model.Transizione;
 import modelPN.RetePN;
 
@@ -63,18 +64,40 @@ public class RetePNP extends RetePN {
     }
 
     @Override
-    public boolean equals(Object o) {
-       if(!super.equals(o)) return false;
-       else{
-            RetePNP rete = (RetePNP) o;
-            //Le due liste di transizioni devono essere uguali
-            if(!this.priority.keySet().containsAll(rete.priority.keySet())) return false;
-           for (Transizione t : this.priority.keySet()) {
-               if(!rete.priority.get(t).equals(this.priority.get(t))) return false;//se due transizioni uguali hanno priorità diverse esplode tutto
-           }
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: " + this.getID()).append("\n\n");
+        sb.append("NODI:").append("\n");
+        for (Nodo n : this.getNodi().values()) {
+            if(n.isTransizione()){
+                sb.append(n.toString() + " priorita': " + this.priority.get((Transizione)n)).append("\n");
+            }
+            else{
+                sb.append(n.toString()).append("\n");
 
-           //arrivato qui ho fatto tutti i controlli
-           return true;
+            }
+        }
+        sb.append("\n").append("ARCHI:").append("\n");
+        for (Arco a:this.getArchi())
+            sb.append(a.toString()).append("\n");
+
+        return sb.toString();
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals((Rete)obj);
+    }
+
+    public boolean equals(Rete rete) {
+       if(!super.equals(rete)) return false;
+       else if(rete instanceof RetePNP){
+           RetePNP r = (RetePNP) rete;
+            //Le due liste di transizioni devono essere uguali
+            if(!this.priority.keySet().containsAll(r.priority.keySet())) return false;
+           for (Transizione t : this.priority.keySet()) {
+               if(!r.priority.get(t).equals(this.priority.get(t))) return false;//se due transizioni uguali hanno priorità diverse esplode tutto
+           }
        }
+        return true;
     }
 }
