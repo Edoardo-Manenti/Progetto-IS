@@ -63,6 +63,17 @@ public class RetePNP extends RetePN {
 
     @Override
     public boolean equals(Object o) {
-       return super.equals(o) && (this.priority.equals(((RetePNP)o).getPriority()));
+       if(!super.equals(o)) return false;
+       else{
+            RetePNP rete = (RetePNP) o;
+            //Le due liste di transizioni devono essere uguali
+            if(!this.priority.keySet().containsAll(rete.priority.keySet())) return false;
+           for (Transizione t : this.priority.keySet()) {
+               if(!rete.priority.get(t).equals(this.priority.get(t))) return false;//se due transizioni uguali hanno priorità diverse esplode tutto
+           }
+
+           //arrivato qui ho fatto tutti i controlli
+           return true;
+       }
     }
 }
