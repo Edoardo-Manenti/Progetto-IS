@@ -49,14 +49,14 @@ public class MenuCreaRetePNP {
         {
             System.out.println( (i) + "\t" + listaTransizioni.get(i) + "- priority :" + priorita.get(listaTransizioni.get(i)));
         }
-        int scelta = InputDati.leggiIntero("Digitare il numero della transizione per modificarne la priorità (digitare -1 per non modificarne nessuno) >",
+        int scelta = InputDati.leggiIntero("Digitare il numero della transizione per modificarne la priorita (digitare -1 per non modificarne nessuno) >",
                 -1, listaTransizioni.size()-1);
 
         if(scelta >= 0){
             Transizione daModificare = listaTransizioni.get(scelta);
-            int valore = InputDati.leggiIntero("Inserire il nuovo valore di priorità per la transizione "+ daModificare, 1, Integer.MAX_VALUE);
+            int valore = InputDati.leggiIntero("Inserire il nuovo valore di priorita per la transizione "+ daModificare + ": ", 1, Integer.MAX_VALUE);
             retePNP.modificaPriorita(daModificare, valore);
-            System.out.println("La priorità di " + daModificare + "è stata modificata");
+            System.out.println("La priorita di " + daModificare + "è stata modificata");
         }else{
             System.out.println("Nessuna modifica apportata.");
         }

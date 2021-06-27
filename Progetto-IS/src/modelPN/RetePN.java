@@ -135,4 +135,9 @@ public class RetePN extends Rete{
 	public boolean equals(Object obj) {
 		return super.equals((Rete)obj);
 	}
+
+	@Override
+	public String getType(){
+		return "RetePN";
+	}
 }

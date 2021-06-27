@@ -18,6 +18,7 @@ public class RetePNP extends RetePN {
     }
     public RetePNP(RetePN rete){
         super(rete);
+        priority = new HashMap<>();
         //Setto per tutte le transizioni la priorità di default
         for (Transizione t:rete.getTransizioni())
             priority.put(t, 1);
