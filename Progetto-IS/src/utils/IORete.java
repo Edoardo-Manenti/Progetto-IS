@@ -2,6 +2,7 @@ package utils;
 
 import model.Rete;
 import modelPN.RetePN;
+import modelPNP.RetePNP;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ public class IORete {
 		return lista;
 	}
 
-	//TODO: getNomiRetiPNP()
 	public List<String> getNomiRetiPNP() {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
@@ -106,5 +106,15 @@ public class IORete {
 	
 	public boolean rinominaRete(String nomeRete, String nuovoNome) {
 		return io.rinominaFile(nomeRete, nuovoNome);
+	}
+
+	public boolean salvaRetePNP(RetePNP retePNP, String nomeRetePN) {
+		if(!isNuovaRete(retePNP)) {
+			return false;
+		}
+		else {
+			String json = JsonUtils.compilaJson(retePNP, nomeRetePN);
+			return io.salvaFile(retePNP.getID() + "_PNP", json);
+		}
 	}
 }
