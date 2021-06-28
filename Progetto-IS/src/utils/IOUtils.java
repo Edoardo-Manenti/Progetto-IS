@@ -36,6 +36,22 @@ public class IOUtils {
 		}
 		return true;
 	}
+	public boolean salvaReteEsterna(String path, String contenutoFile){
+		File file = new File(path);
+		String nomeFile = file.getName();
+		String filePath = ioContext.getWdPath()+ioContext.getSeparatore() + nomeFile;
+		File toSave = new File(filePath);
+		try ( FileWriter writer = new FileWriter(toSave))
+		{
+			writer.write(contenutoFile);
+			this.ioContext.addFile(nomeFile, toSave);
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
+	}
 
 	public String makeUnique(String nomeFile) {
 		String nuovoNome = nomeFile;

@@ -88,16 +88,15 @@ public class RetePNP extends RetePN {
         return super.equals((Rete)obj);
     }
 
-    public boolean equals(Rete rete) {
+    public boolean equals(RetePNP rete) {
        if(!super.equals(rete)) return false;
-       else if(rete instanceof RetePNP){
-           RetePNP r = (RetePNP) rete;
+
             //Le due liste di transizioni devono essere uguali
-            if(!this.priority.keySet().containsAll(r.priority.keySet())) return false;
+            if(!this.priority.keySet().containsAll(rete.priority.keySet())) return false;
            for (Transizione t : this.priority.keySet()) {
-               if(!r.priority.get(t).equals(this.priority.get(t))) return false;//se due transizioni uguali hanno priorità diverse esplode tutto
+               if(!rete.priority.get(t).equals(this.priority.get(t))) return false;//se due transizioni uguali hanno priorità diverse esplode tutto
            }
-       }
+
         return true;
     }
 }

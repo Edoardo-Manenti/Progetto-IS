@@ -4,6 +4,7 @@ import model.Rete;
 import modelPN.RetePN;
 import modelPNP.RetePNP;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +92,11 @@ public class IORete {
 	    return !io.getNomiFileSalvati().contains(rete);
 	}
 
-	public void importaRete(String nomeRete, String path) throws IOException {
+	public boolean importaRete(String path) throws IOException {
 		String json = io.caricaFileEsterno(path);
 		Rete rete = JsonUtils.parsaJson(json);
-		io.salvaFile(nomeRete, json);
+		if(!isNuovaRete(rete)) throw new IOException("Rete gia' presente in locale");
+		return io.salvaReteEsterna(path, json);
 	}
 	
 	public Rete caricaRete(String reteRichiesta) {

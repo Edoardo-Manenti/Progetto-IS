@@ -5,6 +5,7 @@ import modelPN.RetePN;
 import utils.IORete;
 import utils.InputDati;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainMenu {
@@ -15,7 +16,10 @@ public class MainMenu {
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +
                                                   "visualizzare e modificare delle reti di Petri. " +
                                                   "\n Cosa desidera fare?",
-                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate", "Visualizza reti PN salvate", "Visualizza reti PNP salvate", "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP", "Mostra evoluzione di una rete PNP"});
+                    new String[]{"Crea nuova rete N", "Visualizza reti N salvate",
+                            "Visualizza reti PN salvate", "Visualizza reti PNP salvate",
+                            "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP",
+                            "Mostra evoluzione di una rete PNP", "Importa rete"});
 
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
@@ -116,9 +120,20 @@ public class MainMenu {
             case 8:
                 evoluzioneRetePNP();
                 break;
+            case 9:
+                importazioneRete();
             default:
                 ;
                 break;
+        }
+    }
+
+    private static void importazioneRete() {
+        String path = InputDati.leggiStringaNonVuota("Digitare la path assoluta della rete da importare: ");
+        try {
+            if(ioRete.importaRete(path)) System.out.println("Rete importata.");
+        } catch (IOException e) {
+          System.out.println("Errore di importazione della rete: " + e.getMessage());
         }
     }
 
