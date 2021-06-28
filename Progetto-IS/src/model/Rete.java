@@ -156,7 +156,6 @@ public class Rete {
 	}
 
 
-	//TODO: Questo metodo è da rivedere per gestire RetiPN e RetiPNp
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

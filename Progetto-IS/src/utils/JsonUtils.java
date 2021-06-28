@@ -11,12 +11,18 @@ import org.json.*;
 
 
 /**
- * 
+ * Classe adibita a compilare e parsare le stringhe json che descrivono le reti
  * @author edoardo
  *
  */
 public  class JsonUtils {
 	private static final IORete io = new IORete();
+	/**
+	 * @param rete
+	 * 		Rete di cui si vuole compilare il json
+	 * @return json string
+	 *
+	 */
 	public static String compilaJson(Rete rete) {
 		if(rete.getType().equals("RetePN")) compilaJson((RetePN) rete, rete.getID());
 		JSONObject jsonObj = new JSONObject();
@@ -41,7 +47,14 @@ public  class JsonUtils {
 		jsonObj.put("nodi", array);	
 		return jsonObj.toString();
 	}
-	
+
+	/**
+	 *
+	 * @param rete
+	 * @param retePortante
+	 * 		reteN su cui si basa la retePN di cui si vuole compilare il json
+	 * @return contenuto del file json
+	 */
 	public static String compilaJson(RetePN rete, String retePortante) {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE_PN");
@@ -68,6 +81,13 @@ public  class JsonUtils {
 		return jsonObj.toString();
 	}
 
+	/**
+	 *
+	 * @param rete
+	 * @param retePortante
+	 * 		retePN su cui si basa la rete PNP
+	 * @return json string
+	 */
 	public static String compilaJson(RetePNP rete, String retePortante) {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("object", "RETE_PNP");
@@ -85,8 +105,11 @@ public  class JsonUtils {
 	}
 
 
-	
-	// per retePN: controllo che pesi e token > 0
+	/**
+	 * Dato il contenuto json viene creato l'oggetto Rete corrispondente
+ 	 * @param jsonString
+	 * @throws IOException nel caso in cui il formato del file json contenga errori
+	 */
 	public static Rete parsaJson(String jsonString) throws IOException {
 		JSONObject jsonObj = new JSONObject(jsonString);
 		String tipoRete = jsonObj.getString("object");
@@ -104,9 +127,14 @@ public  class JsonUtils {
 		}
 		else throw new IOException("Formato JSON incorretto");
 	}
-	
-	
-	//controllo pesi e token > 0
+
+	/**
+	 * Parsa il json per formare una retePN
+	 * @param jsonString
+	 * @throws IOException nel caso di:
+	 * 						- archi con pesi negativi
+	 * 						- marcatura negativa su un nodo
+	 */
 	private static RetePN parsaRetePN(String jsonString) throws IOException {
 		JSONObject jsonObj = new JSONObject(jsonString);
 		Rete reteN = io.caricaRete(jsonObj.getString("retePortante"));
@@ -131,7 +159,12 @@ public  class JsonUtils {
 		}
 		return retePN;
 	}
-	
+
+	/**
+	 * Parsa il json relativo ad una reteN
+ 	 * @param jsonString
+	 * @return ReteN corrispondente
+	 */
 	private static Rete parsaReteN(String jsonString) {
 		JSONObject jsonObj = new JSONObject(jsonString);
 		Rete rete = jsonObj.has("idrete") ? new Rete(jsonObj.getString("idrete")) : new Rete();
@@ -157,15 +190,17 @@ public  class JsonUtils {
 			return rete;
 	}
 
+	/**
+	 * Parsa reti di tipo PNP
+	 * @param jsonString
+	 * @return
+	 * @throws IOException nel caso in cui la rete portante non è salvata in maniera persistente
+	 */
 	private static RetePNP parsaRetePNP(String jsonString) throws IOException{
 		JSONObject jsonObj = new JSONObject(jsonString);
 		RetePN retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
 		if (retePN == null)
-			try {
-				throw new Exception("Rete portante non presente in forma persistente");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+				throw new IOException("Rete portante non presente in forma persistente");
 		RetePNP rete = new RetePNP(retePN);
 		HashMap<Transizione, Integer> mappa_priority = new HashMap<>();
 		JSONArray lista_priorita = jsonObj.getJSONArray("priority_list");
@@ -179,6 +214,13 @@ public  class JsonUtils {
 		return rete;
 	}
 
+	/**
+	 * Parsa gli archi di una reteN e li aggiunge alla rete
+	 * @param array Array di oggetti JSON contenenti gli archi
+	 * @param rete rete a cui si devono aggiungere gli archi
+	 * @param n
+	 * @param precedenti indica se sto parsando gli archi entranti, o gli archi uscenti dal nodo
+	 */
 	private static void parsaArchi(JSONArray array, Rete rete, Nodo n, boolean precedenti) {
 		for(Object nodo : array) {
 			String p = (String)nodo;

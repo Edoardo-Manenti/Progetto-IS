@@ -90,6 +90,12 @@ public class IORete {
 	public boolean isNuovaRete(String rete){
 	    return !io.getNomiFileSalvati().contains(rete);
 	}
+
+	public void importaRete(String nomeRete, String path) throws IOException {
+		String json = io.caricaFileEsterno(path);
+		Rete rete = JsonUtils.parsaJson(json);
+		io.salvaFile(nomeRete, json);
+	}
 	
 	public Rete caricaRete(String reteRichiesta) {
 		Rete rete;

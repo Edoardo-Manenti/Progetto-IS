@@ -50,7 +50,21 @@ public class IOUtils {
 		}
 		return nuovoNome;
 	}
-	
+
+	public String caricaFileEsterno(String absPath) throws IOException{
+		File f = new File(absPath);
+		if(!f.isFile())
+			throw new IOException("Il path specificato indirizza una directory, specificare un file");
+		if(!f.exists())
+			throw new IOException("Il file specificato non esiste");
+		Scanner scanner = new Scanner(f);
+		StringBuilder json = new StringBuilder();
+		while(scanner.hasNext()) {
+			json.append(scanner.nextLine());
+		}
+		return json.toString();
+	}
+
 	public String caricaFile(String nomeFile) throws IOException{
 		Scanner scanner = new Scanner(IOContext.fileSalvati.get(nomeFile));
 		StringBuilder json = new StringBuilder();
