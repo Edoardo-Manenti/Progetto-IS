@@ -38,7 +38,7 @@ public class MainMenu {
         //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
 
         List<String> listaReti = ioRete.getNomiRetiN();
-        String reteSelezionata = selezionaElementoDaLista(listaReti,
+        String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete N di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
@@ -46,7 +46,7 @@ public class MainMenu {
     }
     private static void creaRetePNP() {
         List<String> listaReti = ioRete.getNomiRetiPN();
-        String reteSelezionata = selezionaElementoDaLista(listaReti,
+        String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
@@ -63,7 +63,7 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiN();
-            String reteDaVisualizzare = selezionaElementoDaLista(listaReti,
+            String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete da visualizzare >");
             System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
@@ -128,7 +128,7 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiPNP();
-            String reteDaEvolvere = selezionaElementoDaLista(listaReti,
+            String reteDaEvolvere = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete per cui mostrare l'evoluzione >");
             new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
         }
@@ -141,7 +141,7 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiPN();
-            String reteDaEvolvere = selezionaElementoDaLista(listaReti,
+            String reteDaEvolvere = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete per cui mostrare l'evoluzione >");
             new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
         }
@@ -154,7 +154,7 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiPN();
-            String reteDaVisualizzare = selezionaElementoDaLista(listaReti,
+            String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete da visualizzare >");
             System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
@@ -168,20 +168,10 @@ public class MainMenu {
         }
         else {
             List<String> listaReti = ioRete.getNomiRetiPNP();
-            String reteDaVisualizzare = selezionaElementoDaLista(listaReti,
+            String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete da visualizzare >");
             System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
-    }
-
-    //APPLICAZIONE MODEL-VIEW SEPARATION: abbiamo notato che l'operazione di scelta di un elemento da una lista (INPUT UTENTE) veniva svolta spesso in modi simili
-    // ed inoltre era mischiata con le operazioni di creazione di reti(LOGICA DEL PROGRAMMA-MODEL)
-    public static String selezionaElementoDaLista(List<String> lista, String messaggioSelezione) {
-        for (int i=0; i<lista.size(); i++)
-            System.out.println( (i) + "\t" + lista.get(i));
-        int scelta = InputDati.leggiIntero(messaggioSelezione,
-                0, lista.size()-1);
-        return lista.get(scelta);
     }
 
 }

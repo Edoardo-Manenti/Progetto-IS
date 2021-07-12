@@ -200,5 +200,13 @@ public class InputDati
 	  }
 
 
-
+	//APPLICAZIONE MODEL-VIEW SEPARATION: abbiamo notato che l'operazione di scelta di un elemento da una lista (INPUT UTENTE) veniva svolta spesso in modi simili
+	// ed inoltre era mischiata con le operazioni di creazione di reti(LOGICA DEL PROGRAMMA-MODEL)
+	public static String selezionaElementoDaLista(List<String> lista, String messaggioSelezione) {
+		for (int i=0; i<lista.size(); i++)
+			System.out.println( (i) + "\t" + lista.get(i));
+		int scelta = leggiIntero(messaggioSelezione,
+				0, lista.size()-1);
+		return lista.get(scelta);
+	}
 }
