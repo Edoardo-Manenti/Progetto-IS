@@ -31,18 +31,20 @@ public class MainMenu {
             if(ioRete.isNuovaRete(nomeRete)) salvata = true;
             else System.out.println("Nome già utilizzato. Inserirne un'altro");
         } while (!salvata);
-        new MenuCreaReteN(new Rete(nomeRete)).loopCreaReteN();
+        //Commento: delego la creazione della reteN appurato che non ci sono reti nel DB con quel nome alla classe MenuCreaReteN
+        new MenuCreaReteN(nomeRete).loopCreaReteN();
     }
 
     private static void creaRetePN() {
         //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
-
         List<String> listaReti = ioRete.getNomiRetiN();
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete N di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
-        new MenuCreaRetePN(ioRete.caricaRete(reteSelezionata), reteSelezionata).loopCreaRetePN();
+        //COMMENTO SUL MODEL-VIEW Separation: nell'ambito della creazione delle reti abbiamo rimosso alcuni compiti dalla classe MainMenu delegandoli agli opportuni
+        // sottomenu che interagiscono direttamente con le classi di modello. Di conseguenza MainMenu risulta "libera" da comopiti di interazione diretta con le classi modellistiche.
+        new MenuCreaRetePN(reteSelezionata).loopCreaRetePN();
     }
     private static void creaRetePNP() {
         List<String> listaReti = ioRete.getNomiRetiPN();
@@ -50,7 +52,7 @@ public class MainMenu {
                 "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
-        new MenuCreaRetePNP((RetePN) ioRete.caricaRete(reteSelezionata), reteSelezionata).loopCreaRetePNP();
+        new MenuCreaRetePNP(reteSelezionata).loopCreaRetePNP();
     }
 
 

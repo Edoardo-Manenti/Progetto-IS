@@ -23,9 +23,10 @@ public class MenuCreaRetePN {
     private String nomeReteN;
     private boolean isFinita = false;
 
-    public MenuCreaRetePN(Rete rete, String nomeReteN){
-        nuovaRete = new RetePN(rete);
-        this.nomeReteN = nomeReteN;
+    public MenuCreaRetePN(String nomeRete){
+        Rete reteN = ioRete.caricaRete(nomeRete);
+        nuovaRete = new RetePN(reteN);
+        this.nomeReteN = nomeRete;
     }
 
     public void loopCreaRetePN(){

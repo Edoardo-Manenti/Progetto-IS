@@ -16,8 +16,8 @@ public class MenuCreaReteN {
 
     private Rete nuovaRete;
     private boolean isFinita = false;
-    public MenuCreaReteN(Rete nuovaRete){
-        this.nuovaRete = nuovaRete;
+    public MenuCreaReteN(String nuovaRete){
+        this.nuovaRete = new Rete(nuovaRete);
     }
 
     //Gestione Loop di creazione
