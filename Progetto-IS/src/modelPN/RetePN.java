@@ -68,7 +68,7 @@ public class RetePN extends Rete{
 	//3) se tutti gli archi sono attivi -> transizione abilitata
 		ArrayList<Transizione> transAbilitate = new ArrayList<>();
 		for (Nodo n : this.getNodi().values()){
-			if(n.isPosto()){
+			if(n.getType().equals(TipoNodo.POSTO)){
 				continue;
 			}
 			ArrayList<Arco> archiEntranti = new ArrayList<>();

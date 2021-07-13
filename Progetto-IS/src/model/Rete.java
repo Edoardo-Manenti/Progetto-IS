@@ -68,7 +68,7 @@ public class Rete {
 		if (this.archi.contains(arco)) {
 			return false;
 		}
-		else if(arco.getOrigin().isPosto() == arco.getDestination().isPosto()){
+		else if(arco.getOrigin().getType() == arco.getDestination().getType() && arco.getOrigin().getType().equals(TipoNodo.POSTO)){
 			return false; //Controllo diversità
 		}
 		else
@@ -86,7 +86,7 @@ public class Rete {
 			}
 
 			this.archi.add(arco);
-			if(o.isPosto()) {
+			if(o.getType().equals(TipoNodo.POSTO)) {
 				Posto p = (Posto)arco.getOrigin();
 				Transizione t = (Transizione)arco.getDestination();
 				p.aggiungiSucc(t);
@@ -187,7 +187,7 @@ public class Rete {
 	public List<Transizione> getTransizioni(){
 		ArrayList<Transizione> lista = new ArrayList<>();
 		for (Nodo n : this.nodi.values())
-			if(n.isTransizione()) lista.add((Transizione) n);
+			if(n.getType().equals(TipoNodo.TRANSIZIONE)) lista.add((Transizione) n);
 		return lista;
 	}
 }

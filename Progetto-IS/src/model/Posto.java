@@ -7,9 +7,13 @@ public class Posto extends Nodo {
 
 	public Posto(String id) {
 		super(id);
-		super.setPosto(true);
 	}
-	
+
+	@Override
+	public TipoNodo getType() {
+		return TipoNodo.POSTO;
+	}
+
 	public void aggiungiPrec(Transizione t) {
 		super.aggiungiPrec(t);
 	}

@@ -7,10 +7,14 @@ public class Transizione extends Nodo {
 	
 	public Transizione(String id) {
 		super(id);
-		super.setTransizione(true);
 		isActive = null;
 	}
-	
+
+	@Override
+	public TipoNodo getType() {
+		return TipoNodo.TRANSIZIONE;
+	}
+
 	public void aggiungiPrec(Posto p) {
 		super.aggiungiPrec(p);
 	}

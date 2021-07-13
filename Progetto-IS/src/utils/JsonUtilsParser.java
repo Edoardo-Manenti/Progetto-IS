@@ -141,7 +141,7 @@ public class JsonUtilsParser {
 			String p = (String)nodo;
 			if(!rete.containsNodo(p)) {
 				Nodo origin;
-				if(n.isPosto()) {
+				if(n.getType().equals(TipoNodo.POSTO)) {
 					origin = new Transizione(p);
 				}
 				else {

@@ -27,7 +27,7 @@ public class JsonUtilsWriter {
         for(Nodo n : rete.getNodi().values()) {
             JSONObject elem = new JSONObject();
             elem.put("id", n.getId());
-            elem.put("type", (n.isPosto() ? "POSTO" : "TRANSIZIONE"));
+            elem.put("type", (n.getType().toString()));
             JSONArray prec = new JSONArray();
             for(Nodo p : n.getPrec()) prec.put(p.getId());
             JSONArray succ = new JSONArray();

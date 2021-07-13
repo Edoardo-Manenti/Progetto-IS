@@ -1,9 +1,6 @@
 package menu;
 
-import model.Arco;
-import model.Nodo;
-import model.Posto;
-import model.Rete;
+import model.*;
 import modelPN.RetePN;
 import utils.IORete;
 import utils.InputDati;
@@ -57,7 +54,7 @@ public class MenuCreaRetePN {
 
     private void modificaToken() {
          List<Nodo> lista_posti = nuovaRete.getNodi().values().
-                 stream().filter(Nodo::isPosto).collect(Collectors.toList());
+                 stream().filter((n)-> n.getType().equals(TipoNodo.POSTO)).collect(Collectors.toList());
 
         System.out.println("I posti presenti attualmente nella rete sono i seguenti: ");
         for (int i=0; i<lista_posti.size(); i++)

@@ -3,12 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
 public abstract class Nodo {
 	private String id;
-	//COMMENTO: QUI LISKOV!!!
-	private boolean isPosto, isTransizione = false;
 	private HashMap<String, Nodo> prec;
 	private HashMap<String, Nodo> succ;
 	
@@ -43,21 +39,10 @@ public abstract class Nodo {
 		return new ArrayList<Nodo>(this.succ.values());
 	}
 
-	public void setPosto(boolean p) {
-		this.isPosto = p;
-	}
-	
-	public void setTransizione(boolean t) {
-		this.isTransizione = t;
-	}
-
-	public boolean isPosto() {
-		return isPosto;
-	}
-	
-	public boolean isTransizione() {
-		return isTransizione;
-	}
+	//COMMENTO principio SOLID LISKOV SUBSTITUTION: la classe padre Nodo possedeva due attributi booleani per discriminare il tipo dei suoi oggetti figli
+	//ragionamento simile a mantenere una variabile type. Il fatto che poi ci fossero due metodi isPosto e isTransizione erano una violazione del principio di sostituzione in quanto le due sottoclassi
+	// non erano sostituibili l'una con l'altra. ( Avevamo metodi specifici che lavoravano per la sottoclasse discriminando però il tipo usando attributi della superclasse :/ )
+	public abstract TipoNodo getType();
 
 	public String getId() {
 		return this.id;
@@ -65,7 +50,7 @@ public abstract class Nodo {
 	
 	@Override
 	public String toString() {
-		return (isPosto ? "Posto" : "Transizione")+ ":" + this.id;
+		return (getType().toString())+ ":" + this.id;
 	}
 
 	@Override

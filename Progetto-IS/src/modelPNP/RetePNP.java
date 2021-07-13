@@ -66,7 +66,7 @@ public class RetePNP extends RetePN {
         sb.append("ID: " + this.getID()).append("\n\n");
         sb.append("NODI:").append("\n");
         for (Nodo n : this.getNodi().values()) {
-            if(n.isTransizione()){
+            if(n.getType().equals(TipoNodo.TRANSIZIONE)){
                 sb.append(n.toString() + " priorita': " + this.priority.get((Transizione)n)).append("\n");
             }
             else{
