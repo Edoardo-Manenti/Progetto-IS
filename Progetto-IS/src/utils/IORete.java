@@ -1,6 +1,7 @@
 package utils;
 
 import model.Rete;
+import model.TipoRete;
 import modelPN.RetePN;
 import modelPNP.RetePNP;
 
@@ -20,6 +21,17 @@ public class IORete {
 		io = new IOUtils();
 	}
 
+	//COMMENTO principio Solid OPEN-CLOSED: Utilizzando un enum viene resa più semplice l'implementazione di eventuali nuove tipologie di
+	// reti e inoltre le interdipendenze fra MainMenu e ioRete vengono ridotte ad un solo metodo per la visualizzazione. Prima infatti se
+	// si desiderava creare un nuovo tipo di rete era necessario scrivere 2 metodi per fare ciò adesso è sufficiente scrivere la rete in modo che rispetti l'interfaccia e il software gestisce il resto
+	public List<String> getRetiPerTipo(TipoRete t){
+		ArrayList<String> lista = new ArrayList<>();
+		for(String s : io.getNomiFileSalvati()) {
+			Rete r = caricaRete(s);
+			if(r!= null && (r.getType().equals(t))) lista.add(s);
+		}
+		return lista;
+	}
 	public List<String> getNomiRetiN() {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {

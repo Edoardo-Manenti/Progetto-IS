@@ -35,8 +35,8 @@ public class Rete {
 		this.nodi = nodi;
 	}
 
-    public String getType() {
-		return "ReteN";
+    public TipoRete getType() {
+		return TipoRete.RETEN;
 	}
 
 	//Interfaccia pubblica

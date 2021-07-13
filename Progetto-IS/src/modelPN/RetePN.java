@@ -1,12 +1,9 @@
 package modelPN;
 
 
-import model.Arco;
-import model.Nodo;
-import model.Rete;
-import model.Posto;
-import model.Transizione;
+import model.*;
 
+import java.awt.image.MultiPixelPackedSampleModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +134,7 @@ public class RetePN extends Rete{
 	}
 
 	@Override
-	public String getType(){
-		return "RetePN";
+	public TipoRete getType(){
+		return TipoRete.RETEPN;
 	}
 }

@@ -1,9 +1,6 @@
 package modelPNP;
 
-import model.Arco;
-import model.Nodo;
-import model.Rete;
-import model.Transizione;
+import model.*;
 import modelPN.RetePN;
 
 import java.util.ArrayList;
@@ -59,8 +56,8 @@ public class RetePNP extends RetePN {
     }
 
     @Override
-    public String getType(){
-        return "RetePNP";
+    public TipoRete getType(){
+        return TipoRete.RETEPNP;
     }
 
     @Override
