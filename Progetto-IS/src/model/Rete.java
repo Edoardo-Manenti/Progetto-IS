@@ -18,7 +18,11 @@ public class Rete {
 	public Rete() {
 		this("");
 	}
-	
+
+
+	//COMMENTO pattern GRASP PURE FABRICATION: ideiamo una classe apposita per creare le
+	//nuove istanze delle reti senza dover passare dal costruttore
+
 	public Rete(String id) {
 		this.id = id;
 		this.nodi = new HashMap<String, Nodo>();

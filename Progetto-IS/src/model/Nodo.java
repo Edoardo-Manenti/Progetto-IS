@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 public abstract class Nodo {
-	private String id;	
+	private String id;
+	//COMMENTO: QUI LISKOV!!!
 	private boolean isPosto, isTransizione = false;
 	private HashMap<String, Nodo> prec;
 	private HashMap<String, Nodo> succ;

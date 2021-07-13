@@ -55,9 +55,9 @@ public class MainMenu {
         new MenuCreaRetePNP(reteSelezionata).loopCreaRetePNP();
     }
 
-
-
-    //TODO: Discriminare fra N, PN e PNP -> Usare metodo intermedio
+    //COMMENTO pattern SOLID OPEN-CLOSED! perfetto esempio: questi metodi di visualizzazione sfruttano 3 metodi diversi della classe IORete per ottenere la lista
+    //di reti della tipologia specificata, questo crea una forte dipendenza fra le due classi. Infatti se aggiungessimo una nuova tipologia di rete dovremmo scrivere 2 nuovi metodi mentre se si adottasse una soluzione più
+    //polimorfica si potrebbe ridurre l'accoppiamento tra le classi e renderle più facilmente estendibili.
     public static void visualizzaReteN(){
         int nrretiSalvate = ioRete.getNomiRetiN().size();
         if(nrretiSalvate == 0){
