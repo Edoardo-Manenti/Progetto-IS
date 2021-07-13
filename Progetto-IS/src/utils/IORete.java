@@ -16,14 +16,28 @@ import java.util.List;
  */
 public class IORete {
 	private IOUtils io;
+	//COMMENTO pattern GoF Singleton. E' importante che l'oggetto IORete sia unico perchÃ¨ Ã¨ responsabile della
+	// tracciabilitÃ  delle Reti presenti in locale. Avere istanze diverse di IORete puÃ² portare a incongruenze per cui
+	// reti logicamente salvate ma non ancora fisicamente salvate non vengano mostrate tra le reti presenti in locale.
+	private static IORete instance;
 
-	public IORete() {
+	// Singleton: rendo private il costruttore
+	private IORete() {
 		io = new IOUtils();
 	}
 
-	//COMMENTO principio Solid OPEN-CLOSED: Utilizzando un enum viene resa più semplice l'implementazione di eventuali nuove tipologie di
+	// Singleton: creo il metodo getInstance per accedere all' oggetto singleton
+	public static IORete getInstance() {
+		if(instance == null) {
+			instance = new IORete();
+		}
+		return instance;
+	}
+
+
+	//COMMENTO principio Solid OPEN-CLOSED: Utilizzando un enum viene resa piï¿½ semplice l'implementazione di eventuali nuove tipologie di
 	// reti e inoltre le interdipendenze fra MainMenu e ioRete vengono ridotte ad un solo metodo per la visualizzazione. Prima infatti se
-	// si desiderava creare un nuovo tipo di rete era necessario scrivere 2 metodi per fare ciò adesso è sufficiente scrivere la rete in modo che rispetti l'interfaccia e il software gestisce il resto
+	// si desiderava creare un nuovo tipo di rete era necessario scrivere 2 metodi per fare ciï¿½ adesso ï¿½ sufficiente scrivere la rete in modo che rispetti l'interfaccia e il software gestisce il resto
 	public List<String> getRetiPerTipo(TipoRete t){
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
