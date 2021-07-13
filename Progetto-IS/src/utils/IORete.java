@@ -93,7 +93,7 @@ public class IORete {
 
 	public boolean importaRete(String path) throws IOException {
 		String json = io.caricaFileEsterno(path);
-		Rete rete = JsonUtils.parsaJson(json);
+		Rete rete = JsonUtilsParser.parsaJson(json);
 		if(!isNuovaRete(rete)) throw new IOException("Rete gia' presente in locale");
 		return io.salvaReteEsterna(path, json);
 	}
@@ -102,7 +102,7 @@ public class IORete {
 		Rete rete;
 		try {
 			String json = io.caricaFile(reteRichiesta);
-			rete = JsonUtils.parsaJson(json);
+			rete = JsonUtilsParser.parsaJson(json);
 		}
 		catch(IOException exc) {
 			exc.printStackTrace();

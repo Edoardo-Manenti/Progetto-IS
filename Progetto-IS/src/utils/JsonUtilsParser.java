@@ -15,7 +15,7 @@ import org.json.*;
  * @author edoardo
  *
  */
-public class JsonUtils {
+public class JsonUtilsParser {
 	private static final IORete io = new IORete();
 
 
