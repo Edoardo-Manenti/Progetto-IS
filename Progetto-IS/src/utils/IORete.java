@@ -4,7 +4,6 @@ import model.Rete;
 import modelPN.RetePN;
 import modelPNP.RetePNP;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class IORete {
 			return false;
 		}
 		else {
-			String json = JsonUtils.compilaJson(rete);
+			String json = JsonUtilsWriter.compilaJson(rete);
 			return io.salvaFile(rete.getID(), json);
 		}
 	}
@@ -68,7 +67,7 @@ public class IORete {
 			return false;
 		}
 		else {
-			String json = JsonUtils.compilaJson(rete, retePortante);
+			String json = JsonUtilsWriter.compilaJson(rete, retePortante);
 			return io.salvaFile(rete.getID() + "_PN", json);
 		}
 	}
@@ -121,7 +120,7 @@ public class IORete {
 			return false;
 		}
 		else {
-			String json = JsonUtils.compilaJson(retePNP, nomeRetePN);
+			String json = JsonUtilsWriter.compilaJson(retePNP, nomeRetePN);
 			return io.salvaFile(retePNP.getID() + "_PNP", json);
 		}
 	}
