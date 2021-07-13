@@ -1,6 +1,7 @@
 package menu;
 
 import model.Rete;
+import model.TipoRete;
 import modelPN.RetePN;
 import utils.IORete;
 import utils.InputDati;
@@ -21,6 +22,47 @@ public class MainMenu {
                             "Crea nuova rete PN", "Mostra evoluzione di una rete PN", "Crea nuova rete PNP",
                             "Mostra evoluzione di una rete PNP", "Importa rete"});
 
+    //Gestione MainLoop
+    public static void mainLoop() {
+        int scelta;
+        do{
+            scelta = mainMenu.scegli();
+            elabora(scelta);
+        }while (scelta != 0);
+    }
+    public static void elabora(int scelta){
+        switch (scelta) {
+            case 1:
+                creaReteN();
+                break;
+            case 2:
+                visualizzaRetiPerTipo(TipoRete.RETEN);
+                break;
+            case 3:
+                visualizzaRetiPerTipo(TipoRete.RETEPN);
+                break;
+            case 4:
+                visualizzaRetiPerTipo(TipoRete.RETEPNP);
+                break;
+            case 5:
+                creaRetePN();
+                break;
+            case 6:
+                evoluzioneRete(TipoRete.RETEPN);
+                break;
+            case 7:
+                creaRetePNP();
+                break;
+            case 8:
+                evoluzioneRete(TipoRete.RETEPNP);
+                break;
+            case 9:
+                importazioneRete();
+            default:
+                ;
+                break;
+        }
+    }
     public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
         String nomeRete;
@@ -37,7 +79,7 @@ public class MainMenu {
 
     private static void creaRetePN() {
         //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
-        List<String> listaReti = ioRete.getNomiRetiN();
+        List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete N di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
@@ -47,7 +89,7 @@ public class MainMenu {
         new MenuCreaRetePN(reteSelezionata).loopCreaRetePN();
     }
     private static void creaRetePNP() {
-        List<String> listaReti = ioRete.getNomiRetiPN();
+        List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEPN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
@@ -55,63 +97,6 @@ public class MainMenu {
         new MenuCreaRetePNP(reteSelezionata).loopCreaRetePNP();
     }
 
-    //COMMENTO pattern SOLID OPEN-CLOSED! perfetto esempio: questi metodi di visualizzazione sfruttano 3 metodi diversi della classe IORete per ottenere la lista
-    //di reti della tipologia specificata, questo crea una forte dipendenza fra le due classi. Infatti se aggiungessimo una nuova tipologia di rete dovremmo scrivere 2 nuovi metodi mentre se si adottasse una soluzione più
-    //polimorfica si potrebbe ridurre l'accoppiamento tra le classi e renderle più facilmente estendibili.
-    public static void visualizzaReteN(){
-        int nrretiSalvate = ioRete.getNomiRetiN().size();
-        if(nrretiSalvate == 0){
-            System.out.println("Non ci sono reti salvate al momento");
-        }
-        else {
-            List<String> listaReti = ioRete.getNomiRetiN();
-            String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
-                    "Digitare il numero della rete da visualizzare >");
-            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
-        }
-    }
-
-    //Gestione MainLoop
-    public static void mainLoop() {
-        int scelta;
-        do{
-            scelta = mainMenu.scegli();
-            elabora(scelta);
-        }while (scelta != 0);
-    }
-    public static void elabora(int scelta){
-        switch (scelta) {
-            case 1:
-                creaReteN();
-                break;
-            case 2:
-                visualizzaReteN();
-                break;
-            case 3:
-                visualizzaRetiPN();
-                break;
-            case 4:
-                visualizzaRetiPNP();
-                break;
-            case 5:
-                creaRetePN();
-                break;
-            case 6:
-                evoluzioneRetePN();
-                break;
-            case 7:
-                creaRetePNP();
-                break;
-            case 8:
-                evoluzioneRetePNP();
-                break;
-            case 9:
-                importazioneRete();
-            default:
-                ;
-                break;
-        }
-    }
 
     private static void importazioneRete() {
         String path = InputDati.leggiStringaNonVuota("Digitare la path assoluta della rete da importare: ");
@@ -121,60 +106,34 @@ public class MainMenu {
           System.out.println("Errore di importazione della rete: " + e.getMessage());
         }
     }
-
-    //TODO: Check se funziona anche con reti PNP
-    private static void evoluzioneRetePNP() {
-        int nrretiSalvate = ioRete.getNomiRetiPNP().size();
+    private static void evoluzioneRete(TipoRete t){
+        List<String> listaReti = ioRete.getRetiPerTipo(t);
+        int nrretiSalvate = listaReti.size();
         if(nrretiSalvate == 0){
             System.out.println("Non ci sono reti salvate al momento");
         }
         else {
-            List<String> listaReti = ioRete.getNomiRetiPNP();
             String reteDaEvolvere = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete per cui mostrare l'evoluzione >");
             new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
         }
     }
 
-    private static void evoluzioneRetePN() {
-        int nrretiSalvate = ioRete.getNomiRetiPN().size();
-        if(nrretiSalvate == 0){
-            System.out.println("Non ci sono reti salvate al momento");
-        }
-        else {
-            List<String> listaReti = ioRete.getNomiRetiPN();
-            String reteDaEvolvere = InputDati.selezionaElementoDaLista(listaReti,
-                    "Digitare il numero della rete per cui mostrare l'evoluzione >");
-            new MenuEvoluzioneRetePN(ioRete.caricaRete(reteDaEvolvere)).loopEvoluzione();
-        }
-    }
 
-    private static void visualizzaRetiPN() {
-        int nrretiSalvate = ioRete.getNomiRetiPN().size();
-        if(nrretiSalvate == 0){
-            System.out.println("Non ci sono reti salvate al momento");
-        }
-        else {
-            List<String> listaReti = ioRete.getNomiRetiPN();
+    //COMMENTO pattern SOLID OPEN-CLOSED! perfetto esempio: questi metodi di visualizzazione sfruttano 3 metodi diversi della classe IORete per ottenere la lista
+    //di reti della tipologia specificata, questo crea una forte dipendenza fra le due classi. Infatti se aggiungessimo una nuova tipologia di rete dovremmo scrivere 2 nuovi metodi mentre se si adottasse una soluzione più
+    //polimorfica si potrebbe ridurre l'accoppiamento tra le classi e renderle più facilmente estendibili. --> adesso ho un solo metodo che gestisce la moltitudine di reti in modo molto generico e scalabile
+
+    private static void visualizzaRetiPerTipo(TipoRete t){
+        int nrretiSalvate = ioRete.getRetiPerTipo(t).size();
+
+        if(nrretiSalvate == 0) System.out.println("Non ci sono reti salvate di tipo " + t.toString() +" al momento");
+        else{
+            List<String> listaReti = ioRete.getRetiPerTipo(t);
             String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
                     "Digitare il numero della rete da visualizzare >");
             System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
         }
     }
-
-    //TODO: Check con nuovo metodo di Edo
-    private static void visualizzaRetiPNP() {
-        int nrretiSalvate = ioRete.getNomiRetiPNP().size();
-        if(nrretiSalvate == 0){
-            System.out.println("Non ci sono reti salvate al momento");
-        }
-        else {
-            List<String> listaReti = ioRete.getNomiRetiPNP();
-            String reteDaVisualizzare = InputDati.selezionaElementoDaLista(listaReti,
-                    "Digitare il numero della rete da visualizzare >");
-            System.out.println("\n" + ioRete.caricaRete(reteDaVisualizzare).toString());
-        }
-    }
-
 
 }

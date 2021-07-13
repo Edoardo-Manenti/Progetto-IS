@@ -27,15 +27,16 @@ public class JsonUtilsParser {
 	public static Rete parsaJson(String jsonString) throws IOException {
 		JSONObject jsonObj = new JSONObject(jsonString);
 		String tipoRete = jsonObj.getString("object");
+		TipoRete t = TipoRete.valueOf(tipoRete);
 		//controllo che sia un formato RETE
-		if(tipoRete.equals("RETE")){
+		if(t.equals(TipoRete.RETEN)){
 			return parsaReteN(jsonString);
 		}
-		else if(tipoRete.equals("RETE_PN")) {
+		else if(t.equals(TipoRete.RETEPN)) {
 			//rete
 			return parsaRetePN(jsonString);
 		}
-		else if(tipoRete.equals("RETE_PNP")) {
+		else if(t.equals(TipoRete.RETEPNP)) {
 			//rete PnP
 			return parsaRetePNP(jsonString);
 		}

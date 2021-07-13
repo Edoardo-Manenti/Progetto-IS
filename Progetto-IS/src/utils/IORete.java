@@ -32,32 +32,6 @@ public class IORete {
 		}
 		return lista;
 	}
-	public List<String> getNomiRetiN() {
-		ArrayList<String> lista = new ArrayList<>();
-		for(String s : io.getNomiFileSalvati()) {
-			Rete r = caricaRete(s);
-			if(r!= null && (r.getType().equals("ReteN"))) lista.add(s);
-		}
-		return lista;
-	}
-
-	public List<String> getNomiRetiPN() {
-		ArrayList<String> lista = new ArrayList<>();
-		for(String s : io.getNomiFileSalvati()) {
-			Rete r = caricaRete(s);
-			if(r!=null && r.getType().equals("RetePN")) lista.add(s);
-		}
-		return lista;
-	}
-
-	public List<String> getNomiRetiPNP() {
-		ArrayList<String> lista = new ArrayList<>();
-		for(String s : io.getNomiFileSalvati()) {
-			Rete r = caricaRete(s);
-			if(r != null && r.getType().equals("RetePNP")) lista.add(s);
-		}
-		return lista;
-	}
 
 
 	public int numeroRetiSalvate() {

@@ -16,9 +16,9 @@ public class JsonUtilsWriter {
      *
      */
     public static String compilaJson(Rete rete) {
-        if(rete.getType().equals("RetePN")) compilaJson((RetePN) rete, rete.getID());
+        if(rete.getType().equals(TipoRete.RETEPN)) compilaJson((RetePN) rete, rete.getID());
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("object", "RETE");
+        jsonObj.put("object", rete.getType().toString());
         String idRete = rete.getID();
         if(idRete != "") {
             jsonObj.put("idrete", rete.getID());
@@ -49,7 +49,7 @@ public class JsonUtilsWriter {
      */
     public static String compilaJson(RetePN rete, String retePortante) {
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("object", "RETE_PN");
+        jsonObj.put("object", rete.getType().toString());
         jsonObj.put("retePortante", retePortante);
         JSONArray arrayPesi = new JSONArray();
         for(Arco arco : rete.getArchi()) {
@@ -82,7 +82,7 @@ public class JsonUtilsWriter {
      */
     public static String compilaJson(RetePNP rete, String retePortante) {
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("object", "RETE_PNP");
+        jsonObj.put("object", rete.getType().toString());
         jsonObj.put("retePortante", retePortante);
         JSONArray arrayPriority = new JSONArray();
         var mappa_priority = rete.getPriority();
