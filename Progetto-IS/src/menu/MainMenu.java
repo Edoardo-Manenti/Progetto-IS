@@ -1,8 +1,6 @@
 package menu;
 
-import model.Rete;
 import model.TipoRete;
-import modelPN.RetePN;
 import utils.IORete;
 import utils.InputDati;
 
@@ -10,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainMenu {
-
-    private static final IORete ioRete = new IORete();
+    //COMMENTO: SINGLETON -> ultima fase: sostituisco le chiamate al costruttore con la chiamata a IORete.getInstance()
+    private static final IORete ioRete = IORete.getInstance();
 
     private static final Menu mainMenu =
             new Menu("Buongiorno, questo software permette tramite interfaccia testuale di inserire, " +

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MenuCreaRetePNP {
-    private static final IORete ioRete = new IORete();
+    private static final IORete ioRete = IORete.getInstance();
     private static final Menu modificaRete =
             new Menu("Stai creando una nuova rete PNP\nCosa desidera fare?", new String[]{"Modifica priorità", "Termina modifiche"});
 

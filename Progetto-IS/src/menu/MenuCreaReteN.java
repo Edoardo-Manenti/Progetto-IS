@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuCreaReteN {
-    private static final IORete ioRete = new IORete();
+    // Singleton: sostituisco il costruttore con la chiamata a getInstance.
+    private static final IORete ioRete = IORete.getInstance();
     private static final Menu creazioneRete = new Menu("\n Cosa desidera fare?", new String[]{"Aggiungi posto",
             "Aggiungi transizione", "Aggiungi arco", "Elimina nodo", "Elimina arco", "Termina modifiche"});
 

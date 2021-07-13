@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MenuCreaRetePN {
-    private static final IORete ioRete = new IORete();
+    //Singleton
+    private static final IORete ioRete = IORete.getInstance();
     private static final Menu creazioneRete =
             new Menu("Stai creando una nuova rete PN\nCosa desidera fare?", new String[]{"Modifica peso arco",
             "Modifica Token", "Termina modifiche"});
