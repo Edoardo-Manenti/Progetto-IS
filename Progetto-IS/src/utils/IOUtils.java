@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOUtils {
-    private IOContext ioContext;
+    private final IOContext ioContext;
 
 	public IOUtils() {
 		this.ioContext = new IOContext();
@@ -82,7 +82,7 @@ public class IOUtils {
 	}
 
 	public String caricaFile(String nomeFile) throws IOException{
-		Scanner scanner = new Scanner(IOContext.fileSalvati.get(nomeFile));
+		Scanner scanner = new Scanner(ioContext.getFileSalvati().get(nomeFile));
 		StringBuilder json = new StringBuilder();
 		while(scanner.hasNextLine()) {
 			json.append(scanner.nextLine());

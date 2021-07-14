@@ -8,7 +8,7 @@ public class IOContext {
     private File wd;
     private String extension = ".json";
     private String separatore;
-    public static HashMap<String,File> fileSalvati;
+    public HashMap<String,File> fileSalvati;
 
     public IOContext() {
         this.separatore = File.separator;

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class MenuCreaRetePN {
     //Singleton
-    private static final IORete ioRete = IORete.getInstance();
+    private final IORete ioRete;
     private static final Menu creazioneRete =
             new Menu("Stai creando una nuova rete PN\nCosa desidera fare?", new String[]{"Modifica peso arco",
             "Modifica Token", "Termina modifiche"});
@@ -22,6 +22,7 @@ public class MenuCreaRetePN {
     private boolean isFinita = false;
 
     public MenuCreaRetePN(String nomeRete){
+        ioRete = IORete.getInstance();
         Rete reteN = ioRete.caricaRete(nomeRete);
         nuovaRete = new RetePN(reteN);
         this.nomeReteN = nomeRete;

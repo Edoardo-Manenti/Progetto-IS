@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class MenuCreaReteN {
     // Singleton: sostituisco il costruttore con la chiamata a getInstance.
-    private static final IORete ioRete = IORete.getInstance();
+    private final IORete ioRete;
     private static final Menu creazioneRete = new Menu("\n Cosa desidera fare?", new String[]{"Aggiungi posto",
             "Aggiungi transizione", "Aggiungi arco", "Elimina nodo", "Elimina arco", "Termina modifiche"});
 
@@ -19,6 +19,7 @@ public class MenuCreaReteN {
     private boolean isFinita = false;
     public MenuCreaReteN(String nuovaRete){
         this.nuovaRete = new Rete(nuovaRete);
+        ioRete = IORete.getInstance();
     }
 
     //Gestione Loop di creazione
