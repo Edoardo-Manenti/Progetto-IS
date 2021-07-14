@@ -38,7 +38,7 @@ public class IORete {
 	//COMMENTO principio Solid OPEN-CLOSED: Utilizzando un enum viene resa pi� semplice l'implementazione di eventuali nuove tipologie di
 	// reti e inoltre le interdipendenze fra MainMenu e ioRete vengono ridotte ad un solo metodo per la visualizzazione. Prima infatti se
 	// si desiderava creare un nuovo tipo di rete era necessario scrivere 2 metodi per fare ci� adesso � sufficiente scrivere la rete in modo che rispetti l'interfaccia e il software gestisce il resto
-	public List<String> getRetiPerTipo(TipoRete t){
+	public List<String> getRetiPerTipo(TipoRete t) throws PetriNetException {
 		ArrayList<String> lista = new ArrayList<>();
 		for(String s : io.getNomiFileSalvati()) {
 			Rete r = caricaRete(s);
@@ -52,7 +52,7 @@ public class IORete {
 		return io.getNomiFileSalvati().size();
 	}
 	
-	public boolean salvaRete(Rete rete) {
+	public boolean salvaRete(Rete rete) throws PetriNetException {
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
@@ -62,7 +62,7 @@ public class IORete {
 		}
 	}
 
-	public boolean salvaRetePN(RetePN rete, String retePortante) {
+	public boolean salvaRetePN(RetePN rete, String retePortante) throws PetriNetException {
 		if(!isNuovaRete(rete)) {
 			return false;
 		}
@@ -72,7 +72,7 @@ public class IORete {
 		}
 	}
 
-	private boolean isNuovaRete(Rete nuovaRete) {
+	private boolean isNuovaRete(Rete nuovaRete) throws PetriNetException {
 	    ArrayList<Rete> retiSalvate = new ArrayList<>();
 	    for(String s : io.getNomiFileSalvati()){
 	        Rete r = caricaRete(s);
@@ -91,22 +91,27 @@ public class IORete {
 	    return !io.getNomiFileSalvati().contains(rete);
 	}
 
-	public boolean importaRete(String path) throws IOException {
+	public boolean importaRete(String path) throws PetriNetException {
 		String json = io.caricaFileEsterno(path);
-		Rete rete = JsonUtilsParser.parsaJson(json);
-		if(!isNuovaRete(rete)) throw new IOException("Rete gia' presente in locale");
+		Rete rete = null;
+		try {
+			rete = JsonUtilsParser.parsaJson(json);
+		}
+		catch(Exception e){
+			throw new PetriNetException(e.getMessage() + " (originato da "+ path +")");
+		}
+		if(!isNuovaRete(rete)) throw new PetriNetException("Rete gia' presente in locale");
 		return io.salvaReteEsterna(path, json);
 	}
 	
-	public Rete caricaRete(String reteRichiesta) {
+	public Rete caricaRete(String reteRichiesta) throws PetriNetException {
 		Rete rete;
+		String json = io.caricaFile(reteRichiesta);
 		try {
-			String json = io.caricaFile(reteRichiesta);
 			rete = JsonUtilsParser.parsaJson(json);
 		}
-		catch(IOException exc) {
-			exc.printStackTrace();
-			return null;
+		catch(Exception e){
+			throw new PetriNetException(e.getMessage() + " (originato da "+ reteRichiesta +")");
 		}
 		return rete;
 	}
@@ -115,7 +120,7 @@ public class IORete {
 		return io.rinominaFile(nomeRete, nuovoNome);
 	}
 
-	public boolean salvaRetePNP(RetePNP retePNP, String nomeRetePN) {
+	public boolean salvaRetePNP(RetePNP retePNP, String nomeRetePN) throws PetriNetException {
 		if(!isNuovaRete(retePNP)) {
 			return false;
 		}

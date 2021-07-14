@@ -5,6 +5,7 @@ import modelPN.RetePN;
 import modelPNP.RetePNP;
 import utils.IORete;
 import utils.InputDati;
+import utils.PetriNetException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,12 @@ public class MenuCreaRetePNP {
 
     public MenuCreaRetePNP(String nomeRete){
         ioRete = IORete.getInstance();
-        RetePN retePN = (RetePN) ioRete.caricaRete(nomeRete);
+        RetePN retePN = null;
+        try {
+            retePN = (RetePN) ioRete.caricaRete(nomeRete);
+        } catch (PetriNetException e) {
+            System.out.println(e.getMessage());
+        }
         retePNP = new RetePNP(retePN);
         this.nomeRetePN = nomeRete;
     }
@@ -69,8 +75,12 @@ public class MenuCreaRetePNP {
         //Non serve il check correttezza della rete in quanto il modo in cui ho salvato i dati e ho fatto interagire l'utente
         //evita che si creino situazioni inconsistenti
         isFinita = true;
-        boolean salvata;
-        salvata = (ioRete.salvaRetePNP(retePNP, nomeRetePN));
+        boolean salvata = false;
+        try {
+            salvata = (ioRete.salvaRetePNP(retePNP, nomeRetePN));
+        } catch (PetriNetException e) {
+           System.out.println(e.getMessage());
+        }
         if (!(salvata)) {
             System.out.println("\nRete identica strutturalmente a una già presente in locale. Impossibile inserire");
             isFinita = false;

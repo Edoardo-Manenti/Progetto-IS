@@ -5,6 +5,7 @@ import model.Nodo;
 import model.Rete;
 import utils.IORete;
 import utils.InputDati;
+import utils.PetriNetException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -166,9 +167,13 @@ public class MenuCreaReteN {
         if (nuovaRete.controllaCorrettezza()) {
             //La rete Ã¨ corretta TOP
             isFinita = true;
-            boolean salvata;
+            boolean salvata = false;
             do {
-                salvata = (ioRete.salvaRete(nuovaRete));
+                try {
+                    salvata = (ioRete.salvaRete(nuovaRete));
+                } catch (PetriNetException e) {
+                    System.out.println(e.getMessage());
+                }
                 if (!(salvata)) System.out.println("Rete già presente in locale");
             } while (!salvata);
 

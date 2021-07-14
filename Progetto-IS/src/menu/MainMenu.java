@@ -3,6 +3,7 @@ package menu;
 import model.TipoRete;
 import utils.IORete;
 import utils.InputDati;
+import utils.PetriNetException;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,10 +26,14 @@ public class MainMenu {
         int scelta;
         do{
             scelta = mainMenu.scegli();
-            elabora(scelta);
+            try {
+                elabora(scelta);
+            } catch (PetriNetException e) {
+                System.out.println(e.getMessage());
+            }
         }while (scelta != 0);
     }
-    public static void elabora(int scelta){
+    public static void elabora(int scelta) throws PetriNetException {
         switch (scelta) {
             case 1:
                 creaReteN();
@@ -75,7 +80,7 @@ public class MainMenu {
         new MenuCreaReteN(nomeRete).loopCreaReteN();
     }
 
-    private static void creaRetePN() {
+    private static void creaRetePN() throws PetriNetException {
         //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
         List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
@@ -86,7 +91,7 @@ public class MainMenu {
         // sottomenu che interagiscono direttamente con le classi di modello. Di conseguenza MainMenu risulta "libera" da comopiti di interazione diretta con le classi modellistiche.
         new MenuCreaRetePN(reteSelezionata).loopCreaRetePN();
     }
-    private static void creaRetePNP() {
+    private static void creaRetePNP() throws PetriNetException {
         List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEPN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
@@ -96,15 +101,16 @@ public class MainMenu {
     }
 
 
+    //PATTERN CONVERT EXCEPTION
     private static void importazioneRete() {
         String path = InputDati.leggiStringaNonVuota("Digitare la path assoluta della rete da importare: ");
         try {
             if(ioRete.importaRete(path)) System.out.println("Rete importata.");
-        } catch (IOException e) {
+        } catch (Exception e) {
           System.out.println("Errore di importazione della rete: " + e.getMessage());
         }
     }
-    private static void evoluzioneRete(TipoRete t){
+    private static void evoluzioneRete(TipoRete t) throws PetriNetException {
         List<String> listaReti = ioRete.getRetiPerTipo(t);
         int nrretiSalvate = listaReti.size();
         if(nrretiSalvate == 0){
@@ -122,7 +128,7 @@ public class MainMenu {
     //di reti della tipologia specificata, questo crea una forte dipendenza fra le due classi. Infatti se aggiungessimo una nuova tipologia di rete dovremmo scrivere 2 nuovi metodi mentre se si adottasse una soluzione più
     //polimorfica si potrebbe ridurre l'accoppiamento tra le classi e renderle più facilmente estendibili. --> adesso ho un solo metodo che gestisce la moltitudine di reti in modo molto generico e scalabile
 
-    private static void visualizzaRetiPerTipo(TipoRete t){
+    private static void visualizzaRetiPerTipo(TipoRete t) throws PetriNetException {
         int nrretiSalvate = ioRete.getRetiPerTipo(t).size();
 
         if(nrretiSalvate == 0) System.out.println("Non ci sono reti salvate di tipo " + t.toString() +" al momento");

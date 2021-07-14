@@ -24,7 +24,8 @@ public class JsonUtilsParser {
  	 * @param jsonString
 	 * @throws IOException nel caso in cui il formato del file json contenga errori
 	 */
-	public static Rete parsaJson(String jsonString) throws IOException {
+	public static Rete parsaJson(String jsonString) throws PetriNetException {
+		try{
 		JSONObject jsonObj = new JSONObject(jsonString);
 		String tipoRete = jsonObj.getString("object");
 		TipoRete t = TipoRete.valueOf(tipoRete);
@@ -40,7 +41,12 @@ public class JsonUtilsParser {
 			//rete PnP
 			return parsaRetePNP(jsonString);
 		}
-		else throw new IOException("Formato JSON incorretto");
+
+		}
+		catch (Exception e){
+			throw new PetriNetException("Errore nella struttura json -> " + e.getMessage());
+		}
+		return null;
 	}
 
 	/**
@@ -50,9 +56,15 @@ public class JsonUtilsParser {
 	 * 						- archi con pesi negativi
 	 * 						- marcatura negativa su un nodo
 	 */
-	private static RetePN parsaRetePN(String jsonString) throws IOException {
+	private static RetePN parsaRetePN(String jsonString) throws Exception {
+
 		JSONObject jsonObj = new JSONObject(jsonString);
-		Rete reteN = io.caricaRete(jsonObj.getString("retePortante"));
+		Rete reteN = null;
+		try {
+			reteN = io.caricaRete(jsonObj.getString("retePortante"));
+		} catch (Exception e) {
+			throw new PetriNetException("rete portante non trovata");
+		}
 		RetePN retePN = new RetePN(reteN);
 		JSONArray array = jsonObj.getJSONArray("pesi");
 		for(Object elem : array) {
@@ -62,7 +74,7 @@ public class JsonUtilsParser {
 			if(arco != null && peso > 0) {
 				arco.setPeso(peso);
 			}
-			else throw new IOException("JSON incorretto: archi con pesi negativi");
+			else throw new PetriNetException("archi con pesi negativi");
 		}
 		JSONArray marcatura = jsonObj.getJSONArray("marcatura");
 		for(Object elem : marcatura) {
@@ -70,7 +82,7 @@ public class JsonUtilsParser {
 			Posto p = (Posto)retePN.getNodo(obj.getString("nodo"));
 			int nToken = obj.getInt("n_token");
 			if(p != null && nToken >= 0) p.setToken(nToken);
-			else throw new IOException("JSON incorretto: marcatura sintatticamente sbagliata");
+			else throw new PetriNetException("marcatura sintatticamente sbagliata");
 		}
 		return retePN;
 	}
@@ -80,7 +92,7 @@ public class JsonUtilsParser {
  	 * @param jsonString
 	 * @return ReteN corrispondente
 	 */
-	private static Rete parsaReteN(String jsonString) {
+	private static Rete parsaReteN(String jsonString) throws Exception{
 		JSONObject jsonObj = new JSONObject(jsonString);
 		Rete rete = jsonObj.has("idrete") ? new Rete(jsonObj.getString("idrete")) : new Rete();
 			JSONArray array = jsonObj.getJSONArray("nodi");
@@ -111,11 +123,14 @@ public class JsonUtilsParser {
 	 * @return
 	 * @throws IOException nel caso in cui la rete portante non è salvata in maniera persistente
 	 */
-	private static RetePNP parsaRetePNP(String jsonString) throws IOException{
+	private static RetePNP parsaRetePNP(String jsonString) throws Exception{
 		JSONObject jsonObj = new JSONObject(jsonString);
-		RetePN retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
-		if (retePN == null)
-				throw new IOException("Rete portante non presente in forma persistente");
+		RetePN retePN = null;
+		try {
+			retePN = (RetePN) io.caricaRete(jsonObj.getString("retePortante"));
+		} catch (Exception e) {
+			throw new PetriNetException("rete portante non presente in forma persistente");
+		}
 		RetePNP rete = new RetePNP(retePN);
 		HashMap<Transizione, Integer> mappa_priority = new HashMap<>();
 		JSONArray lista_priorita = jsonObj.getJSONArray("priority_list");

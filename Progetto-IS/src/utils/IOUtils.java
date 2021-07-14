@@ -1,8 +1,8 @@
 package utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -67,13 +67,16 @@ public class IOUtils {
 		return nuovoNome;
 	}
 
-	public String caricaFileEsterno(String absPath) throws IOException{
+	public String caricaFileEsterno(String absPath) throws PetriNetException {
 		File f = new File(absPath);
-		if(!f.isFile())
-			throw new IOException("Il path specificato indirizza una directory, specificare un file");
-		if(!f.exists())
-			throw new IOException("Il file specificato non esiste");
-		Scanner scanner = new Scanner(f);
+		if(f.isDirectory())
+			throw new PetriNetException("Il path specificato indirizza una directory, specificare un file");
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(f);
+		} catch (FileNotFoundException e) {
+			throw new PetriNetException("Il file specificato non è stato trovato");
+		}
 		StringBuilder json = new StringBuilder();
 		while(scanner.hasNext()) {
 			json.append(scanner.nextLine());
@@ -81,8 +84,13 @@ public class IOUtils {
 		return json.toString();
 	}
 
-	public String caricaFile(String nomeFile) throws IOException{
-		Scanner scanner = new Scanner(ioContext.getFileSalvati().get(nomeFile));
+	public String caricaFile(String nomeFile) throws PetriNetException {
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(ioContext.getFileSalvati().get(nomeFile));
+		} catch (FileNotFoundException e) {
+			throw new PetriNetException("Il file specificato non è stato trovato");
+		}
 		StringBuilder json = new StringBuilder();
 		while(scanner.hasNextLine()) {
 			json.append(scanner.nextLine());
