@@ -9,7 +9,6 @@ public class Transizione extends Nodo {
 		super(id);
 		isActive = null;
 	}
-
 	@Override
 	public TipoNodo getType() {
 		return TipoNodo.TRANSIZIONE;
