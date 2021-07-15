@@ -5,7 +5,6 @@ import utils.IORete;
 import utils.InputDati;
 import utils.PetriNetException;
 
-import java.io.IOException;
 import java.util.List;
 
 public class MainMenu {
@@ -36,7 +35,7 @@ public class MainMenu {
     public static void elabora(int scelta) throws PetriNetException {
         switch (scelta) {
             case 1:
-                creaReteN();
+                new MenuCreaReteN().loop();
                 break;
             case 2:
                 visualizzaRetiPerTipo(TipoRete.RETEN);
@@ -48,13 +47,13 @@ public class MainMenu {
                 visualizzaRetiPerTipo(TipoRete.RETEPNP);
                 break;
             case 5:
-                creaRetePN();
+                new MenuCreaRetePN().loop();
                 break;
             case 6:
                 evoluzioneRete(TipoRete.RETEPN);
                 break;
             case 7:
-                creaRetePNP();
+                new MenuCreaRetePNP().loop();
                 break;
             case 8:
                 evoluzioneRete(TipoRete.RETEPNP);
@@ -66,7 +65,7 @@ public class MainMenu {
                 break;
         }
     }
-    public static void creaReteN(){
+    /*public static void creaReteN(){
         //Attenzione ricordati di gestire i nomi uguali
         String nomeRete;
         boolean salvata = false;
@@ -77,10 +76,10 @@ public class MainMenu {
             else System.out.println("Nome già utilizzato. Inserirne un'altro");
         } while (!salvata);
         //Commento: delego la creazione della reteN appurato che non ci sono reti nel DB con quel nome alla classe MenuCreaReteN
-        new MenuCreaReteN(nomeRete).loopCreaReteN();
-    }
+        new MenuCreaReteN(nomeRete).loop();
+    }*/
 
-    private static void creaRetePN() throws PetriNetException {
+    /*private static void creaRetePN() throws PetriNetException {
         //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
         List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
@@ -90,15 +89,16 @@ public class MainMenu {
         //COMMENTO SUL MODEL-VIEW Separation: nell'ambito della creazione delle reti abbiamo rimosso alcuni compiti dalla classe MainMenu delegandoli agli opportuni
         // sottomenu che interagiscono direttamente con le classi di modello. Di conseguenza MainMenu risulta "libera" da comopiti di interazione diretta con le classi modellistiche.
         new MenuCreaRetePN(reteSelezionata).loopCreaRetePN();
-    }
-    private static void creaRetePNP() throws PetriNetException {
+    }*/
+    /*private static void creaRetePNP() throws PetriNetException {
         List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEPN);
         String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
                 "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
         System.out.println("Hai selezionato la rete "+ reteSelezionata);
 
         new MenuCreaRetePNP(reteSelezionata).loopCreaRetePNP();
-    }
+    }*/
+
 
 
     //PATTERN CONVERT EXCEPTION

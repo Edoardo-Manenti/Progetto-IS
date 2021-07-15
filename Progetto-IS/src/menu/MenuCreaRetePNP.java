@@ -1,5 +1,6 @@
 package menu;
 
+import model.TipoRete;
 import model.Transizione;
 import modelPN.RetePN;
 import modelPNP.RetePNP;
@@ -19,19 +20,21 @@ public class MenuCreaRetePNP {
     private String nomeRetePN;
     private boolean isFinita = false;
 
-    public MenuCreaRetePNP(String nomeRete){
+    public MenuCreaRetePNP() throws PetriNetException {
         ioRete = IORete.getInstance();
-        RetePN retePN = null;
-        try {
-            retePN = (RetePN) ioRete.caricaRete(nomeRete);
-        } catch (PetriNetException e) {
-            System.out.println(e.getMessage());
-        }
+        setup();
+    }
+    public void setup() throws PetriNetException {
+        List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEPN);
+        String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
+                "Digitare il numero della rete da selezionare come Rete PN di riferimento >");
+        System.out.println("Hai selezionato la rete "+ reteSelezionata);
+        RetePN retePN = (RetePN) ioRete.caricaRete(reteSelezionata);
         retePNP = new RetePNP(retePN);
-        this.nomeRetePN = nomeRete;
+        this.nomeRetePN = reteSelezionata;
     }
 
-    public void loopCreaRetePNP(){
+    public void loop(){
         int scelta;
         do{
             scelta = modificaRete.scegli();

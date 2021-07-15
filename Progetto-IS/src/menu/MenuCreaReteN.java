@@ -18,14 +18,27 @@ public class MenuCreaReteN {
 
     private Rete nuovaRete;
     private boolean isFinita = false;
-    public MenuCreaReteN(String nuovaRete){
-        this.nuovaRete = new Rete(nuovaRete);
+    public MenuCreaReteN(){
         ioRete = IORete.getInstance();
+        setup();
+    }
+
+    public void setup(){
+        //Attenzione ricordati di gestire i nomi uguali
+        String nomeRete;
+        boolean salvata = false;
+        do {
+            nomeRete = InputDati.
+                    leggiStringaNonVuota("Inserire il nome della rete: ");
+            if(ioRete.isNuovaRete(nomeRete)) salvata = true;
+            else System.out.println("Nome già utilizzato. Inserirne un'altro");
+        } while (!salvata);
+        this.nuovaRete = new Rete(nomeRete);
     }
 
     //Gestione Loop di creazione
     // TODO: una rete può essere formata da un solo nodo e una sola transizione.
-    public void loopCreaReteN(){
+    public void loop(){
         int scelta;
         do{
             scelta = creazioneRete.scegli();
@@ -35,6 +48,7 @@ public class MenuCreaReteN {
         //il loop termina se la variabile isFinita viene messa a true, cioÃ¨ se l'utente ha selezionato terminaModifiche e il controllo Ã¨ andato a buon fine
         isFinita = false;
     }
+
 
     private void creazioneReteScelte(int scelta) {
         switch (scelta){

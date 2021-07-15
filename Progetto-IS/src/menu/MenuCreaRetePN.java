@@ -22,19 +22,25 @@ public class MenuCreaRetePN {
     private String nomeReteN;
     private boolean isFinita = false;
 
-    public MenuCreaRetePN(String nomeRete){
+    public MenuCreaRetePN() throws PetriNetException {
         ioRete = IORete.getInstance();
-        Rete reteN = null;
-        try {
-            reteN = ioRete.caricaRete(nomeRete);
-        } catch (PetriNetException e) {
-            System.out.println(e.getMessage());
-        }
-        nuovaRete = new RetePN(reteN);
-        this.nomeReteN = nomeRete;
+        setup();
     }
 
-    public void loopCreaRetePN(){
+    public void setup() throws PetriNetException {
+        //Qui faccio selezionare all'utente la rete N di riferimento e la passo a MenuCreaRetePN
+        List<String> listaReti = ioRete.getRetiPerTipo(TipoRete.RETEN);
+        String reteSelezionata = InputDati.selezionaElementoDaLista(listaReti,
+                "Digitare il numero della rete da selezionare come Rete N di riferimento >");
+        System.out.println("Hai selezionato la rete "+ reteSelezionata);
+
+        //COMMENTO SUL MODEL-VIEW Separation: nell'ambito della creazione delle reti abbiamo rimosso alcuni compiti dalla classe MainMenu delegandoli agli opportuni
+        // sottomenu che interagiscono direttamente con le classi di modello. Di conseguenza MainMenu risulta "libera" da comopiti di interazione diretta con le classi modellistiche.
+        Rete reteN = ioRete.caricaRete(reteSelezionata);
+        nuovaRete = new RetePN(reteN);
+        this.nomeReteN = reteSelezionata;
+    }
+    public void loop(){
         int scelta;
         do{
             scelta = creazioneRete.scegli();
