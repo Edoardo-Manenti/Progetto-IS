@@ -71,10 +71,13 @@ public class JsonUtilsParser {
 			JSONObject obj = (JSONObject) elem;
 			Arco arco = retePN.getArco(obj.getString("arco"));
 			int peso = obj.getInt("peso");
-			if(arco != null && peso > 0) {
-				arco.setPeso(peso);
+			if(arco == null) {
+				throw new PetriNetException("arco " + arco.toString() + " inesistente");
 			}
-			else throw new PetriNetException("archi con pesi negativi");
+			else if(peso < 0) {
+				throw new PetriNetException("archi con pesi negativi");
+			}
+			else arco.setPeso(peso);
 		}
 		JSONArray marcatura = jsonObj.getJSONArray("marcatura");
 		for(Object elem : marcatura) {
