@@ -1,2 +1,0 @@
-{"retePortante":"Thea.json","marcatura":[{"n_token":3,"nodo":"p1"},{"n_token":0,"nodo":"p2"},{"n_token":0,"nodo":"p3"}],"object":"RETEPN","pesi":[{"arco":"t1 -> p2","peso":1},{"arco":"t2 -> p3","peso":1},{"arco":"p1 -> t1","peso":3},
-  {"arco":"p1 -> t2","peso":2}]}

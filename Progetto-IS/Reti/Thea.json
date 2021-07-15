@@ -1,1 +1,0 @@
-{"nodi":[{"prec":[],"succ":["t1","t2"],"id":"p1","type":"POSTO"},{"prec":["t1"],"succ":[],"id":"p2","type":"POSTO"},{"prec":["t2"],"succ":[],"id":"p3","type":"POSTO"},{"prec":["p1"],"succ":["p2"],"id":"t1","type":"TRANSIZIONE"},{"prec":["p1"],"succ":["p3"],"id":"t2","type":"TRANSIZIONE"}],"idrete":"Thea","object":"RETEN"}
